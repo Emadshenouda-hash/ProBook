@@ -35,8 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         body: JSON.stringify({
           model,
-          input: message,
-          temperature: 0.5
+          input: message
         })
       });
       if (!response.ok) {
