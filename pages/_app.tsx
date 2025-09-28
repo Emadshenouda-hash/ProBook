@@ -8,6 +8,7 @@ import Analytics from '../components/Analytics';
 import { lightTheme, darkTheme } from '../theme';
 import ThemeToggleContext from '../context/ThemeToggleContext';
 import React, { useState, useEffect } from 'react';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -55,6 +56,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <Layout>
             <Component {...pageProps} />
           </Layout>
+          <VercelAnalytics />
         </ThemeProvider>
       </ThemeToggleContext.Provider>
     </I18nextProvider>
