@@ -54,6 +54,20 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    overscroll-behavior-x: contain;
+  }
+
+  /* Prevent media from exceeding viewport width */
+  img, svg, video, canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Avoid long words pushing layout horizontally */
+  h1, h2, h3, h4, h5, h6, p, li, a, span, div {
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   :focus-visible {
@@ -99,6 +113,7 @@ const Container = styled('div')`
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
+  overflow: hidden;
   &::before {
     content: '';
     position: absolute;

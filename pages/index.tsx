@@ -87,6 +87,7 @@ const ServicesGrid = styled.div`
   @media (min-width: 640px) {
     gap: 2rem;
   }
+  overflow-x: hidden;
 `;
 
 const ServiceCard = styled.div`
@@ -145,6 +146,7 @@ const HeroInner = styled.div`
   align-items: center;
   gap: 1.5rem;
   text-align: center;
+  overflow: hidden;
 `;
 
 /* HeroColText and HeroColVisual are no longer used; their functionality has been merged
@@ -166,6 +168,7 @@ const ProcessGrid = styled.div`
   @media (min-width: 640px) {
     gap: 1.75rem;
   }
+  overflow-x: hidden;
 `;
 
 const ProcessCard = styled.div`
@@ -203,6 +206,7 @@ const TestimonialsGrid = styled.div`
   @media (min-width: 640px) {
     gap: 1.75rem;
   }
+  overflow-x: hidden;
 `;
 
 const TestimonialCard = styled.blockquote`
@@ -244,6 +248,7 @@ const BenefitsGrid = styled.div`
   @media (min-width: 640px) {
     gap: 2rem;
   }
+  overflow-x: hidden;
 `;
 
 const BenefitCard = styled.div`
