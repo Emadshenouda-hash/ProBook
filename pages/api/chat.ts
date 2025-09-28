@@ -21,7 +21,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const useResponsesApi = forceResponses || model.toLowerCase().startsWith('gpt-5');
 
   if (!apiKey) {
-    return res.status(500).json({ error: 'Chatbot not configured. Set OPENAI_API_KEY (and optionally OPENAI_MODEL) in the environment.' });
+    // Offline/demo fallback: echo a simple canned reply without calling external APIs
+    const canned = `Demo mode (no API key configured). You said: "${message}"`;
+    return res.status(200).json({ reply: canned });
   }
 
   try {
@@ -72,8 +74,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const reply: string = data?.choices?.[0]?.message?.content?.toString()?.trim() || '';
       return res.status(200).json({ reply });
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Chat API error:', err);
-    return res.status(500).json({ error: 'Failed to fetch chat response' });
+    const fallback = typeof err?.message === 'string'
+      ? `Sorry, the chat service is unavailable right now. (${err.message})`
+      : 'Sorry, the chat service is unavailable right now.';
+    return res.status(200).json({ reply: fallback });
   }
 }
