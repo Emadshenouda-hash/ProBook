@@ -18,16 +18,16 @@ const NavContainer = styled(motion.nav)`
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.colors.surface};
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.surface};
   backdrop-filter: saturate(1.2) blur(12px);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.border};
   transition: padding 200ms ease, background-color 0.3s ease, border-color 0.3s ease;
   &.compact {
     padding: 0.4rem 1rem;
   }
   /* Slightly increase opacity when over the hero */
   &.on-hero {
-    background-color: ${({ theme }) => theme.colors.surface};
+    background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.surface};
   }
   @media (max-width: 768px) {
     position: relative;
@@ -53,7 +53,7 @@ const NavLinks = styled('ul')<{ open?: boolean }>`
     padding: 0.5rem 1rem;
     gap: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    display: ${({ open }) => (open ? 'flex' : 'none')};
+    display: ${({ open }: { open?: boolean }) => (open ? 'flex' : 'none')};
     z-index: 99;
   }
 `;

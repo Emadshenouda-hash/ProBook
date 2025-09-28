@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '../utils/styled';
+import type { DefaultTheme } from 'styled-components';
 
 type Variant = 'primary' | 'ghost';
 
@@ -27,7 +28,7 @@ const Base = styled('a')<{ variant: Variant }>`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
   will-change: transform;
-  ${({ variant, theme }) =>
+  ${({ variant, theme }: { variant: Variant; theme: DefaultTheme }) =>
     variant === 'primary'
       ? `background-color: ${theme.colors.primary}; color: #fff;
          &:hover{

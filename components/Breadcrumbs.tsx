@@ -60,12 +60,12 @@ export default function Breadcrumbs() {
   const { t } = useTranslation();
 
   // Split the current path into segments, ignoring query string and empty parts.
-  const parts = (router.asPath.split('?')[0] || '')
+  const parts: string[] = (router.asPath.split('?')[0] || '')
     .split('/')
-    .filter((part) => part.length > 0);
+    .filter((part: string) => part.length > 0);
 
   // Build the breadcrumb list starting with Home.
-  const breadcrumbs = parts.map((part, index) => {
+  const breadcrumbs = parts.map((part: string, index: number) => {
     const href = '/' + parts.slice(0, index + 1).join('/');
     // Use translation key if available; otherwise capitalise the part.
     const nameFn = segmentKeyMap[part];

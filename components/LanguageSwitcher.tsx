@@ -30,7 +30,7 @@ const Thumb = styled('div')<{ right?: boolean }>`
   width: calc(50% - 2px);
   border-radius: 999px;
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
-  transform: translateX(${({ right }) => (right ? '100%' : '0')});
+  transform: translateX(${({ right }: { right?: boolean }) => (right ? '100%' : '0')});
   transition: transform 200ms ease;
 `;
 

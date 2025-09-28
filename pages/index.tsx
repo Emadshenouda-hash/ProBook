@@ -98,7 +98,7 @@ const ServiceCard = styled.div`
      */
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   }
 `;
@@ -113,12 +113,12 @@ const ServiceDescription = styled.p`
 `;
 
 const ServiceLink = styled.a`
-  color: ${({ theme }) => theme.colors.link};
+  color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.link};
   text-decoration: none;
   font-weight: bold;
   &:hover {
     text-decoration: underline;
-    color: ${({ theme }) => theme.colors.linkHover};
+    color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.linkHover};
   }
 `;
 
@@ -164,7 +164,7 @@ const ProcessCard = styled.div`
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   }
 `;
@@ -197,7 +197,7 @@ const TestimonialCard = styled.blockquote`
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   }
 `;
@@ -233,7 +233,7 @@ const BenefitCard = styled.div`
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   }
 `;
@@ -248,7 +248,7 @@ const BenefitIconWrapper = styled.div`
   justify-content: center;
   margin: 0 auto 0.75rem;
   background-color: rgba(109, 40, 217, 0.1);
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
 `;
 
 
