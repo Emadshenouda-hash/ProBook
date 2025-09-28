@@ -49,7 +49,7 @@ const Field = styled.div`
 // Icon container positioned inside the input fields
 const IconWrapper = styled.span`
   position: absolute;
-  left: 1rem;
+  inset-inline-start: 1rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -60,6 +60,8 @@ const IconWrapper = styled.span`
 
 const Input = styled.input`
   padding: 0.75rem 1rem 0.75rem 2.75rem;
+  padding-inline-start: 2.75rem;
+  padding-inline-end: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background-color: var(--color-bg);
@@ -74,6 +76,8 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   padding: 0.75rem 1rem 0.75rem 2.75rem;
+  padding-inline-start: 2.75rem;
+  padding-inline-end: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background-color: var(--color-bg);

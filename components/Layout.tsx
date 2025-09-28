@@ -61,6 +61,11 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     outline-offset: 2px;
   }
 
+  /* Logical spacing for RTL/LTR; avoid fixed left/right padding offsets */
+  [dir='rtl'] * {
+    text-align: start;
+  }
+
   h1 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h1}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
   h2 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h2}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
   h3 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h3}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
@@ -97,7 +102,7 @@ const Container = styled('div')`
   &::before {
     content: '';
     position: absolute;
-    top: -24px; left: 0; right: 0; height: 12px;
+    top: -24px; inset-inline-start: 0; inset-inline-end: 0; height: 12px;
     background: linear-gradient(90deg, rgba(12,94,215,0.08), rgba(124,58,237,0.08));
     border-radius: 999px;
     filter: blur(12px);

@@ -25,7 +25,7 @@ const Toggle = styled('div')`
 const Thumb = styled('div')<{ right?: boolean }>`
   position: absolute;
   top: 2px;
-  left: 2px;
+  inset-inline-start: 2px;
   height: calc(100% - 4px);
   width: calc(50% - 2px);
   border-radius: 999px;

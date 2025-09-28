@@ -47,8 +47,8 @@ const NavLinks = styled('ul')<{ open?: boolean }>`
   @media (max-width: 768px) {
     position: absolute;
     top: 100%;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     flex-direction: column;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
