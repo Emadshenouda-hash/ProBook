@@ -50,6 +50,7 @@ const Hero = styled.section`
     padding: 4rem 1rem;
     background-attachment: scroll;
     background-position: center top;
+    overflow: hidden;
   }
 `;
 
@@ -99,6 +100,7 @@ const ServiceCard = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     /*
      * On hover, lift the card and tilt it slightly to give a sense of
@@ -110,6 +112,7 @@ const ServiceCard = styled.div`
     background-color: rgba(67, 56, 202, 0.08);
     border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -174,11 +177,13 @@ const ProcessCard = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
     border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -210,11 +215,13 @@ const TestimonialCard = styled.blockquote`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
     border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -249,11 +256,13 @@ const BenefitCard = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
     border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 

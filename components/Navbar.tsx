@@ -58,6 +58,7 @@ const NavLinks = styled('ul')<{ open?: boolean }>`
     display: ${({ open }: { open?: boolean }) => (open ? 'flex' : 'none')};
     z-index: 99;
     width: 100%;
+    overflow-x: hidden;
   }
 `;
 

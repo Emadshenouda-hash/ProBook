@@ -41,6 +41,7 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
 
   html, body, #__next {
     height: 100%;
+    width: 100%;
   }
 
   body {
@@ -52,6 +53,7 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     line-height: ${({ theme }: { theme: DefaultTheme }) => theme.typography.lineHeightBase};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   :focus-visible {
