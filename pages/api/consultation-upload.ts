@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
+import { put } from '@vercel/blob';
 
 export const config = { api: { bodyParser: false } };
 
@@ -27,12 +28,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const file = files.file as formidable.File | formidable.File[] | undefined;
     if (!file || Array.isArray(file)) return res.status(400).json({ error: 'No file' });
 
-    // In a real blob storage, you'd upload the temp file and return a public URL
-    // Here we simulate by returning a pseudo URL path (you can wire to S3/GCS/Vercel Blob)
-    const filename = path.basename(file.filepath);
-    const url = `/api/uploads/${filename}`; // placeholder; replace with real blob URL
-
-    return res.status(200).json({ url });
+    const filename = path.basename(file.originalFilename || file.newFilename || 'upload');
+    const fileStream = fs.createReadStream(file.filepath);
+    const blob = await put(`consultations/${Date.now()}-${filename}`, fileStream, {
+      access: 'public'
+    });
+    // Cleanup temp file
+    fs.promises.unlink(file.filepath).catch(() => {});
+    return res.status(200).json({ url: blob.url });
   } catch (err) {
     console.error('Upload error:', err);
     return res.status(500).json({ error: 'Upload failed' });
