@@ -1,12 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 /**
- * Serverless API route that proxies chat messages to an external chatbot
- * service. The external service’s credentials are stored in environment
- * variables. This example uses the Brainshop.ai API: it requires a brain
- * ID (bid) and an API key. The user ID is generated on the fly from
- * the request time. To use a different service, adjust the request
- * construction accordingly.
+ * Chat API route. Uses OpenAI Responses API when model starts with gpt-5 or when
+ * OPENAI_USE_RESPONSES_API=1 is set. Falls back to Chat Completions otherwise.
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -19,44 +15,64 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Invalid message' });
   }
 
-  // Use OpenAI's ChatGPT API. The API key and optional model are read from
-  // environment variables. If no model is provided, gpt-3.5-turbo is used.
-  const openAiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_MODEL || 'gpt-3.5-turbo';
+  const apiKey = process.env.OPENAI_API_KEY;
+  const model = process.env.OPENAI_MODEL || 'gpt-5-nano';
+  const forceResponses = process.env.OPENAI_USE_RESPONSES_API === '1';
+  const useResponsesApi = forceResponses || model.toLowerCase().startsWith('gpt-5');
 
-  if (!openAiKey) {
-    return res.status(500).json({ error: 'Chatbot service not configured. Please set OPENAI_API_KEY (and optionally OPENAI_MODEL) in the environment.' });
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Chatbot not configured. Set OPENAI_API_KEY (and optionally OPENAI_MODEL) in the environment.' });
   }
 
   try {
-    const apiUrl = 'https://api.openai.com/v1/chat/completions';
-    const body = {
-      model,
-      messages: [
-        {
-          role: 'user',
-          content: message
-        }
-      ],
-      // Adjust temperature for randomness; can be customised via environment if needed
-      temperature: 0.5
-    };
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${openAiKey}`
-      },
-      body: JSON.stringify(body)
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
+    if (useResponsesApi) {
+      // OpenAI Responses API
+      const response = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          input: message,
+          temperature: 0.5
+        })
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`OpenAI Responses API error: ${response.status} ${errorText}`);
+      }
+      const data = await response.json();
+      // Prefer Responses API shape: output[0].content[0].text
+      const reply: string =
+        data?.output?.[0]?.content?.[0]?.text?.toString()?.trim() ||
+        data?.output_text?.toString()?.trim() || // some SDKs materialize combined text
+        data?.choices?.[0]?.message?.content?.toString()?.trim() || // fallback if backend proxied to chat/completions
+        '';
+      return res.status(200).json({ reply });
+    } else {
+      // Legacy Chat Completions API
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: 'user', content: message }],
+          temperature: 0.5
+        })
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`OpenAI Chat Completions error: ${response.status} ${errorText}`);
+      }
+      const data = await response.json();
+      const reply: string = data?.choices?.[0]?.message?.content?.toString()?.trim() || '';
+      return res.status(200).json({ reply });
     }
-    const data = await response.json();
-    // For chat completions, the assistant reply is in choices[0].message.content
-    const reply: string = data.choices?.[0]?.message?.content?.trim() || '';
-    return res.status(200).json({ reply });
   } catch (err) {
     console.error('Chat API error:', err);
     return res.status(500).json({ error: 'Failed to fetch chat response' });
