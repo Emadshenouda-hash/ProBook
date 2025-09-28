@@ -14,12 +14,14 @@ const Toggle = styled('div')`
   grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 2px;
-  width: 120px;
+  width: 140px;
   height: 36px;
   border-radius: 999px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   box-shadow: ${({ theme }: { theme: DefaultTheme }) => theme.shadows.sm};
+  direction: ltr; /* keep control predictable in RTL */
+  isolation: isolate;
 `;
 
 const Thumb = styled('div')<{ right?: boolean }>`
@@ -32,6 +34,7 @@ const Thumb = styled('div')<{ right?: boolean }>`
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
   transform: translateX(${({ right }: { right?: boolean }) => (right ? '100%' : '0')});
   transition: transform 200ms ease;
+  z-index: 0;
 `;
 
 const SegButton = styled('button')<{ active?: boolean }>`
@@ -45,6 +48,7 @@ const SegButton = styled('button')<{ active?: boolean }>`
   font: inherit;
   font-weight: 700;
   z-index: 1;
+  white-space: nowrap;
   color: ${({ active, theme }: { active?: boolean; theme: DefaultTheme }) => (active ? '#fff' : theme.colors.text)};
 `;
 
@@ -86,7 +90,7 @@ export default function LanguageSwitcher() {
           active={isArabic}
           onClick={() => changeLanguage('ar')}
         >
-          العربية
+          AR
         </SegButton>
       </Toggle>
     </ToggleWrap>

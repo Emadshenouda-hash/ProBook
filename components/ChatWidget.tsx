@@ -184,6 +184,14 @@ export default function ChatWidget() {
               onKeyDown={handleKeyDown}
               aria-label="Chat message input"
             />
+            <button
+              type="button"
+              onClick={sendMessage}
+              style={{ marginTop: '0.5rem', padding: '0.5rem 0.75rem', borderRadius: 6 }}
+              aria-label="Send message"
+            >
+              Send
+            </button>
           </ChatInputWrapper>
         </ChatContainer>
       )}
