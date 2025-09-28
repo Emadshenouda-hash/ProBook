@@ -50,17 +50,21 @@ const HeroBg = styled('div')`
     content: '';
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(140deg, rgba(67, 56, 202, 0.45), rgba(109, 40, 217, 0.45));
+    background-image:
+      linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+      linear-gradient(140deg, rgba(67, 56, 202, 0.55), rgba(109, 40, 217, 0.55));
   }
 `;
 
 const HeroTitle = styled.h1`
   margin-bottom: 1rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 `;
 
 const HeroSubtitle = styled.p`
   margin-bottom: 2rem;
   max-width: 600px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
 `;
 
 const HeroButton = Button;
