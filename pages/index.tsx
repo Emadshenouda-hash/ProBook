@@ -81,8 +81,11 @@ const SectionText = styled.p`
 
 const ServicesGrid = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  @media (min-width: 640px) {
+    gap: 2rem;
+  }
 `;
 
 const ServiceCard = styled.div`
@@ -155,8 +158,11 @@ const ProcessTitle = styled.h2`
 
 const ProcessGrid = styled.div`
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  @media (min-width: 640px) {
+    gap: 1.75rem;
+  }
 `;
 
 const ProcessCard = styled.div`
@@ -187,8 +193,11 @@ const TestimonialsTitle = styled.h2`
 
 const TestimonialsGrid = styled.div`
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  @media (min-width: 640px) {
+    gap: 1.75rem;
+  }
 `;
 
 const TestimonialCard = styled.blockquote`
@@ -221,10 +230,13 @@ const BenefitsTitle = styled.h2`
 
 const BenefitsGrid = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   max-width: 1024px;
   margin: 0 auto;
+  @media (min-width: 640px) {
+    gap: 2rem;
+  }
 `;
 
 const BenefitCard = styled.div`
