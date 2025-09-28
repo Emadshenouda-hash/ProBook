@@ -31,6 +31,9 @@ const NavContainer = styled(motion.nav)`
   }
   @media (max-width: 768px) {
     position: relative;
+    /* Ensure solid background on small screens */
+    backdrop-filter: none;
+    background-color: var(--color-surface);
   }
 `;
 
@@ -47,14 +50,14 @@ const NavLinks = styled('ul')<{ open?: boolean }>`
     left: 0;
     right: 0;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: saturate(1.2) blur(8px);
-    border-bottom: 1px solid #e5e7eb;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
     padding: 0.5rem 1rem;
     gap: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     display: ${({ open }: { open?: boolean }) => (open ? 'flex' : 'none')};
     z-index: 99;
+    width: 100%;
   }
 `;
 
@@ -65,6 +68,8 @@ const StyledLink = styled('a')<{ active?: boolean; dark?: boolean }>`
   color: ${({ active, dark, theme }: { active?: boolean; dark?: boolean; theme: DefaultTheme }) =>
     dark ? (active ? '#ffffff' : 'rgba(255,255,255,0.92)') : (active ? theme.colors.primary : theme.colors.text)};
   font-weight: ${({ active }: { active?: boolean }) => (active ? 'bold' : 'normal')};
+  display: inline-block;
+  padding: 0.5rem 0.25rem;
   &:hover {
     color: ${({ dark, theme }: { dark?: boolean; theme: DefaultTheme }) => (dark ? '#ffffff' : theme.colors.primary)};
   }
@@ -116,6 +121,7 @@ export default function Navbar() {
   const [compact, setCompact] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const onHero = pathname === '/' && !compact;
+  const isRTL = i18n.dir() === 'rtl';
 
   React.useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > 24);
@@ -146,7 +152,7 @@ export default function Navbar() {
           </div>
         </StyledLink>
       </Link>
-      <NavLinks id="primary-navigation" open={menuOpen}>
+      <NavLinks id="primary-navigation" open={menuOpen} style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
         <NavLinkItem>
           <Link href="/" passHref legacyBehavior>
             <StyledLink active={pathname === '/'} dark={false} aria-current={pathname === '/' ? 'page' : undefined}>
