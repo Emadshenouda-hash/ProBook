@@ -1,0 +1,172 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "resources": "Resources",
+    "contact": "Contact",
+    "portal": "Client Portal",
+    "language": "Language"
+  },
+  "footer": {
+    "copyright": "© 2025 ProBook Solutions. All rights reserved."
+  },
+  "seo": {
+    "siteName": "ProBook Solutions",
+    "defaultTitle": "ProBook Solutions – Tailored Accounting Solutions",
+    "defaultDescription": "Expert accounting and financial services for startups and SMEs.",
+    "home": {
+      "title": "ProBook Solutions – Tailored Accounting Solutions",
+      "description": "Empowering your business with customized accounting services for startups and SMEs.",
+      "path": "/"
+    },
+    "about": {
+      "title": "About ProBook Solutions",
+      "description": "ProBook Solutions is led by Emad Shenouda, delivering expert financial management and bookkeeping.",
+      "path": "/about"
+    },
+    "services": {
+      "title": "Our Services",
+      "description": "Comprehensive accounting and financial management services to help your business grow.",
+      "path": "/services"
+    },
+    "resources": {
+      "title": "Resources & Insights",
+      "description": "Articles, case studies, and templates to manage your finances more effectively.",
+      "path": "/resources"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Reach out with any questions or to schedule a consultation.",
+      "path": "/contact"
+    },
+    "portal": {
+      "title": "Client Portal",
+      "description": "Sign in to access your dashboard, financial reports, and project updates.",
+      "path": "/portal"
+    }
+  },
+  "home": {
+    "title": "Expert Accounting Services for Better Business Decisions",
+    "subtitle": "Save time and make confident financial decisions with our tailored accounting solutions for startups and SMEs.",
+    "cta": "Get Started",
+    "cta_primary": "Book a Consultation",
+    "cta_secondary": "See Services",
+    "logos_title": "Trusted by teams using",
+    "logos": ["QuickBooks", "Xero", "Zoho Books", "NetSuite"],
+    "overview_title": "Our Services",
+    "overview_description": "We offer a range of accounting and financial services to help your business thrive.",
+    "services_link": "View Services",
+    "about_title": "About Us",
+    "about_description": "With over 23 years of experience, ProBook Solutions delivers expert financial management and bookkeeping tailored to your needs.",
+    "about_link": "Learn More",
+    "process": {
+      "title": "How We Work",
+      "steps": [
+        { "title": "Discovery", "description": "We assess your stack, workflows, and reporting needs." },
+        { "title": "Setup & Cleanup", "description": "Chart of accounts, system integrations, and data hygiene." },
+        { "title": "Monthly Close", "description": "Timely reconciliations, accurate reports, and insights." },
+        { "title": "Advisory", "description": "Budgeting, forecasting, and decision support." }
+      ]
+    },
+    "testimonials": {
+      "title": "What Clients Say",
+      "list": [
+        { "quote": "They cut our month-end close from 10 days to 3.", "author": "Sara M., COO, eCommerce" },
+        { "quote": "Clean books, clear reports, better decisions—fast.", "author": "James K., Founder, SaaS" }
+      ]
+    },
+    "benefits": {
+      "title": "Why Choose ProBook?",
+      "items": [
+        { "icon": "⚡️", "title": "Speed & Efficiency", "description": "Streamline your processes with fast, automated workflows." },
+        { "icon": "✅", "title": "Accuracy & Insight", "description": "Trust in precise reporting and data-driven insights." },
+        { "icon": "🤝", "title": "Personalised Service", "description": "Get tailored accounting support that grows with your business." },
+        { "icon": "🧘", "title": "Peace of Mind", "description": "Focus on your business while we handle the numbers." }
+      ]
+    }
+  },
+  "about": {
+    "title": "About ProBook Solutions",
+    "section_title": "Our Story",
+    "description": "ProBook Solutions is led by Emad Shenouda, an experienced financial manager and bookkeeper with over 23 years of expertise in accounting across U.S. and Middle Eastern organizations. Specialized in QuickBooks Desktop and Online, as well as Zoho Books, Xero, and NetSuite, Emad has a passion for streamlining accounting systems, conducting financial analysis, and improving reporting accuracy. Fluent in English and Arabic, he offers personalized accounting solutions to startups and SMEs worldwide.",
+    "skills_title": "Core Skills & Expertise",
+    "skills": [
+      "QuickBooks (Desktop & Online)",
+      "Financial Reporting & Analysis",
+      "Month-End & Year-End Closings",
+      "E‑commerce Accounting (Amazon, Shopify, etc.)",
+      "Budgeting & Forecasting",
+      "Inventory Management",
+      "Grant & Donor Reporting",
+      "Remote Team Collaboration",
+      "AP/AR Management",
+      "Excel, Google Workspace, Slack, Notion, Asana"
+    ]
+  },
+  "services": {
+    "title": "Our Services",
+    "intro": "We provide comprehensive accounting and financial management services designed to help your business grow and prosper.",
+    "list": [
+      {
+        "title": "Bookkeeping & Financial Reporting",
+        "description": "Accurate and timely bookkeeping, month-end and year-end closing, and comprehensive financial reporting including P&L, balance sheets, and cash flow statements."
+      },
+      {
+        "title": "Business Setup & Chart of Accounts",
+        "description": "Establish your accounting foundation with a customized chart of accounts and support for new business setups, ensuring compliance and clarity from day one."
+      },
+      {
+        "title": "Software Integration & Support",
+        "description": "Seamless integration and customization of QuickBooks, Zoho, Xero, and NetSuite to match your workflows and reporting needs."
+      },
+      {
+        "title": "E‑commerce Accounting",
+        "description": "Specialized accounting for online sellers, including integration with Amazon, Shopify, and other platforms, inventory tracking, and sales reporting."
+      },
+      {
+        "title": "Training & Consulting",
+        "description": "Personalized one‑on‑one or group training sessions for your accounting team on software usage, financial management best practices, and process optimization."
+      }
+    ],
+    "cta": "Schedule Consultation",
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": [
+        { "q": "Do you work with both startups and SMEs?", "a": "Yes. We tailor bookkeeping, reporting, and advisory to each stage of growth." },
+        { "q": "Which accounting software do you support?", "a": "QuickBooks (Desktop & Online), Zoho Books, Xero, and NetSuite." },
+        { "q": "Can you help clean up historic books?", "a": "Absolutely. We audit, reconcile, and standardize your chart of accounts and data." }
+      ]
+    }
+  },
+  "resources": {
+    "title": "Resources & Insights",
+    "intro": "Stay informed with our latest articles, case studies, and downloadable templates designed to help you manage your finances more effectively.",
+    "articles": [
+      {
+        "title": "Choosing the Right Accounting Software for Your Startup",
+        "snippet": "A guide to selecting the best accounting platform—QuickBooks, Zoho, Xero, or NetSuite—based on your business needs."
+      },
+      {
+        "title": "5 Tips for Streamlining Your Bookkeeping",
+        "snippet": "Simple strategies to improve the accuracy and efficiency of your daily accounting tasks."
+      },
+      {
+        "title": "Understanding Financial Statements",
+        "snippet": "Learn how to read and interpret key financial reports to make smarter business decisions."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "We'd love to hear from you. Reach out with any questions or to schedule a consultation.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Send Message"
+  },
+  "portal": {
+    "title": "Client Portal",
+    "intro": "Sign in to access your personalized dashboard, financial reports, and project updates."
+  }
+}

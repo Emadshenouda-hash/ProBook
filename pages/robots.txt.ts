@@ -1,0 +1,27 @@
+import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
+
+const getBaseUrl = (headers: Record<string, string | string[] | undefined>) => {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  const proto = (headers['x-forwarded-proto'] as string) || 'https';
+  const host = (headers['x-forwarded-host'] as string) || (headers['host'] as string) || 'localhost:3000';
+  return `${proto}://${host}`;
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { res, req } = ctx;
+  const baseUrl = getBaseUrl(req.headers as Record<string, string | string[] | undefined>);
+  const content = `User-agent: *
+Allow: /
+
+Sitemap: ${baseUrl}/sitemap.xml`;
+
+  res.setHeader('Content-Type', 'text/plain');
+  res.write(content);
+  res.end();
+  return { props: {} };
+};
+
+export default function RobotsTxt() {
+  return null;
+}
+

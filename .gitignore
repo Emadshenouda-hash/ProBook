@@ -1,0 +1,24 @@
+# Dependency directories
+node_modules/
+
+# Build output
+.next
+out
+
+# Logs and cache files
+*.log
+.nyc_output
+.cache
+.parcel-cache
+*.tgz
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Remove any ZIP archives or other artifacts you don't want to push
+*.zip
