@@ -212,9 +212,9 @@ export default function Navbar() {
           {/* Simple icons represented by characters; sized up for clarity */}
           <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
         </HamburgerButton>
-        <Link href="/contact" passHref legacyBehavior>
-          <CTAButton aria-label="Contact us">
-            {t('contact.title')}
+        <Link href="/consultation" passHref legacyBehavior>
+          <CTAButton aria-label="Book a consultation">
+            Book consultation
           </CTAButton>
         </Link>
         <ThemeToggle />

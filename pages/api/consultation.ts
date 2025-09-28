@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { createCrmContactAndDeal } from '../../utils/crm';
 
 interface ConsultationPayload {
   fullName?: string;
@@ -36,8 +37,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!company) return res.status(400).json({ error: 'Company required' });
 
   try {
-    // TODO: integrate with CRM/email (e.g., SendGrid, HubSpot, Notion). For now, log server-side.
-    console.log('Consultation request:', JSON.stringify(body));
+    await createCrmContactAndDeal({
+      source: 'consultation',
+      fullName: body.fullName,
+      email: body.email,
+      phone: body.phone,
+      company: body.company,
+      industry: body.industry,
+      country: body.country,
+      budget: body.budget,
+      urgency: body.urgency,
+      goals: body.goals,
+      notes: body.notes
+    });
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Consultation API error:', err);
