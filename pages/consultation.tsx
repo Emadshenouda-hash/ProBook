@@ -143,6 +143,22 @@ export default function ConsultationPage() {
   const budgetOptions = ['< $1k/mo', '$1k–$3k/mo', '$3k–$10k/mo', '$10k+/mo'];
   const urgencyOptions = ['ASAP (1–2 weeks)', 'Soon (1–2 months)', 'Later (3+ months)'];
 
+  // Curated industry and country lists to avoid free text
+  const industryOptions = [
+    'SaaS', 'Fintech', 'eCommerce', 'Retail', 'Wholesale', 'Professional Services',
+    'Agency/Consulting', 'Manufacturing', 'Healthcare', 'Pharmaceuticals', 'Logistics',
+    'Real Estate', 'Construction', 'Hospitality', 'Education', 'Media & Entertainment',
+    'Agriculture', 'Energy', 'Nonprofit', 'Government', 'Other'
+  ];
+
+  const countryOptions = [
+    'United States', 'Canada', 'United Kingdom', 'Germany', 'France', 'Spain', 'Italy', 'Netherlands', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Poland', 'Ireland', 'Switzerland',
+    'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Kuwait', 'Bahrain', 'Oman', 'Egypt', 'Jordan', 'Lebanon', 'Morocco', 'Tunisia',
+    'India', 'Pakistan', 'Bangladesh', 'Sri Lanka', 'Nepal', 'Singapore', 'Malaysia', 'Indonesia', 'Philippines', 'Vietnam', 'Thailand', 'China', 'Japan', 'South Korea', 'Australia', 'New Zealand',
+    'South Africa', 'Nigeria', 'Kenya', 'Ghana', 'Ethiopia',
+    'Mexico', 'Brazil', 'Argentina', 'Chile', 'Colombia'
+  ];
+
   const updateField = (name: string, value: any) => setForm((p) => ({ ...p, [name]: value }));
 
   const toggleMulti = (name: 'services' | 'systems', value: string) => {
@@ -241,11 +257,17 @@ export default function ConsultationPage() {
             </Field>
             <Field>
               <Label htmlFor="industry">Industry</Label>
-              <Input id="industry" value={form.industry} onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('industry', e.target.value)} placeholder="e.g., SaaS, eCommerce, Manufacturing" />
+              <Select id="industry" value={form.industry} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateField('industry', e.target.value)}>
+                <option value="">Select…</option>
+                {industryOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+              </Select>
             </Field>
             <Field>
               <Label htmlFor="country">Country</Label>
-              <Input id="country" value={form.country} onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('country', e.target.value)} />
+              <Select id="country" value={form.country} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateField('country', e.target.value)}>
+                <option value="">Select…</option>
+                {countryOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+              </Select>
             </Field>
             <Field>
               <Label htmlFor="budget">Monthly budget</Label>
