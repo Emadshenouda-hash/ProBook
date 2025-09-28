@@ -70,7 +70,8 @@ const StyledLink = styled('a')<{ active?: boolean; dark?: boolean }>`
     dark ? (active ? '#ffffff' : 'rgba(255,255,255,0.92)') : (active ? theme.colors.primary : theme.colors.text)};
   font-weight: ${({ active }: { active?: boolean }) => (active ? 'bold' : 'normal')};
   display: inline-block;
-  padding: 0.5rem 0.25rem;
+  padding: 0.5rem 0.5rem;
+  white-space: nowrap;
   &:hover {
     color: ${({ dark, theme }: { dark?: boolean; theme: DefaultTheme }) => (dark ? '#ffffff' : theme.colors.primary)};
   }
@@ -96,6 +97,7 @@ const CTAButton = styled('a')`
   text-decoration: none;
   font-weight: 600;
   box-shadow: ${({ theme }: { theme: DefaultTheme }) => theme.shadows.sm};
+  white-space: nowrap;
   &:hover {
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primaryHover};
   }

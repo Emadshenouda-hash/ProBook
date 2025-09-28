@@ -64,8 +64,8 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     display: block;
   }
 
-  /* Avoid long words pushing layout horizontally */
-  h1, h2, h3, h4, h5, h6, p, li, a, span, div {
+  /* Avoid long words pushing layout horizontally in content text only */
+  p, li {
     overflow-wrap: anywhere;
     word-break: break-word;
   }
