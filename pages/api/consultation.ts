@@ -54,7 +54,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         budget: body.budget,
         urgency: body.urgency,
         goals: body.goals,
-        notes: body.notes
+        notes: body.notes,
+        attachment_url: (body as any).attachmentUrl || null
       });
     }
     await createCrmContactAndDeal({

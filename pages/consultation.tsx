@@ -123,6 +123,7 @@ export default function ConsultationPage() {
     urgency: '',
     goals: '',
     notes: '',
+    attachmentUrl: '',
     website: '' // honeypot
   });
 
@@ -171,7 +172,7 @@ export default function ConsultationPage() {
       setSuccess('Thanks! We will contact you shortly to schedule your consultation.');
       setForm({
         fullName: '', email: '', phone: '', company: '', companySize: '', industry: '', country: '',
-        services: [], systems: [], budget: '', urgency: '', goals: '', notes: '', website: ''
+        services: [], systems: [], budget: '', urgency: '', goals: '', notes: '', attachmentUrl: '', website: ''
       });
     } catch (err) {
       setError('Something went wrong. Please try again later.');
@@ -187,6 +188,27 @@ export default function ConsultationPage() {
       <Subtitle>Tell us about your business, current tools, and goals. We’ll recommend a tailored plan.</Subtitle>
       <Card>
         <form onSubmit={onSubmit} noValidate>
+          <Field>
+            <Label htmlFor="attachment">Attach a file (optional)</Label>
+            <Input id="attachment" type="file" onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const formData = new FormData();
+              formData.append('file', file);
+              try {
+                const up = await fetch('/api/consultation-upload', { method: 'POST', body: formData });
+                const data = await up.json();
+                if (up.ok && data.url) {
+                  updateField('attachmentUrl', data.url);
+                } else {
+                  setError('File upload failed.');
+                }
+              } catch {
+                setError('File upload failed.');
+              }
+            }} />
+            {form.attachmentUrl && <Hint>Uploaded: {form.attachmentUrl}</Hint>}
+          </Field>
           {error && <div role="alert" style={{ color: '#dc2626', marginBottom: '0.75rem' }}>{error}</div>}
           {success && <div role="status" style={{ color: '#198754', marginBottom: '0.75rem' }}>{success}</div>}
 

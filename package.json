@@ -15,13 +15,15 @@
     "react-i18next": "^13.0.0",
     "styled-components": "^5.3.10",
     "framer-motion": "^11.0.0",
-    "@supabase/supabase-js": "^2.45.3"
+    "@supabase/supabase-js": "^2.45.3",
+    "formidable": "^3.5.1"
   },
   "devDependencies": {
     "@types/node": "^18.17.18",
     "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.23",
     "@types/styled-components": "^5.1.34",
+    "@types/formidable": "^3.4.5",
     "typescript": "^5.3.3"
   }
 }
