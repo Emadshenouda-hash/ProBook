@@ -40,10 +40,17 @@ const Hero = styled.section`
    * scrolls.
    */
   background-image: linear-gradient(140deg, rgba(67, 56, 202, 0.45), rgba(109, 40, 217, 0.45)), url('/hero.jpg');
+  /* Avoid fixed attachment on small screens to prevent jank */
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  @media (max-width: 640px) {
+    min-height: 70vh;
+    padding: 4rem 1rem;
+    background-attachment: scroll;
+    background-position: center top;
+  }
 `;
 
 const HeroTitle = styled.h1`
