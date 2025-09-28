@@ -16,13 +16,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
+  const demoMode = process.env.CHAT_DEMO_MODE === '1';
   const model = process.env.OPENAI_MODEL || 'gpt-5-nano';
   const forceResponses = process.env.OPENAI_USE_RESPONSES_API === '1';
   const useResponsesApi = forceResponses || model.toLowerCase().startsWith('gpt-5');
 
-  if (!apiKey) {
+  if (demoMode || !apiKey) {
     // Offline/demo fallback: echo a simple canned reply without calling external APIs
-    const canned = `Demo mode (no API key configured). You said: "${message}"`;
+    const canned = `Demo mode. You said: "${message}"`;
     return res.status(200).json({ reply: canned });
   }
 
@@ -76,9 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } catch (err: any) {
     console.error('Chat API error:', err);
-    const fallback = typeof err?.message === 'string'
-      ? `Sorry, the chat service is unavailable right now. (${err.message})`
-      : 'Sorry, the chat service is unavailable right now.';
-    return res.status(200).json({ reply: fallback });
+    // Hide upstream error details from the end user
+    return res.status(200).json({ reply: 'Sorry, the chat service is unavailable right now.' });
   }
 }
