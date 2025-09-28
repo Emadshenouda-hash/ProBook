@@ -185,8 +185,8 @@ export default function Navbar() {
           </Link>
         </NavLinkItem>
         <NavLinkItem>
-          <Link href="/contact" passHref legacyBehavior>
-            <StyledLink active={pathname === '/contact'} dark={false} aria-current={pathname === '/contact' ? 'page' : undefined}>
+          <Link href="/consultation" passHref legacyBehavior>
+            <StyledLink active={pathname === '/consultation'} dark={false} aria-current={pathname === '/consultation' ? 'page' : undefined}>
               {t('header.contact')}
             </StyledLink>
           </Link>

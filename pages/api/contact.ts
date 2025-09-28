@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createCrmContactAndDeal } from '../../utils/crm';
+import { getSupabaseAdmin } from '../../utils/supabase';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -11,6 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ ok: false, error: 'Missing fields' });
   }
   try {
+    // Persist to Supabase if configured
+    const supabase = getSupabaseAdmin();
+    if (supabase) {
+      await supabase.from('contact_submissions').insert({ name, email, message });
+    }
     await createCrmContactAndDeal({
       source: 'contact',
       fullName: name,

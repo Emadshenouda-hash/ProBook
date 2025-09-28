@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createCrmContactAndDeal } from '../../utils/crm';
+import { getSupabaseAdmin } from '../../utils/supabase';
 
 interface ConsultationPayload {
   fullName?: string;
@@ -37,6 +38,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!company) return res.status(400).json({ error: 'Company required' });
 
   try {
+    // Persist to Supabase if configured
+    const supabase = getSupabaseAdmin();
+    if (supabase) {
+      await supabase.from('consultation_requests').insert({
+        full_name: body.fullName,
+        email: body.email,
+        phone: body.phone,
+        company: body.company,
+        company_size: body.companySize,
+        industry: body.industry,
+        country: body.country,
+        services: body.services || [],
+        systems: body.systems || [],
+        budget: body.budget,
+        urgency: body.urgency,
+        goals: body.goals,
+        notes: body.notes
+      });
+    }
     await createCrmContactAndDeal({
       source: 'consultation',
       fullName: body.fullName,
