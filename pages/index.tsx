@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
@@ -33,24 +34,23 @@ const Hero = styled.section`
   justify-content: center;
   align-items: center;
   text-align: center;
-  /*
-   * The gradient overlay uses even lower opacity (~0.45) to let more of the
-   * underlying photo through, increasing contrast and clarity. The hero
-   * background is fixed to create a subtle parallax effect as the page
-   * scrolls.
-   */
-  background-image: linear-gradient(140deg, rgba(67, 56, 202, 0.45), rgba(109, 40, 217, 0.45)), url('/hero.jpg');
-  /* Avoid fixed attachment on small screens to prevent jank */
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   @media (max-width: 640px) {
     min-height: 70vh;
     padding: 4rem 1rem;
-    background-attachment: scroll;
-    background-position: center top;
     overflow: hidden;
+  }
+`;
+
+const HeroBg = styled('div')`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(140deg, rgba(67, 56, 202, 0.45), rgba(109, 40, 217, 0.45));
   }
 `;
 
@@ -147,6 +147,8 @@ const HeroInner = styled.div`
   gap: 1.5rem;
   text-align: center;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 `;
 
 /* HeroColText and HeroColVisual are no longer used; their functionality has been merged
@@ -298,6 +300,9 @@ export default function HomePage() {
         ogType="website"
       />
       <Hero>
+        <HeroBg aria-hidden="true">
+          <Image src="/hero.jpg" alt="" fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
+        </HeroBg>
         <HeroInner>
           <FadeIn>
             <HeroTitle>{t('home.title')}</HeroTitle>
