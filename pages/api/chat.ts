@@ -15,9 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Invalid message' });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const provider = (process.env.CHAT_PROVIDER || 'openai').toLowerCase();
+  const apiKey = provider === 'deepseek' ? process.env.DEEPSEEK_API_KEY : process.env.OPENAI_API_KEY;
   const demoMode = process.env.CHAT_DEMO_MODE === '1';
-  const model = process.env.OPENAI_MODEL || 'gpt-5-nano';
+  const model = provider === 'deepseek'
+    ? (process.env.DEEPSEEK_MODEL || 'deepseek-chat')
+    : (process.env.OPENAI_MODEL || 'gpt-5-nano');
   const forceResponses = process.env.OPENAI_USE_RESPONSES_API === '1';
   const useResponsesApi = forceResponses || model.toLowerCase().startsWith('gpt-5');
 
@@ -28,7 +31,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    if (useResponsesApi) {
+    if (provider === 'deepseek') {
+      const base = process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com';
+      const response = await fetch(`${base}/v1/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: 'user', content: message }]
+        })
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`DeepSeek Chat error: ${response.status} ${errorText}`);
+      }
+      const data = await response.json();
+      const reply: string = data?.choices?.[0]?.message?.content?.toString()?.trim() || '';
+      return res.status(200).json({ reply });
+    } else if (useResponsesApi) {
       // OpenAI Responses API
       const response = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
