@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createCrmContactAndDeal } from '../../utils/crm';
 import { getSupabaseAdmin } from '../../utils/supabase';
+import { sendEmail } from '../../utils/email';
 
 interface ConsultationPayload {
   fullName?: string;
@@ -71,6 +72,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       goals: body.goals,
       notes: body.notes
     });
+    await sendEmail('New consultation request', `
+      <p><strong>Name:</strong> ${body.fullName}</p>
+      <p><strong>Email:</strong> ${body.email}</p>
+      <p><strong>Phone:</strong> ${body.phone || ''}</p>
+      <p><strong>Company:</strong> ${body.company || ''}</p>
+      <p><strong>Industry:</strong> ${body.industry || ''}</p>
+      <p><strong>Country:</strong> ${body.country || ''}</p>
+      <p><strong>Budget:</strong> ${body.budget || ''}</p>
+      <p><strong>Urgency:</strong> ${body.urgency || ''}</p>
+      <p><strong>Services:</strong> ${(body.services || []).join(', ')}</p>
+      <p><strong>Systems:</strong> ${(body.systems || []).join(', ')}</p>
+      <p><strong>Goals:</strong> ${body.goals || ''}</p>
+      <p><strong>Notes:</strong> ${body.notes || ''}</p>
+      <p><strong>Attachment:</strong> ${(body as any).attachmentUrl || ''}</p>
+    `);
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Consultation API error:', err);

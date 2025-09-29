@@ -303,6 +303,28 @@ export default function HomePage() {
         description={t('seo.home.description')}
         canonicalPath={t('seo.home.path')}
         ogType="website"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'ProBook Solutions',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com'
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'ProBook Solutions',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com'
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ProfessionalService',
+            name: 'ProBook Solutions',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com',
+            areaServed: 'Global',
+            serviceType: ['Bookkeeping','CFO-as-a-Service','Financial Reporting','Tax & Compliance','Payroll','ERP Setup','Process Optimization']
+          }
+        ]}
       />
       <Hero>
         <HeroBg aria-hidden="true">

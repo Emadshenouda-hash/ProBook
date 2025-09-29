@@ -27,6 +27,13 @@ const nextConfig = {
         headers: securityHeaders
       }
     ];
+  },
+  webpack: (config, { isServer }) => {
+    if (process.env.ANALYZE === 'true') {
+      // Lightweight size hints via webpack stats (use with external analyzer if desired)
+      config.stats = 'normal';
+    }
+    return config;
   }
 };
 
