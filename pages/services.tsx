@@ -140,7 +140,7 @@ export default function ServicesPage() {
         </ServicesGrid>
       </StaggerChildren>
       <CTAWrapper>
-        <Link href="/contact" passHref legacyBehavior>
+        <Link href="/consultation" passHref legacyBehavior>
           <CTAButton>{t('services.cta')}</CTAButton>
         </Link>
       </CTAWrapper>

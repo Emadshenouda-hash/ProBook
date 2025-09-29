@@ -18,19 +18,36 @@ const NavContainer = styled(motion.nav)`
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.colors.surface};
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.surface};
   backdrop-filter: saturate(1.2) blur(12px);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.border};
   transition: padding 200ms ease, background-color 0.3s ease, border-color 0.3s ease;
+  width: 100%;
+  max-width: 100vw;
   &.compact {
     padding: 0.4rem 1rem;
   }
   /* Slightly increase opacity when over the hero */
   &.on-hero {
-    background-color: ${({ theme }) => theme.colors.surface};
+    background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.surface};
   }
   @media (max-width: 768px) {
     position: relative;
+    /* Ensure solid background on small screens */
+    backdrop-filter: none;
+    background-color: var(--color-surface);
+    overflow-x: hidden;
+  }
+`;
+
+const Brand = styled('div')`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    max-width: 60vw;
   }
 `;
 
@@ -44,17 +61,19 @@ const NavLinks = styled('ul')<{ open?: boolean }>`
   @media (max-width: 768px) {
     position: absolute;
     top: 100%;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: saturate(1.2) blur(8px);
-    border-bottom: 1px solid #e5e7eb;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
     padding: 0.5rem 1rem;
     gap: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    display: ${({ open }) => (open ? 'flex' : 'none')};
+    display: ${({ open }: { open?: boolean }) => (open ? 'flex' : 'none')};
     z-index: 99;
+    width: 100%;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 `;
 
@@ -65,8 +84,15 @@ const StyledLink = styled('a')<{ active?: boolean; dark?: boolean }>`
   color: ${({ active, dark, theme }: { active?: boolean; dark?: boolean; theme: DefaultTheme }) =>
     dark ? (active ? '#ffffff' : 'rgba(255,255,255,0.92)') : (active ? theme.colors.primary : theme.colors.text)};
   font-weight: ${({ active }: { active?: boolean }) => (active ? 'bold' : 'normal')};
+  display: inline-block;
+  padding: 0.5rem 0.5rem;
+  white-space: nowrap;
   &:hover {
     color: ${({ dark, theme }: { dark?: boolean; theme: DefaultTheme }) => (dark ? '#ffffff' : theme.colors.primary)};
+  }
+  @media (max-width: 768px) {
+    white-space: normal;
+    width: 100%;
   }
 `;
 
@@ -80,6 +106,16 @@ const SiteName = styled('span')`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  @media (max-width: 768px) {
+    display: inline-block;
+    max-width: 60vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 420px) {
+    display: none;
+  }
 `;
 
 const CTAButton = styled('a')`
@@ -90,9 +126,34 @@ const CTAButton = styled('a')`
   text-decoration: none;
   font-weight: 600;
   box-shadow: ${({ theme }: { theme: DefaultTheme }) => theme.shadows.sm};
+  white-space: nowrap;
   &:hover {
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primaryHover};
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const RightActions = styled('div')`
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow: hidden;
+  }
+`;
+
+const LangDesktopOnly = styled('div')`
+  @media (max-width: 768px) { display: none; }
+`;
+
+const LangMobileOnly = styled('div')`
+  display: none;
+  @media (max-width: 768px) { display: block; }
 `;
 
 // Button used on small screens to toggle the mobile navigation
@@ -116,6 +177,7 @@ export default function Navbar() {
   const [compact, setCompact] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const onHero = pathname === '/' && !compact;
+  const isRTL = i18n.dir() === 'rtl';
 
   React.useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > 24);
@@ -140,13 +202,13 @@ export default function Navbar() {
           aria-label={`${t('seo.siteName', { defaultValue: 'ProBook Solutions' })} home`}
           aria-current={pathname === '/' ? 'page' : undefined}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Brand>
             <Logo size={24} />
             <SiteName>{t('seo.siteName', { defaultValue: 'ProBook Solutions' })}</SiteName>
-          </div>
+          </Brand>
         </StyledLink>
       </Link>
-      <NavLinks id="primary-navigation" open={menuOpen}>
+      <NavLinks id="primary-navigation" open={menuOpen} style={{ direction: isRTL ? 'rtl' : 'ltr', maxWidth: '100vw' }}>
         <NavLinkItem>
           <Link href="/" passHref legacyBehavior>
             <StyledLink active={pathname === '/'} dark={false} aria-current={pathname === '/' ? 'page' : undefined}>
@@ -176,8 +238,8 @@ export default function Navbar() {
           </Link>
         </NavLinkItem>
         <NavLinkItem>
-          <Link href="/contact" passHref legacyBehavior>
-            <StyledLink active={pathname === '/contact'} dark={false} aria-current={pathname === '/contact' ? 'page' : undefined}>
+          <Link href="/consultation" passHref legacyBehavior>
+            <StyledLink active={pathname === '/consultation'} dark={false} aria-current={pathname === '/consultation' ? 'page' : undefined}>
               {t('header.contact')}
             </StyledLink>
           </Link>
@@ -189,8 +251,11 @@ export default function Navbar() {
             </StyledLink>
           </Link>
         </NavLinkItem>
+        <LangMobileOnly>
+          <LanguageSwitcher />
+        </LangMobileOnly>
       </NavLinks>
-      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      <RightActions>
         {/* Hamburger button toggles the mobile navigation */}
         <HamburgerButton
           type="button"
@@ -203,14 +268,16 @@ export default function Navbar() {
           {/* Simple icons represented by characters; sized up for clarity */}
           <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
         </HamburgerButton>
-        <Link href="/contact" passHref legacyBehavior>
-          <CTAButton aria-label="Contact us">
-            {t('contact.title')}
+        <Link href="/consultation" passHref legacyBehavior>
+          <CTAButton aria-label="Book a consultation">
+            Book consultation
           </CTAButton>
         </Link>
         <ThemeToggle />
-        <LanguageSwitcher />
-      </div>
+        <LangDesktopOnly>
+          <LanguageSwitcher />
+        </LangDesktopOnly>
+      </RightActions>
     </NavContainer>
   );
 }

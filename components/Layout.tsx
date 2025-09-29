@@ -41,7 +41,10 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
 
   html, body, #__next {
     height: 100%;
+    width: 100%;
   }
+
+  html { overflow-x: hidden; }
 
   body {
     margin: 0;
@@ -52,11 +55,36 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     line-height: ${({ theme }: { theme: DefaultTheme }) => theme.typography.lineHeightBase};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overscroll-behavior-x: contain;
+  }
+
+  /* Prevent any child from forcing horizontal scrolling */
+  #__next, header, nav, footer, section, main, div {
+    max-width: 100vw;
+  }
+
+  /* Prevent media from exceeding viewport width */
+  img, svg, video, canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Avoid long words pushing layout horizontally in content text only */
+  p, li {
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   :focus-visible {
     outline: 3px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
     outline-offset: 2px;
+  }
+
+  /* Logical spacing for RTL/LTR; avoid fixed left/right padding offsets */
+  [dir='rtl'] * {
+    text-align: start;
   }
 
   h1 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h1}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
@@ -92,10 +120,11 @@ const Container = styled('div')`
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
+  overflow: hidden;
   &::before {
     content: '';
     position: absolute;
-    top: -24px; left: 0; right: 0; height: 12px;
+    top: -24px; inset-inline-start: 0; inset-inline-end: 0; height: 12px;
     background: linear-gradient(90deg, rgba(12,94,215,0.08), rgba(124,58,237,0.08));
     border-radius: 999px;
     filter: blur(12px);

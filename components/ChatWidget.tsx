@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from '../utils/styled';
+import type { DefaultTheme } from 'styled-components';
 
 /**
  * A simple AI‑like chat widget. It floats in the bottom corner of the
@@ -37,7 +38,7 @@ const ChatContainer = styled('div')`
   position: fixed;
   right: 1rem;
   bottom: 4.5rem;
-  width: 320px;
+  width: min(320px, calc(100vw - 2rem));
   max-height: 60vh;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -67,15 +68,15 @@ const ChatMessage = styled('div')< { from: 'user' | 'bot' } >`
   margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: ${({ from }) => (from === 'user' ? 'flex-end' : 'flex-start')};
+  align-items: ${({ from }: { from: 'user' | 'bot' }) => (from === 'user' ? 'flex-end' : 'flex-start')};
   & > span {
     max-width: 80%;
     padding: 0.5rem 0.75rem;
     border-radius: 12px;
     font-size: 0.875rem;
     line-height: 1.25;
-    background-color: ${({ from, theme }) => (from === 'user' ? theme.colors.primary : theme.colors.background)};
-    color: ${({ from, theme }) => (from === 'user' ? '#fff' : theme.colors.text)};
+    background-color: ${({ from, theme }: { from: 'user' | 'bot'; theme: DefaultTheme }) => (from === 'user' ? theme.colors.primary : theme.colors.background)};
+    color: ${({ from, theme }: { from: 'user' | 'bot'; theme: DefaultTheme }) => (from === 'user' ? '#fff' : theme.colors.text)};
   }
 `;
 
@@ -179,10 +180,18 @@ export default function ChatWidget() {
               type="text"
               placeholder="Type your message..."
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               aria-label="Chat message input"
             />
+            <button
+              type="button"
+              onClick={sendMessage}
+              style={{ marginTop: '0.5rem', padding: '0.5rem 0.75rem', borderRadius: 6 }}
+              aria-label="Send message"
+            >
+              Send
+            </button>
           </ChatInputWrapper>
         </ChatContainer>
       )}

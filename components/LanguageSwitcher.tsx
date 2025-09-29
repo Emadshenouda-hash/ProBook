@@ -6,6 +6,8 @@ import type { DefaultTheme } from 'styled-components';
 
 const ToggleWrap = styled('div')`
   display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
 `;
 
 const Toggle = styled('div')`
@@ -14,24 +16,28 @@ const Toggle = styled('div')`
   grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 2px;
-  width: 120px;
+  width: 140px;
   height: 36px;
   border-radius: 999px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   box-shadow: ${({ theme }: { theme: DefaultTheme }) => theme.shadows.sm};
+  direction: ltr; /* keep control predictable in RTL */
+  isolation: isolate;
+  max-width: 100%;
 `;
 
 const Thumb = styled('div')<{ right?: boolean }>`
   position: absolute;
   top: 2px;
-  left: 2px;
+  inset-inline-start: 2px;
   height: calc(100% - 4px);
   width: calc(50% - 2px);
   border-radius: 999px;
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
-  transform: translateX(${({ right }) => (right ? '100%' : '0')});
+  transform: translateX(${({ right }: { right?: boolean }) => (right ? 'calc(100% - 2px)' : '0')});
   transition: transform 200ms ease;
+  z-index: 0;
 `;
 
 const SegButton = styled('button')<{ active?: boolean }>`
@@ -45,6 +51,7 @@ const SegButton = styled('button')<{ active?: boolean }>`
   font: inherit;
   font-weight: 700;
   z-index: 1;
+  white-space: nowrap;
   color: ${({ active, theme }: { active?: boolean; theme: DefaultTheme }) => (active ? '#fff' : theme.colors.text)};
 `;
 
@@ -86,7 +93,7 @@ export default function LanguageSwitcher() {
           active={isArabic}
           onClick={() => changeLanguage('ar')}
         >
-          العربية
+          AR
         </SegButton>
       </Toggle>
     </ToggleWrap>

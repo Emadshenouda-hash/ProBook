@@ -46,6 +46,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
     return (
       <Html lang={locale} dir={dir}>
         <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#0b5ed7" />
           {/* Preconnects and fonts (system-safe, adjust if hosting custom fonts) */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />

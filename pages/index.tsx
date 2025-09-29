@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
-import LogosBar from '../components/LogosBar';
+import dynamic from 'next/dynamic';
+const LogosBar = dynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
 /*
@@ -33,26 +35,37 @@ const Hero = styled.section`
   justify-content: center;
   align-items: center;
   text-align: center;
-  /*
-   * The gradient overlay uses even lower opacity (~0.45) to let more of the
-   * underlying photo through, increasing contrast and clarity. The hero
-   * background is fixed to create a subtle parallax effect as the page
-   * scrolls.
-   */
-  background-image: linear-gradient(140deg, rgba(67, 56, 202, 0.45), rgba(109, 40, 217, 0.45)), url('/hero.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  @media (max-width: 640px) {
+    min-height: 70vh;
+    padding: 4rem 1rem;
+    overflow: hidden;
+  }
+`;
+
+const HeroBg = styled('div')`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+      linear-gradient(140deg, rgba(67, 56, 202, 0.55), rgba(109, 40, 217, 0.55));
+  }
 `;
 
 const HeroTitle = styled.h1`
   margin-bottom: 1rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 `;
 
 const HeroSubtitle = styled.p`
   margin-bottom: 2rem;
   max-width: 600px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
 `;
 
 const HeroButton = Button;
@@ -74,8 +87,12 @@ const SectionText = styled.p`
 
 const ServicesGrid = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  @media (min-width: 640px) {
+    gap: 2rem;
+  }
+  overflow-x: hidden;
 `;
 
 const ServiceCard = styled.div`
@@ -89,6 +106,7 @@ const ServiceCard = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     /*
      * On hover, lift the card and tilt it slightly to give a sense of
@@ -98,8 +116,9 @@ const ServiceCard = styled.div`
      */
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -113,12 +132,12 @@ const ServiceDescription = styled.p`
 `;
 
 const ServiceLink = styled.a`
-  color: ${({ theme }) => theme.colors.link};
+  color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.link};
   text-decoration: none;
   font-weight: bold;
   &:hover {
     text-decoration: underline;
-    color: ${({ theme }) => theme.colors.linkHover};
+    color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.linkHover};
   }
 `;
 
@@ -132,6 +151,9 @@ const HeroInner = styled.div`
   align-items: center;
   gap: 1.5rem;
   text-align: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
 `;
 
 /* HeroColText and HeroColVisual are no longer used; their functionality has been merged
@@ -148,8 +170,12 @@ const ProcessTitle = styled.h2`
 
 const ProcessGrid = styled.div`
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  @media (min-width: 640px) {
+    gap: 1.75rem;
+  }
+  overflow-x: hidden;
 `;
 
 const ProcessCard = styled.div`
@@ -161,11 +187,13 @@ const ProcessCard = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -180,8 +208,12 @@ const TestimonialsTitle = styled.h2`
 
 const TestimonialsGrid = styled.div`
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  @media (min-width: 640px) {
+    gap: 1.75rem;
+  }
+  overflow-x: hidden;
 `;
 
 const TestimonialCard = styled.blockquote`
@@ -194,11 +226,13 @@ const TestimonialCard = styled.blockquote`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -214,10 +248,14 @@ const BenefitsTitle = styled.h2`
 
 const BenefitsGrid = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   max-width: 1024px;
   margin: 0 auto;
+  @media (min-width: 640px) {
+    gap: 2rem;
+  }
+  overflow-x: hidden;
 `;
 
 const BenefitCard = styled.div`
@@ -230,11 +268,13 @@ const BenefitCard = styled.div`
   transform-style: preserve-3d;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
   cursor: pointer;
+  @media (hover: hover) and (pointer: fine) {
   &:hover {
     transform: perspective(1000px) rotateX(3deg) translateY(-4px) scale(1.02);
     background-color: rgba(67, 56, 202, 0.08);
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
   }
 `;
 
@@ -248,7 +288,7 @@ const BenefitIconWrapper = styled.div`
   justify-content: center;
   margin: 0 auto 0.75rem;
   background-color: rgba(109, 40, 217, 0.1);
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
 `;
 
 
@@ -263,8 +303,33 @@ export default function HomePage() {
         description={t('seo.home.description')}
         canonicalPath={t('seo.home.path')}
         ogType="website"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'ProBook Solutions',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com'
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'ProBook Solutions',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com'
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ProfessionalService',
+            name: 'ProBook Solutions',
+            url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com',
+            areaServed: 'Global',
+            serviceType: ['Bookkeeping','CFO-as-a-Service','Financial Reporting','Tax & Compliance','Payroll','ERP Setup','Process Optimization']
+          }
+        ]}
       />
       <Hero>
+        <HeroBg aria-hidden="true">
+          <Image src="/hero.jpg" alt="" fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
+        </HeroBg>
         <HeroInner>
           <FadeIn>
             <HeroTitle>{t('home.title')}</HeroTitle>
@@ -274,8 +339,8 @@ export default function HomePage() {
           </FadeIn>
           <FadeIn>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Link href="/contact" passHref legacyBehavior>
-                <HeroButton>{t('home.cta_primary')}</HeroButton>
+              <Link href="/consultation" passHref legacyBehavior>
+                <HeroButton>Book consultation</HeroButton>
               </Link>
               <Link href="/services" passHref legacyBehavior>
                 <HeroButton variant="ghost">{t('home.cta_secondary')}</HeroButton>

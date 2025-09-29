@@ -28,7 +28,7 @@ const FormCard = styled.div`
   padding: 2rem;
   border: 1px solid var(--color-border);
   /* Accent border to tie into the brand colour */
-  border-left: 4px solid ${({ theme }) => theme.colors.primary};
+  border-left: 4px solid ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
 `;
 
 // The form itself is a flex column with generous spacing between fields.
@@ -49,24 +49,26 @@ const Field = styled.div`
 // Icon container positioned inside the input fields
 const IconWrapper = styled.span`
   position: absolute;
-  left: 1rem;
+  inset-inline-start: 1rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
   pointer-events: none;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
 `;
 
 const Input = styled.input`
   padding: 0.75rem 1rem 0.75rem 2.75rem;
+  padding-inline-start: 2.75rem;
+  padding-inline-end: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background-color: var(--color-bg);
   font-size: 1rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   &:focus {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(12, 94, 215, 0.15);
     outline: none;
   }
@@ -74,6 +76,8 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   padding: 0.75rem 1rem 0.75rem 2.75rem;
+  padding-inline-start: 2.75rem;
+  padding-inline-end: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background-color: var(--color-bg);
@@ -82,7 +86,7 @@ const TextArea = styled.textarea`
   min-height: 140px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   &:focus {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(12, 94, 215, 0.15);
     outline: none;
   }
@@ -90,8 +94,8 @@ const TextArea = styled.textarea`
 
 const SubmitButton = styled.button`
   padding: 0.75rem 1.5rem;
-  background-color: ${({ theme }) => theme.colors.primary};
-  background-image: linear-gradient(90deg, ${({ theme }) => theme.colors.primary} 0%, ${({ theme }) => theme.colors.secondary} 100%);
+  background-color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary};
+  background-image: linear-gradient(90deg, ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.primary} 0%, ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.secondary} 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -153,6 +157,10 @@ export default function ContactPage() {
         body: JSON.stringify({ name: formState.name, email: formState.email, message: formState.message, website: formState.website })
       });
       if (!res.ok) throw new Error('Failed to submit');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/thank-you';
+        return;
+      }
       setSuccess('Thanks! We will get back to you soon.');
       setFormState({ name: '', email: '', message: '', website: '' });
     } catch (err) {
