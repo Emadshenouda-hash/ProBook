@@ -34,6 +34,7 @@ const NavContainer = styled(motion.nav)`
     /* Ensure solid background on small screens */
     backdrop-filter: none;
     background-color: var(--color-surface);
+    overflow-x: hidden;
   }
 `;
 
@@ -59,6 +60,7 @@ const NavLinks = styled('ul')<{ open?: boolean }>`
     z-index: 99;
     width: 100%;
     overflow-x: hidden;
+    max-width: 100vw;
   }
 `;
 
