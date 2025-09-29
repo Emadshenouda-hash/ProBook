@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createCrmContactAndDeal } from '../../utils/crm';
 import { getSupabaseAdmin } from '../../utils/supabase';
-import { sendEmail } from '../../utils/email';
+import { sendEmail, sendEmailTo } from '../../utils/email';
 
 interface ConsultationPayload {
   fullName?: string;
@@ -72,6 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       goals: body.goals,
       notes: body.notes
     });
+    // Notify your inbox
     await sendEmail('New consultation request', `
       <p><strong>Name:</strong> ${body.fullName}</p>
       <p><strong>Email:</strong> ${body.email}</p>
@@ -87,6 +88,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       <p><strong>Notes:</strong> ${body.notes || ''}</p>
       <p><strong>Attachment:</strong> ${(body as any).attachmentUrl || ''}</p>
     `);
+    // Send a thank-you email to the submitter
+    if (body.email) {
+      await sendEmailTo(
+        body.email,
+        'Thanks for reaching out to ProBook Solutions',
+        `<p>Hi ${body.fullName || ''},</p>
+         <p>Thanks for booking a consultation with ProBook Solutions. Our team will contact you shortly.</p>
+         <p>Best regards,<br/>ProBook Solutions</p>`
+      );
+    }
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Consultation API error:', err);

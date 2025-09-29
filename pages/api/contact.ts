@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createCrmContactAndDeal } from '../../utils/crm';
 import { getSupabaseAdmin } from '../../utils/supabase';
-import { sendEmail } from '../../utils/email';
+import { sendEmail, sendEmailTo } from '../../utils/email';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -25,6 +25,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       notes: message
     });
     await sendEmail('New contact submission', `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message}</p>`);
+    if (email) {
+      await sendEmailTo(
+        email,
+        'Thanks for contacting ProBook Solutions',
+        `<p>Hi ${name || ''},</p>
+         <p>Thanks for reaching out. We received your message and will get back to you soon.</p>
+         <p>Best regards,<br/>ProBook Solutions</p>`
+      );
+    }
   } catch (err) {
     console.warn('CRM create failed for contact:', err);
   }
