@@ -20,6 +20,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
     const consultUrl = baseUrl ? `${baseUrl}/consultation` : '/consultation';
 
+    // Courtesies and farewells
+    if (/(thank\s*you|thanks|thx|appreciate)/.test(text)) {
+      return `You're welcome! If anything comes up, you can book a consultation here: ${consultUrl}`;
+    }
+    if (/(bye|goodbye|see\s*you|later|talk\s*to\s*you\s*later|catch\s*you\s*later)/.test(text)) {
+      return `No problem—I'm here anytime. When you're ready, book a consultation: ${consultUrl}`;
+    }
+    if (/(not\s*now|i'?m\s*good|all\s*set|no\s*thanks|no,?\s*thank\s*you)/.test(text)) {
+      return `All good. Feel free to reach out anytime. You can book whenever convenient: ${consultUrl}`;
+    }
+
+    // Small talk
+    if (/(how\s*are\s*you|how'?s\s*it\s*going)/.test(text)) {
+      return "I'm doing great and ready to help with your accounting or finance questions. What are you working on?";
+    }
+
     if (/\b(hi|hello|hey|good\s+(morning|afternoon|evening))\b/.test(text)) {
       return "Hi! I'm the ProBook Solutions assistant. How can I help with your accounting or finance needs today?";
     }
