@@ -28,21 +28,42 @@ const Card = styled.div`
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 1.25rem;
+  @media (min-width: 900px) {
+    max-width: 100%;
+  }
 `;
 
 const Scheduler = styled.div`
   max-width: 1024px;
-  margin: 0 auto 1.5rem;
+  margin: 0;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
 `;
 
+const LayoutWrap = styled.div`
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto 1.5rem;
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const SectionHeading = styled.h2`
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+`;
+
 const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 0.75rem 1rem;
   @media (min-width: 640px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -217,24 +238,27 @@ export default function ConsultationPage() {
       <SEO title="Book a Consultation" description="Tell us about your business goals. We'll tailor an accounting and finance plan for you." canonicalPath="/consultation" />
       <Title>Book a Consultation</Title>
       <Subtitle>Tell us about your business, current tools, and goals. We’ll recommend a tailored plan.</Subtitle>
-      {calendlyUrl ? (
-        <>
-          <Head>
-            <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
-          </Head>
-          <Scheduler>
-            <iframe
-              title="Schedule consultation"
-              src={`${calendlyUrl}?embed_domain=www.probooksolutions.org&embed_type=Inline`}
-              width="100%"
-              height="740"
-              frameBorder="0"
-            />
-          </Scheduler>
-        </>
-      ) : null}
-      <Card>
-        <form onSubmit={onSubmit} noValidate>
+      <LayoutWrap>
+        {calendlyUrl ? (
+          <Card>
+            <Head>
+              <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+            </Head>
+            <SectionHeading>Pick a time</SectionHeading>
+            <Scheduler>
+              <iframe
+                title="Schedule consultation"
+                src={`${calendlyUrl}?embed_domain=www.probooksolutions.org&embed_type=Inline`}
+                width="100%"
+                height="700"
+                frameBorder="0"
+              />
+            </Scheduler>
+          </Card>
+        ) : null}
+        <Card>
+          <SectionHeading>Tell us about your business</SectionHeading>
+          <form onSubmit={onSubmit} noValidate>
           <Field>
             <Label htmlFor="attachment">Attach a file (optional)</Label>
             <Input id="attachment" type="file" onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -358,6 +382,7 @@ export default function ConsultationPage() {
           </Actions>
         </form>
       </Card>
+      </LayoutWrap>
     </Section>
   );
 }
