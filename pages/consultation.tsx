@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Script from 'next/script';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import { useRouter } from 'next/router';
@@ -27,6 +28,15 @@ const Card = styled.div`
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 1.25rem;
+`;
+
+const Scheduler = styled.div`
+  max-width: 1024px;
+  margin: 0 auto 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 const Grid = styled.div`
@@ -108,6 +118,7 @@ export default function ConsultationPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;
 
   const [form, setForm] = useState({
     fullName: '',
@@ -206,6 +217,14 @@ export default function ConsultationPage() {
       <SEO title="Book a Consultation" description="Tell us about your business goals. We'll tailor an accounting and finance plan for you." canonicalPath="/consultation" />
       <Title>Book a Consultation</Title>
       <Subtitle>Tell us about your business, current tools, and goals. We’ll recommend a tailored plan.</Subtitle>
+      {calendlyUrl ? (
+        <>
+          <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+          <Scheduler>
+            <div className="calendly-inline-widget" data-url={calendlyUrl} style={{ minWidth: '320px', height: '740px' }} />
+          </Scheduler>
+        </>
+      ) : null}
       <Card>
         <form onSubmit={onSubmit} noValidate>
           <Field>
