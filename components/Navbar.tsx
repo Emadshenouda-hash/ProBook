@@ -93,6 +93,13 @@ const SiteName = styled('span')`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  @media (max-width: 768px) {
+    display: inline-block;
+    max-width: 60vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 const CTAButton = styled('a')`

@@ -6,6 +6,8 @@ import type { DefaultTheme } from 'styled-components';
 
 const ToggleWrap = styled('div')`
   display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
 `;
 
 const Toggle = styled('div')`
