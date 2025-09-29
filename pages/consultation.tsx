@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Script from 'next/script';
+import Head from 'next/head';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import { useRouter } from 'next/router';
@@ -219,9 +219,17 @@ export default function ConsultationPage() {
       <Subtitle>Tell us about your business, current tools, and goals. We’ll recommend a tailored plan.</Subtitle>
       {calendlyUrl ? (
         <>
-          <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+          <Head>
+            <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+          </Head>
           <Scheduler>
-            <div className="calendly-inline-widget" data-url={calendlyUrl} style={{ minWidth: '320px', height: '740px' }} />
+            <iframe
+              title="Schedule consultation"
+              src={`${calendlyUrl}?embed_domain=www.probooksolutions.org&embed_type=Inline`}
+              width="100%"
+              height="740"
+              frameBorder="0"
+            />
           </Scheduler>
         </>
       ) : null}
