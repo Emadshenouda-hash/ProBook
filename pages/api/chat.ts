@@ -17,7 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const provider = (process.env.CHAT_PROVIDER || 'openai').toLowerCase();
   const apiKey = provider === 'deepseek' ? process.env.DEEPSEEK_API_KEY : process.env.OPENAI_API_KEY;
-  const demoMode = process.env.CHAT_DEMO_MODE === '1';
+  const demoEnv = ((process.env.CHAT_DEMO_MODE || '') + '').toLowerCase();
+  const demoMode = demoEnv === '1' || demoEnv === 'true' || demoEnv === 'on' || demoEnv === 'yes';
   const model = provider === 'deepseek'
     ? (process.env.DEEPSEEK_MODEL || 'deepseek-chat')
     : (process.env.OPENAI_MODEL || 'gpt-5-nano');
