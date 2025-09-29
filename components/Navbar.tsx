@@ -22,6 +22,8 @@ const NavContainer = styled(motion.nav)`
   backdrop-filter: saturate(1.2) blur(12px);
   border-bottom: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.border};
   transition: padding 200ms ease, background-color 0.3s ease, border-color 0.3s ease;
+  width: 100%;
+  max-width: 100vw;
   &.compact {
     padding: 0.4rem 1rem;
   }
@@ -110,6 +112,9 @@ const SiteName = styled('span')`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  @media (max-width: 420px) {
+    display: none;
   }
 `;
 
