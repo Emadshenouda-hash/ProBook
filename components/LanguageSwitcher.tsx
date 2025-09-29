@@ -24,6 +24,7 @@ const Toggle = styled('div')`
   box-shadow: ${({ theme }: { theme: DefaultTheme }) => theme.shadows.sm};
   direction: ltr; /* keep control predictable in RTL */
   isolation: isolate;
+  max-width: 100%;
 `;
 
 const Thumb = styled('div')<{ right?: boolean }>`
@@ -34,7 +35,7 @@ const Thumb = styled('div')<{ right?: boolean }>`
   width: calc(50% - 2px);
   border-radius: 999px;
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
-  transform: translateX(${({ right }: { right?: boolean }) => (right ? '100%' : '0')});
+  transform: translateX(${({ right }: { right?: boolean }) => (right ? 'calc(100% - 2px)' : '0')});
   transition: transform 200ms ease;
   z-index: 0;
 `;

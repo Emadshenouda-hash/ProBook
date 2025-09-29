@@ -38,6 +38,17 @@ const NavContainer = styled(motion.nav)`
   }
 `;
 
+const Brand = styled('div')`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    max-width: 60vw;
+  }
+`;
+
 const NavLinks = styled('ul')<{ open?: boolean }>`
   list-style: none;
   display: flex;
@@ -131,6 +142,15 @@ const RightActions = styled('div')`
   }
 `;
 
+const LangDesktopOnly = styled('div')`
+  @media (max-width: 768px) { display: none; }
+`;
+
+const LangMobileOnly = styled('div')`
+  display: none;
+  @media (max-width: 768px) { display: block; }
+`;
+
 // Button used on small screens to toggle the mobile navigation
 const HamburgerButton = styled('button')`
   display: none;
@@ -177,13 +197,13 @@ export default function Navbar() {
           aria-label={`${t('seo.siteName', { defaultValue: 'ProBook Solutions' })} home`}
           aria-current={pathname === '/' ? 'page' : undefined}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Brand>
             <Logo size={24} />
             <SiteName>{t('seo.siteName', { defaultValue: 'ProBook Solutions' })}</SiteName>
-          </div>
+          </Brand>
         </StyledLink>
       </Link>
-      <NavLinks id="primary-navigation" open={menuOpen} style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
+      <NavLinks id="primary-navigation" open={menuOpen} style={{ direction: isRTL ? 'rtl' : 'ltr', maxWidth: '100vw' }}>
         <NavLinkItem>
           <Link href="/" passHref legacyBehavior>
             <StyledLink active={pathname === '/'} dark={false} aria-current={pathname === '/' ? 'page' : undefined}>
@@ -226,6 +246,9 @@ export default function Navbar() {
             </StyledLink>
           </Link>
         </NavLinkItem>
+        <LangMobileOnly>
+          <LanguageSwitcher />
+        </LangMobileOnly>
       </NavLinks>
       <RightActions>
         {/* Hamburger button toggles the mobile navigation */}
@@ -246,7 +269,9 @@ export default function Navbar() {
           </CTAButton>
         </Link>
         <ThemeToggle />
-        <LanguageSwitcher />
+        <LangDesktopOnly>
+          <LanguageSwitcher />
+        </LangDesktopOnly>
       </RightActions>
     </NavContainer>
   );

@@ -44,6 +44,8 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     width: 100%;
   }
 
+  html { overflow-x: hidden; }
+
   body {
     margin: 0;
     font-family: ${({ fontFamily }: { fontFamily: string }) => fontFamily};
