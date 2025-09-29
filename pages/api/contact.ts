@@ -31,7 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'Thanks for contacting ProBook Solutions',
         `<p>Hi ${name || ''},</p>
          <p>Thanks for reaching out. We received your message and will get back to you soon.</p>
-         <p>Best regards,<br/>ProBook Solutions</p>`
+         <p>Best regards,<br/>ProBook Solutions</p>`,
+        process.env.CONTACT_INBOX
       );
     }
   } catch (err) {

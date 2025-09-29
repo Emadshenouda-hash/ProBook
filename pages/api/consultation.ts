@@ -95,7 +95,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'Thanks for reaching out to ProBook Solutions',
         `<p>Hi ${body.fullName || ''},</p>
          <p>Thanks for booking a consultation with ProBook Solutions. Our team will contact you shortly.</p>
-         <p>Best regards,<br/>ProBook Solutions</p>`
+         <p>Best regards,<br/>ProBook Solutions</p>`,
+        process.env.CONTACT_INBOX
       );
     }
     return res.status(200).json({ ok: true });
