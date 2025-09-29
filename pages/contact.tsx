@@ -157,6 +157,10 @@ export default function ContactPage() {
         body: JSON.stringify({ name: formState.name, email: formState.email, message: formState.message, website: formState.website })
       });
       if (!res.ok) throw new Error('Failed to submit');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/thank-you';
+        return;
+      }
       setSuccess('Thanks! We will get back to you soon.');
       setFormState({ name: '', email: '', message: '', website: '' });
     } catch (err) {

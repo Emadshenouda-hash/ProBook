@@ -185,6 +185,10 @@ export default function ConsultationPage() {
         body: JSON.stringify(form)
       });
       if (!res.ok) throw new Error('Failed to submit');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/thank-you';
+        return;
+      }
       setSuccess('Thanks! We will contact you shortly to schedule your consultation.');
       setForm({
         fullName: '', email: '', phone: '', company: '', companySize: '', industry: '', country: '',

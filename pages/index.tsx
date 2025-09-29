@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
-import LogosBar from '../components/LogosBar';
+import dynamic from 'next/dynamic';
+const LogosBar = dynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
 /*
