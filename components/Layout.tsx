@@ -57,6 +57,11 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     overscroll-behavior-x: contain;
   }
 
+  /* Prevent any child from forcing horizontal scrolling */
+  #__next, header, nav, footer, section, main, div {
+    max-width: 100vw;
+  }
+
   /* Prevent media from exceeding viewport width */
   img, svg, video, canvas {
     max-width: 100%;

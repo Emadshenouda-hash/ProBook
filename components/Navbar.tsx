@@ -112,6 +112,18 @@ const CTAButton = styled('a')`
   }
 `;
 
+const RightActions = styled('div')`
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow: hidden;
+  }
+`;
+
 // Button used on small screens to toggle the mobile navigation
 const HamburgerButton = styled('button')`
   display: none;
@@ -208,7 +220,7 @@ export default function Navbar() {
           </Link>
         </NavLinkItem>
       </NavLinks>
-      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      <RightActions>
         {/* Hamburger button toggles the mobile navigation */}
         <HamburgerButton
           type="button"
@@ -228,7 +240,7 @@ export default function Navbar() {
         </Link>
         <ThemeToggle />
         <LanguageSwitcher />
-      </div>
+      </RightActions>
     </NavContainer>
   );
 }
