@@ -77,6 +77,10 @@ const StyledLink = styled('a')<{ active?: boolean; dark?: boolean }>`
   &:hover {
     color: ${({ dark, theme }: { dark?: boolean; theme: DefaultTheme }) => (dark ? '#ffffff' : theme.colors.primary)};
   }
+  @media (max-width: 768px) {
+    white-space: normal;
+    width: 100%;
+  }
 `;
 
 // Gradient text for the site name to make it stand out and feel modern.
@@ -102,6 +106,9 @@ const CTAButton = styled('a')`
   white-space: nowrap;
   &:hover {
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primaryHover};
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
