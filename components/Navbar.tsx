@@ -8,6 +8,7 @@ import type { DefaultTheme } from 'styled-components';
 import Logo from './Logo';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
+import { track } from '../utils/analytics';
 
 // Use framer-motion to animate the navbar on load
 const NavContainer = styled(motion.nav)`
@@ -269,8 +270,8 @@ export default function Navbar() {
           <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
         </HamburgerButton>
         <Link href="/consultation" passHref legacyBehavior>
-          <CTAButton aria-label="Book a consultation">
-            Book consultation
+          <CTAButton aria-label={t('cta.book_consultation')} onClick={() => track({ name: 'cta_click', label: 'navbar_consultation', href: '/consultation' })}>
+            {t('cta.book_consultation')}
           </CTAButton>
         </Link>
         <ThemeToggle />

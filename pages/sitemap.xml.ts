@@ -1,4 +1,5 @@
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import studies from '../public/case-studies.json';
 
 const getBaseUrl = (headers: Record<string, string | string[] | undefined>) => {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
@@ -13,7 +14,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const allLocales: string[] = locales || ['en'];
   const defLocale: string = defaultLocale || 'en';
 
-  const routes = ['/', '/about', '/services', '/resources', '/contact', '/portal'];
+  // Include core marketing pages and conversion endpoints. Exclude 404. Thank-you is fine to include if linked.
+  const baseRoutes = ['/', '/about', '/services', '/resources', '/contact', '/portal', '/consultation', '/thank-you', '/privacy', '/industries', '/pricing'];
+  const list: Array<{ slug: string }> = (studies as any).list || [];
+  const csRoutes = list.map((s) => `/case-studies/${s.slug}`);
+  const routes = [...baseRoutes, '/case-studies', ...csRoutes];
   const lastmod = new Date().toISOString();
 
   const urlSet = routes
@@ -27,11 +32,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
       const alternates = localized
         .map((entry) => `<xhtml:link rel=\"alternate\" hreflang=\"${entry.loc}\" href=\"${entry.locUrl}\" />`)
         .join('');
+      const xDefault = `<xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"${defaultEntry.locUrl}\" />`;
       return `
         <url>
           <loc>${defaultEntry.locUrl}</loc>
           <lastmod>${lastmod}</lastmod>
           ${alternates}
+          ${xDefault}
         </url>`;
     })
     .join('');

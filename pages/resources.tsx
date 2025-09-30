@@ -3,6 +3,7 @@ import styled from '../utils/styled';
 import type { DefaultTheme } from 'styled-components';
 import { StaggerChildren, ItemUp } from '../components/Animate';
 import SEO from '../components/SEO';
+import Link from 'next/link';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -66,6 +67,9 @@ export default function ResourcesPage() {
               <ArticleCard>
                 <ArticleTitle>{article.title}</ArticleTitle>
                 <ArticleSnippet>{article.snippet}</ArticleSnippet>
+                <div>
+                  <Link href="/case-studies">View Case Studies</Link> · <Link href="/consultation">{t('cta.book_consultation')}</Link>
+                </div>
               </ArticleCard>
             </ItemUp>
           ))}

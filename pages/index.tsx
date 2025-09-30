@@ -3,10 +3,12 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
-import dynamic from 'next/dynamic';
-const LogosBar = dynamic(() => import('../components/LogosBar'), { ssr: true });
+import nextDynamic from 'next/dynamic';
+const LogosBar = nextDynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
+import { track } from '../utils/analytics';
+const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
  * They avoid adding extra dependencies while still conveying meaning.
@@ -340,7 +342,7 @@ export default function HomePage() {
           <FadeIn>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link href="/consultation" passHref legacyBehavior>
-                <HeroButton>Book consultation</HeroButton>
+                <HeroButton onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>{t('cta.book_consultation')}</HeroButton>
               </Link>
               <Link href="/services" passHref legacyBehavior>
                 <HeroButton variant="ghost">{t('home.cta_secondary')}</HeroButton>
@@ -357,7 +359,7 @@ export default function HomePage() {
         <BenefitsGrid>
           {benefits.map((benefit, index) => (
             <BenefitCard key={index}>
-              <BenefitIconWrapper>{benefit.icon}</BenefitIconWrapper>
+              <BenefitIconWrapper aria-hidden="true">{benefit.icon}</BenefitIconWrapper>
               <h3 style={{ marginBottom: '0.5rem', marginTop: 0 }}>{benefit.title}</h3>
               <p style={{ margin: 0 }}>{benefit.description}</p>
             </BenefitCard>
@@ -375,6 +377,7 @@ export default function HomePage() {
           ))}
         </ProcessGrid>
       </ProcessSection>
+      <TrustBadges />
       <TestimonialsSection>
         <TestimonialsTitle>{t('home.testimonials.title')}</TestimonialsTitle>
         <TestimonialsGrid>
@@ -400,6 +403,15 @@ export default function HomePage() {
         <div style={{ textAlign: 'center', marginTop: '1rem' }}>
           <Link href="/services" passHref legacyBehavior>
             <ServiceLink>{t('home.services_link')}</ServiceLink>
+          </Link>
+        </div>
+      </Section>
+      <Section>
+        <SectionTitle>Case Studies</SectionTitle>
+        <SectionText>See how we improved close times, reporting accuracy, and decision‑making.</SectionText>
+        <div style={{ textAlign: 'center' }}>
+          <Link href="/case-studies" passHref legacyBehavior>
+            <ServiceLink>View Case Studies</ServiceLink>
           </Link>
         </div>
       </Section>

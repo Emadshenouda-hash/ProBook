@@ -28,7 +28,7 @@ export default function SEO({
 }: SEOProps) {
   const { t } = useTranslation();
   const router = useRouter();
-  const { locale = 'en', defaultLocale = 'en', asPath = '/' } = router;
+  const { locale = 'en', defaultLocale = 'en', asPath = '/', locales = ['en', 'ar'] } = router as unknown as { locale?: string; defaultLocale?: string; asPath?: string; locales?: string[] };
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
   const cleanPath = (canonicalPath || asPath.split('?')[0]) || '/';
@@ -74,6 +74,15 @@ export default function SEO({
 
       {/* Canonical */}
       <link rel="canonical" href={absoluteUrl} />
+
+      {/* Hreflang alternates for all configured locales */}
+      {locales?.map((loc) => {
+        const locPath = loc === (defaultLocale || 'en') ? cleanPath : `/${loc}${cleanPath}`;
+        const href = `${baseUrl}${locPath}`;
+        return <link key={`alt-${loc}`} rel="alternate" hrefLang={loc} href={href} />;
+      })}
+      {/* x-default fallback */}
+      <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${cleanPath}`} />
 
       {/* Open Graph */}
       <meta property="og:title" content={finalTitle} />

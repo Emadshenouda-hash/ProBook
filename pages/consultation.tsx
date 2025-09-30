@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import { track } from '../utils/analytics';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -156,7 +158,12 @@ export default function ConsultationPage() {
     goals: '',
     notes: '',
     attachmentUrl: '',
-    website: '' // honeypot
+    website: '', // honeypot
+    utm_source: '',
+    utm_medium: '',
+    utm_campaign: '',
+    utm_term: '',
+    utm_content: ''
   });
 
   const serviceOptions = [
@@ -193,6 +200,21 @@ export default function ConsultationPage() {
 
   const updateField = (name: string, value: any) => setForm((p) => ({ ...p, [name]: value }));
 
+  // On mount, hydrate UTM values from sessionStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const pick = (k: string) => sessionStorage.getItem(k) || '';
+      setForm((p) => ({
+        ...p,
+        utm_source: pick('utm_source'),
+        utm_medium: pick('utm_medium'),
+        utm_campaign: pick('utm_campaign'),
+        utm_term: pick('utm_term'),
+        utm_content: pick('utm_content')
+      }));
+    }
+  }, []);
+
   const toggleMulti = (name: 'services' | 'systems', value: string) => {
     setForm((p) => {
       const set = new Set(p[name]);
@@ -205,6 +227,7 @@ export default function ConsultationPage() {
     e.preventDefault();
     setError(null);
     setSuccess(null);
+    track({ name: 'form_submit', form: 'consultation' });
     // basic validation
     if (!form.fullName || form.fullName.trim().length < 2) return setError('Please enter your full name.');
     if (!/.+@.+\..+/.test(form.email)) return setError('Please enter a valid email address.');
@@ -223,8 +246,26 @@ export default function ConsultationPage() {
       }
       setSuccess('Thanks! We will contact you shortly to schedule your consultation.');
       setForm({
-        fullName: '', email: '', phone: '', company: '', companySize: '', industry: '', country: '',
-        services: [], systems: [], budget: '', urgency: '', goals: '', notes: '', attachmentUrl: '', website: ''
+        fullName: '',
+        email: '',
+        phone: '',
+        company: '',
+        companySize: '',
+        industry: '',
+        country: '',
+        services: [] as string[],
+        systems: [] as string[],
+        budget: '',
+        urgency: '',
+        goals: '',
+        notes: '',
+        attachmentUrl: '',
+        website: '',
+        utm_source: '',
+        utm_medium: '',
+        utm_campaign: '',
+        utm_term: '',
+        utm_content: ''
       });
     } catch (err) {
       setError('Something went wrong. Please try again later.');
@@ -259,6 +300,12 @@ export default function ConsultationPage() {
         <Card>
           <SectionHeading>Tell us about your business</SectionHeading>
           <form onSubmit={onSubmit} noValidate>
+          {/* UTM capture fields */}
+          <input type="hidden" name="utm_source" value={form.utm_source} />
+          <input type="hidden" name="utm_medium" value={form.utm_medium} />
+          <input type="hidden" name="utm_campaign" value={form.utm_campaign} />
+          <input type="hidden" name="utm_term" value={form.utm_term} />
+          <input type="hidden" name="utm_content" value={form.utm_content} />
           <Field>
             <Label htmlFor="attachment">Attach a file (optional)</Label>
             <Input id="attachment" type="file" onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -380,6 +427,9 @@ export default function ConsultationPage() {
               {submitting ? 'Submitting…' : 'Request Consultation'}
             </Button>
           </Actions>
+          <Hint>
+            {t('consent.privacy_notice')} <Link href="/privacy">{t('consent.privacy_policy')}</Link>.
+          </Hint>
         </form>
       </Card>
       </LayoutWrap>

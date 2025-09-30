@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { track } from '../utils/analytics';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -121,10 +124,25 @@ const SubmitButton = styled.button`
 
 export default function ContactPage() {
   const { t } = useTranslation();
-  const [formState, setFormState] = useState({ name: '', email: '', message: '', website: '' });
+  const router = useRouter();
+  const [formState, setFormState] = useState({ name: '', email: '', message: '', website: '', utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '' });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  // Hydrate UTM fields from sessionStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setFormState((prev) => ({
+        ...prev,
+        utm_source: sessionStorage.getItem('utm_source') || '',
+        utm_medium: sessionStorage.getItem('utm_medium') || '',
+        utm_campaign: sessionStorage.getItem('utm_campaign') || '',
+        utm_term: sessionStorage.getItem('utm_term') || '',
+        utm_content: sessionStorage.getItem('utm_content') || ''
+      }));
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -151,10 +169,11 @@ export default function ContactPage() {
     }
     try {
       setSubmitting(true);
+      track({ name: 'form_submit', form: 'contact' });
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: formState.name, email: formState.email, message: formState.message, website: formState.website })
+        body: JSON.stringify(formState)
       });
       if (!res.ok) throw new Error('Failed to submit');
       if (typeof window !== 'undefined') {
@@ -162,7 +181,7 @@ export default function ContactPage() {
         return;
       }
       setSuccess('Thanks! We will get back to you soon.');
-      setFormState({ name: '', email: '', message: '', website: '' });
+      setFormState({ name: '', email: '', message: '', website: '', utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '' });
     } catch (err) {
       setError('Something went wrong. Please try again later.');
     } finally {
@@ -176,6 +195,20 @@ export default function ContactPage() {
         title={t('seo.contact.title')}
         description={t('seo.contact.description')}
         canonicalPath={t('seo.contact.path')}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: t('seo.siteName', { defaultValue: 'ProBook Solutions' }),
+          url: (process.env.NEXT_PUBLIC_SITE_URL || '') || undefined,
+          contactPoint: [
+            {
+              '@type': 'ContactPoint',
+              contactType: 'customer support',
+              availableLanguage: router.locale === 'ar' ? ['ar', 'en'] : ['en', 'ar'],
+              areaServed: 'Global'
+            }
+          ]
+        }}
       />
       <Title>{t('contact.title')}</Title>
       <Intro>{t('contact.intro')}</Intro>
@@ -183,6 +216,12 @@ export default function ContactPage() {
         <Form onSubmit={handleSubmit} noValidate>
           {/* Honeypot field */}
           <input type="text" name="website" value={formState.website} onChange={handleChange} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+          {/* UTM capture fields */}
+          <input type="hidden" name="utm_source" value={formState.utm_source} readOnly />
+          <input type="hidden" name="utm_medium" value={formState.utm_medium} readOnly />
+          <input type="hidden" name="utm_campaign" value={formState.utm_campaign} readOnly />
+          <input type="hidden" name="utm_term" value={formState.utm_term} readOnly />
+          <input type="hidden" name="utm_content" value={formState.utm_content} readOnly />
           {/* Feedback messages with aria-live to announce updates */}
           {error && (
             <div role="alert" style={{ color: '#dc3545' }} aria-live="assertive">{error}</div>
@@ -246,6 +285,9 @@ export default function ContactPage() {
           <SubmitButton type="submit" disabled={submitting} aria-busy={submitting}>
             {submitting ? 'Sending…' : t('contact.submit')}
           </SubmitButton>
+          <div style={{ marginTop: '0.5rem', color: '#6b7280' }}>
+            {t('consent.privacy_notice')} <Link href="/privacy">{t('consent.privacy_policy')}</Link>.
+          </div>
         </Form>
       </FormCard>
     </Section>
