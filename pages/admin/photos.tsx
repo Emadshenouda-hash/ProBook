@@ -413,13 +413,3 @@ export default function PhotoManager() {
     </Container>
   );
 }
-
-const CurrentFile = styled.div`
-  margin-top: 0.75rem;
-  padding: 0.75rem;
-  background: rgba(34, 197, 94, 0.1);
-  border-radius: 6px;
-  font-size: 0.85rem;
-  color: #22c55e;
-  word-break: break-all;
-`;
