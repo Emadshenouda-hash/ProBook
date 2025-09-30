@@ -179,7 +179,7 @@ export default function ContactPage() {
         return;
       }
       setSuccess('Thanks! We will get back to you soon.');
-      setFormState({ name: '', email: '', message: '', website: '' });
+      setFormState({ name: '', email: '', message: '', website: '', utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '' });
     } catch (err) {
       setError('Something went wrong. Please try again later.');
     } finally {

@@ -244,8 +244,26 @@ export default function ConsultationPage() {
       }
       setSuccess('Thanks! We will contact you shortly to schedule your consultation.');
       setForm({
-        fullName: '', email: '', phone: '', company: '', companySize: '', industry: '', country: '',
-        services: [], systems: [], budget: '', urgency: '', goals: '', notes: '', attachmentUrl: '', website: ''
+        fullName: '',
+        email: '',
+        phone: '',
+        company: '',
+        companySize: '',
+        industry: '',
+        country: '',
+        services: [] as string[],
+        systems: [] as string[],
+        budget: '',
+        urgency: '',
+        goals: '',
+        notes: '',
+        attachmentUrl: '',
+        website: '',
+        utm_source: '',
+        utm_medium: '',
+        utm_campaign: '',
+        utm_term: '',
+        utm_content: ''
       });
     } catch (err) {
       setError('Something went wrong. Please try again later.');
