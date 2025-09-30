@@ -10,6 +10,7 @@
   },
   "footer": {
     "copyright": "© 2025 بروبوك سوليوشنز. جميع الحقوق محفوظة.",
+    "all_rights": "جميع الحقوق محفوظة.",
     "company_description": "خدمات محاسبة ومالية خبيرة للشركات الناشئة والمتوسطة. أكثر من 23 عاماً من الخبرة في تقديم خدمات مسك الدفاتر والمدير المالي والتقارير المالية المخصصة.",
     "services_heading": "الخدمات",
     "all_services": "جميع الخدمات",
@@ -32,7 +33,10 @@
     "privacy_policy": "سياسة الخصوصية",
     "terms_of_service": "شروط الخدمة",
     "security_compliance": "الأمن والامتثال",
-    "sitemap": "خريطة الموقع"
+    "sitemap": "خريطة الموقع",
+    "secure": "آمن",
+    "certified": "معتمد",
+    "years_experience": "23+ سنة"
   },
   "seo": {
     "siteName": "بروبوك سوليوشنز",
@@ -140,11 +144,14 @@
   },
   "cta": {
     "book_consultation": "احجز استشارة",
+    "book_a_consultation": "احجز استشارة",
     "get_started": "ابدأ الآن",
     "schedule_call": "حدد موعد اتصال",
     "learn_more": "اقرأ المزيد",
     "view_services": "عرض الخدمات",
-    "view_case_studies": "عرض دراسات الحالة"
+    "view_case_studies": "عرض دراسات الحالة",
+    "contact_us": "اتصل بنا",
+    "read_more": "اقرأ المزيد"
   },
   "consent": {
     "privacy_notice": "بإرسال هذا النموذج، فإنك توافق على",

@@ -114,9 +114,9 @@ export default function Footer() {
       <FooterContent>
         {/* Company Info */}
         <FooterColumn>
-          <FooterHeading>ProBook Solutions</FooterHeading>
+          <FooterHeading>{t('seo.siteName', { defaultValue: 'ProBook Solutions' })}</FooterHeading>
           <FooterText>
-            Expert accounting and financial services for startups and SMEs. Over 23 years of experience in delivering tailored bookkeeping, CFO services, and financial reporting.
+            {t('footer.company_description', { defaultValue: 'Expert accounting and financial services for startups and SMEs. Over 23 years of experience in delivering tailored bookkeeping, CFO services, and financial reporting.' })}
           </FooterText>
           <SocialLinks>
             <SocialLink href="https://www.linkedin.com/company/probook-solutions" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
@@ -125,7 +125,7 @@ export default function Footer() {
             <SocialLink href="https://twitter.com/probooksolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
               🐦
             </SocialLink>
-            <SocialLink href="mailto:contact@probooksolutions.com" aria-label="Email">
+            <SocialLink href="mailto:contact@probooksolutions.com" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
               ✉️
             </SocialLink>
           </SocialLinks>
@@ -133,50 +133,50 @@ export default function Footer() {
 
         {/* Services */}
         <FooterColumn>
-          <FooterHeading>Services</FooterHeading>
-          <FooterLink href="/services">All Services</FooterLink>
-          <FooterLink href="/services#bookkeeping">Bookkeeping</FooterLink>
-          <FooterLink href="/services#cfo">CFO-as-a-Service</FooterLink>
-          <FooterLink href="/services#reporting">Financial Reporting</FooterLink>
-          <FooterLink href="/services#tax">Tax & Compliance</FooterLink>
-          <FooterLink href="/services#ecommerce">E-commerce Accounting</FooterLink>
+          <FooterHeading>{t('footer.services_heading', { defaultValue: 'Services' })}</FooterHeading>
+          <FooterLink href="/services">{t('footer.all_services', { defaultValue: 'All Services' })}</FooterLink>
+          <FooterLink href="/services#bookkeeping">{t('footer.bookkeeping', { defaultValue: 'Bookkeeping' })}</FooterLink>
+          <FooterLink href="/services#cfo">{t('footer.cfo', { defaultValue: 'CFO-as-a-Service' })}</FooterLink>
+          <FooterLink href="/services#reporting">{t('footer.reporting', { defaultValue: 'Financial Reporting' })}</FooterLink>
+          <FooterLink href="/services#tax">{t('footer.tax', { defaultValue: 'Tax & Compliance' })}</FooterLink>
+          <FooterLink href="/services#ecommerce">{t('footer.ecommerce', { defaultValue: 'E-commerce Accounting' })}</FooterLink>
         </FooterColumn>
 
         {/* Company */}
         <FooterColumn>
-          <FooterHeading>Company</FooterHeading>
-          <FooterLink href="/about">About Us</FooterLink>
-          <FooterLink href="/case-studies">Case Studies</FooterLink>
-          <FooterLink href="/industries">Industries</FooterLink>
-          <FooterLink href="/pricing">Pricing</FooterLink>
-          <FooterLink href="/resources">Resources</FooterLink>
-          <FooterLink href="/portal">Client Portal</FooterLink>
+          <FooterHeading>{t('footer.company_heading', { defaultValue: 'Company' })}</FooterHeading>
+          <FooterLink href="/about">{t('footer.about_us', { defaultValue: 'About Us' })}</FooterLink>
+          <FooterLink href="/case-studies">{t('footer.case_studies', { defaultValue: 'Case Studies' })}</FooterLink>
+          <FooterLink href="/industries">{t('footer.industries', { defaultValue: 'Industries' })}</FooterLink>
+          <FooterLink href="/pricing">{t('footer.pricing', { defaultValue: 'Pricing' })}</FooterLink>
+          <FooterLink href="/resources">{t('footer.resources', { defaultValue: 'Resources' })}</FooterLink>
+          <FooterLink href="/portal">{t('footer.client_portal', { defaultValue: 'Client Portal' })}</FooterLink>
         </FooterColumn>
 
         {/* Contact & Legal */}
         <FooterColumn>
-          <FooterHeading>Get Started</FooterHeading>
-          <FooterLink href="/consultation">Book Consultation</FooterLink>
-          <FooterLink href="/contact">Contact Us</FooterLink>
+          <FooterHeading>{t('footer.get_started_heading', { defaultValue: 'Get Started' })}</FooterHeading>
+          <FooterLink href="/consultation">{t('cta.book_consultation', { defaultValue: 'Book Consultation' })}</FooterLink>
+          <FooterLink href="/contact">{t('footer.contact_us', { defaultValue: 'Contact Us' })}</FooterLink>
           <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
-            <strong>Email:</strong><br />
+            <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
             contact@probooksolutions.com
           </FooterText>
           <TrustBadgesFooter>
-            <Badge>🔐 Secure</Badge>
-            <Badge>✅ Certified</Badge>
-            <Badge>🏆 23+ Years</Badge>
+            <Badge>🔐 {t('footer.secure', { defaultValue: 'Secure' })}</Badge>
+            <Badge>✅ {t('footer.certified', { defaultValue: 'Certified' })}</Badge>
+            <Badge>🏆 {t('footer.years_experience', { defaultValue: '23+ Years' })}</Badge>
           </TrustBadgesFooter>
         </FooterColumn>
       </FooterContent>
 
       <FooterBottom>
-        <div>© {currentYear} ProBook Solutions. All rights reserved.</div>
+        <div>© {currentYear} {t('seo.siteName', { defaultValue: 'ProBook Solutions' })}. {t('footer.all_rights', { defaultValue: 'All rights reserved.' })}</div>
         <FooterBottomLinks>
-          <FooterLink href="/privacy">Privacy Policy</FooterLink>
-          <FooterLink href="/terms">Terms of Service</FooterLink>
-          <FooterLink href="/security">Security & Compliance</FooterLink>
-          <FooterLink href="/sitemap.xml">Sitemap</FooterLink>
+          <FooterLink href="/privacy">{t('footer.privacy_policy', { defaultValue: 'Privacy Policy' })}</FooterLink>
+          <FooterLink href="/terms">{t('footer.terms_of_service', { defaultValue: 'Terms of Service' })}</FooterLink>
+          <FooterLink href="/security">{t('footer.security_compliance', { defaultValue: 'Security & Compliance' })}</FooterLink>
+          <FooterLink href="/sitemap.xml">{t('footer.sitemap', { defaultValue: 'Sitemap' })}</FooterLink>
         </FooterBottomLinks>
       </FooterBottom>
     </FooterContainer>
