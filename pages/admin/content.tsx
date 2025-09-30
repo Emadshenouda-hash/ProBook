@@ -370,6 +370,14 @@ export default function ContentEditor() {
     }));
   };
 
+  const handleInputChange = (section: string, field: string, lang: 'en' | 'ar') => (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateBilingualContent(section, field, lang, e.target.value);
+  };
+
+  const handleTextAreaChange = (section: string, field: string, lang: 'en' | 'ar') => (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateBilingualContent(section, field, lang, e.target.value);
+  };
+
   if (!authenticated) {
     return (
       <Container>
@@ -445,7 +453,7 @@ export default function ContentEditor() {
                     <Input
                       id="home-title-en"
                       value={content.homepage.en.title}
-                      onChange={(e) => updateBilingualContent('homepage', 'title', 'en', e.target.value)}
+                      onChange={handleInputChange('homepage', 'title', 'en')}
                       placeholder="Expert Accounting Services..."
                       dir="ltr"
                     />
