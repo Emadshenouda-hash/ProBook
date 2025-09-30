@@ -8,22 +8,26 @@ import Script from 'next/script';
  * blocking the initial render.
  */
 export default function Analytics() {
-  const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-  if (!gaId) return null;
+  // Use environment variable or fallback to your GA4 ID
+  const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || 'G-MLHTJEZ3ZS';
+  
   return (
     <>
-      {/* Load the gtag script asynchronously */}
+      {/* Google tag (gtag.js) - Load the gtag script asynchronously */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
         strategy="afterInteractive"
       />
-      {/* Initialise gtag and configure it with the provided ID */}
+      {/* Initialize gtag and configure it with the provided ID */}
       <Script id="ga-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${gaId}', { page_path: window.location.pathname });
+          gtag('config', '${gaId}', { 
+            page_path: window.location.pathname,
+            send_page_view: true
+          });
         `}
       </Script>
     </>
