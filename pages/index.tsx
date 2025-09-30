@@ -338,6 +338,9 @@ export default function HomePage() {
           </FadeIn>
           <FadeIn>
             <HeroSubtitle>{t('home.subtitle')}</HeroSubtitle>
+            <div style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.9)', marginTop: '0.75rem', fontWeight: '500', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
+              ⭐ Trusted by 100+ clients across 5 countries | 23+ years experience | CPA Exam candidate
+            </div>
           </FadeIn>
           <FadeIn>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
