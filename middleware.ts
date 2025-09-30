@@ -78,11 +78,12 @@ function getRateLimitHeaders(key: string): Record<string, string> {
 if (typeof setInterval !== 'undefined') {
   setInterval(() => {
     const now = Date.now();
-    for (const [key, entry] of rateLimitMap.entries()) {
+    const entries = Array.from(rateLimitMap.entries());
+    entries.forEach(([key, entry]) => {
       if (now > entry.resetTime) {
         rateLimitMap.delete(key);
       }
-    }
+    });
   }, 5 * 60 * 1000);
 }
 
