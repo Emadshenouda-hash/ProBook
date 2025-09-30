@@ -470,6 +470,18 @@ export default function ConsultationPage() {
   ];
 
   const updateField = (name: string, value: any) => setForm((p) => ({ ...p, [name]: value }));
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateField(e.target.name || e.target.id, e.target.value);
+  };
+  
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateField(e.target.name || e.target.id, e.target.value);
+  };
+  
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateField(e.target.name || e.target.id, e.target.value);
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -572,7 +584,7 @@ export default function ConsultationPage() {
               <input type="hidden" name="utm_content" value={form.utm_content} />
               
               {/* Honeypot */}
-              <input type="text" name="website" value={form.website} onChange={(e) => updateField('website', e.target.value)} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+              <input type="text" name="website" value={form.website} onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('website', e.target.value)} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
 
               {error && <ErrorMessage role="alert">{error}</ErrorMessage>}
               {success && <SuccessMessage role="status">{success}</SuccessMessage>}
@@ -585,8 +597,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="fullName">Full Name <Required>*</Required></Label>
                     <Input 
                       id="fullName" 
+                      name="fullName"
                       value={form.fullName} 
-                      onChange={(e) => updateField('fullName', e.target.value)} 
+                      onChange={handleInputChange} 
                       placeholder="John Doe"
                       required 
                     />
@@ -596,8 +609,9 @@ export default function ConsultationPage() {
                     <Input 
                       type="email" 
                       id="email" 
+                      name="email"
                       value={form.email} 
-                      onChange={(e) => updateField('email', e.target.value)} 
+                      onChange={handleInputChange} 
                       placeholder="john@company.com"
                       required 
                     />
@@ -606,8 +620,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="phone">Phone Number</Label>
                     <Input 
                       id="phone" 
+                      name="phone"
                       value={form.phone} 
-                      onChange={(e) => updateField('phone', e.target.value)} 
+                      onChange={handleInputChange} 
                       placeholder="+1 (555) 123-4567"
                     />
                   </Field>
@@ -615,8 +630,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="company">Company Name <Required>*</Required></Label>
                     <Input 
                       id="company" 
+                      name="company"
                       value={form.company} 
-                      onChange={(e) => updateField('company', e.target.value)} 
+                      onChange={handleInputChange} 
                       placeholder="Acme Inc."
                       required 
                     />
@@ -632,8 +648,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="companySize">Company Size</Label>
                     <Select 
                       id="companySize" 
+                      name="companySize"
                       value={form.companySize} 
-                      onChange={(e) => updateField('companySize', e.target.value)}
+                      onChange={handleSelectChange}
                     >
                       <option value="">Select size...</option>
                       {sizeOptions.map((o) => <option key={o} value={o}>{o} employees</option>)}
@@ -643,8 +660,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="industry">Industry</Label>
                     <Select 
                       id="industry" 
+                      name="industry"
                       value={form.industry} 
-                      onChange={(e) => updateField('industry', e.target.value)}
+                      onChange={handleSelectChange}
                     >
                       <option value="">Select industry...</option>
                       {industryOptions.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -654,8 +672,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="country">Country</Label>
                     <Select 
                       id="country" 
+                      name="country"
                       value={form.country} 
-                      onChange={(e) => updateField('country', e.target.value)}
+                      onChange={handleSelectChange}
                     >
                       <option value="">Select country...</option>
                       {countryOptions.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -665,8 +684,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="urgency">When do you need to start?</Label>
                     <Select 
                       id="urgency" 
+                      name="urgency"
                       value={form.urgency} 
-                      onChange={(e) => updateField('urgency', e.target.value)}
+                      onChange={handleSelectChange}
                     >
                       <option value="">Select timeline...</option>
                       {urgencyOptions.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -717,8 +737,9 @@ export default function ConsultationPage() {
                     <Label htmlFor="budget">Monthly Budget</Label>
                     <Select 
                       id="budget" 
+                      name="budget"
                       value={form.budget} 
-                      onChange={(e) => updateField('budget', e.target.value)}
+                      onChange={handleSelectChange}
                     >
                       <option value="">Select budget...</option>
                       {budgetOptions.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -734,8 +755,9 @@ export default function ConsultationPage() {
                   <Label htmlFor="goals">What are your top 3 goals for the next 6-12 months?</Label>
                   <TextArea 
                     id="goals" 
+                    name="goals"
                     value={form.goals} 
-                    onChange={(e) => updateField('goals', e.target.value)} 
+                    onChange={handleTextAreaChange} 
                     placeholder="e.g., Clean up historical books, set up monthly reporting, prepare for fundraising, reduce month-end close time..."
                   />
                 </Field>
@@ -747,8 +769,9 @@ export default function ConsultationPage() {
                   <Label htmlFor="notes">Anything else we should know?</Label>
                   <TextArea 
                     id="notes" 
+                    name="notes"
                     value={form.notes} 
-                    onChange={(e) => updateField('notes', e.target.value)} 
+                    onChange={handleTextAreaChange} 
                     placeholder="Current challenges, specific questions, or any other details..."
                   />
                 </Field>
@@ -761,7 +784,7 @@ export default function ConsultationPage() {
                   <Input 
                     id="attachment" 
                     type="file" 
-                    onChange={async (e) => {
+                    onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
                       const formData = new FormData();
