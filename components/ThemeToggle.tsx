@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '../utils/styled';
+import type { DefaultTheme } from 'styled-components';
 import { useContext } from 'react';
 import ThemeToggleContext from '../context/ThemeToggleContext';
 
@@ -17,7 +18,7 @@ const ToggleButton = styled('button')`
   justify-content: center;
   cursor: pointer;
   font-size: 1.25rem;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.text};
   transition: background-color 0.2s ease, color 0.2s ease;
   &:hover {
     background-color: rgba(109, 40, 217, 0.1);
