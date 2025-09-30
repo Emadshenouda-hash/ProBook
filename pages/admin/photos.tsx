@@ -176,12 +176,14 @@ const Specs = styled.div`
 export default function PhotoManager() {
   const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
+  const [uploading, setUploading] = useState<string | null>(null);
   const [photos, setPhotos] = useState({
     hero: null as File | null,
     headshot: null as File | null,
     caseStudy1: null as File | null,
     caseStudy2: null as File | null
   });
+  const [uploadedUrls, setUploadedUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token');
@@ -189,15 +191,38 @@ export default function PhotoManager() {
       router.push('/admin');
     } else {
       setAuthenticated(true);
+      // Load previously uploaded URLs from localStorage
+      const saved = localStorage.getItem('uploaded_photo_urls');
+      if (saved) {
+        try {
+          setUploadedUrls(JSON.parse(saved));
+        } catch (e) {
+          console.error('Failed to load saved URLs');
+        }
+      }
     }
   }, [router]);
 
   const handleFileSelect = async (key: keyof typeof photos, file: File | null) => {
     if (!file) return;
     
-    setPhotos((prev) => ({ ...prev, [key]: file }));
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('❌ File too large! Maximum size is 5MB.\n\nPlease compress your image at tinyjpg.com or squoosh.app');
+      return;
+    }
     
-    // Upload to Firebase Storage
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      alert('❌ Invalid file type! Please upload JPG, PNG, or WebP images only.');
+      return;
+    }
+    
+    setPhotos((prev) => ({ ...prev, [key]: file }));
+    setUploading(key);
+    
+    // Upload to Firebase Storage via API
     const formData = new FormData();
     formData.append('file', file);
     formData.append('photoType', key);
@@ -210,14 +235,21 @@ export default function PhotoManager() {
       
       const data = await res.json();
       
-      if (data.success) {
-        alert(`✅ Photo uploaded successfully!\n\nURL: ${data.url}\n\nRefresh your website to see the changes.`);
+      if (data.success && data.url) {
+        // Save URL locally
+        const newUrls = { ...uploadedUrls, [key]: data.url };
+        setUploadedUrls(newUrls);
+        localStorage.setItem('uploaded_photo_urls', JSON.stringify(newUrls));
+        
+        alert(`✅ Photo uploaded successfully!\n\nURL: ${data.url}\n\nYour photo is now saved to Firebase Storage and will appear on your website.\n\nNote: You may need to update your code to use this URL.`);
       } else {
-        alert(`❌ Upload failed: ${data.error || 'Unknown error'}`);
+        alert(`❌ Upload failed: ${data.error || data.message || 'Unknown error'}\n\nThis might be because:\n1. Firebase credentials not set in environment\n2. Firebase Storage not enabled\n3. Network error\n\nCheck the browser console for details.`);
       }
     } catch (error) {
       console.error('Upload error:', error);
-      alert('❌ Upload failed. Check console for details.');
+      alert(`❌ Upload failed!\n\nError: ${error}\n\nPossible causes:\n1. Firebase not configured (add FIREBASE_SERVICE_ACCOUNT to Vercel)\n2. firebase-admin not installed (run npm install)\n3. Network issue\n\nCheck browser console for full error details.`);
+    } finally {
+      setUploading(null);
     }
   };
 
