@@ -22,25 +22,25 @@ const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr
  * another file in the /public directory.
  */
 const Hero = styled.section`
-  /*
-   * Full‑width hero section with a translucent colour overlay. We reduce the alpha
-   * values of the gradient stops to allow more of the underlying photo to show
-   * through, making the composition feel lighter and less oppressive. The
-   * background image still covers the entire viewport width.
-   */
   position: relative;
   color: #ffffff;
-  min-height: 75vh;
-  padding: 6rem 1rem;
+  min-height: 85vh;
+  padding: 8rem 2rem 6rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  overflow: hidden;
+  
+  @media (max-width: 968px) {
+    min-height: 75vh;
+    padding: 6rem 1.5rem 4rem;
+  }
+  
   @media (max-width: 640px) {
     min-height: 70vh;
-    padding: 4rem 1rem;
-    overflow: hidden;
+    padding: 5rem 1rem 3rem;
   }
 `;
 
@@ -49,25 +49,68 @@ const HeroBg = styled('div')`
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-      linear-gradient(140deg, rgba(67, 56, 202, 0.55), rgba(109, 40, 217, 0.55));
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.85) 0%,
+      rgba(30, 41, 59, 0.75) 50%,
+      rgba(51, 65, 85, 0.85) 100%
+    );
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
   }
 `;
 
 const HeroTitle = styled.h1`
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  max-width: 900px;
+  
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f8fafc 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  @media (max-width: 640px) {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
 `;
 
 const HeroSubtitle = styled.p`
-  margin-bottom: 2rem;
-  max-width: 600px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.6;
+  margin: 0 0 2.5rem;
+  max-width: 700px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  
+  @media (max-width: 640px) {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+  }
 `;
 
 const HeroButton = Button;
@@ -145,17 +188,142 @@ const ServiceLink = styled.a`
 
 const HeroInner = styled.div`
   width: 100%;
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
   text-align: center;
-  overflow: hidden;
   position: relative;
   z-index: 1;
+  
+  @media (max-width: 640px) {
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+`;
+
+const HeroSocialProof = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.875rem 1.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  margin-bottom: 0.5rem;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.25rem;
+  }
+`;
+
+const HeroSocialItem = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &:not(:last-child)::after {
+    content: '•';
+    margin-left: 1.5rem;
+    opacity: 0.6;
+    
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+`;
+
+const CTAGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+`;
+
+const PrimaryCTA = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.125rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #6d28d9 0%, #0ea5e9 100%);
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(109, 40, 217, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(109, 40, 217, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 640px) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+`;
+
+const SecondaryCTA = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.125rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 640px) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
 `;
 
 /* HeroColText and HeroColVisual are no longer used; their functionality has been merged
@@ -331,7 +499,7 @@ export default function HomePage() {
       <Hero>
         <HeroBg aria-hidden="true">
           <Image 
-            src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=2000&q=80" 
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=85" 
             alt="" 
             fill 
             priority 
@@ -341,23 +509,42 @@ export default function HomePage() {
         </HeroBg>
         <HeroInner>
           <FadeIn>
+            <HeroSocialProof>
+              <HeroSocialItem>
+                <span>⭐</span>
+                <span>100+ Clients</span>
+              </HeroSocialItem>
+              <HeroSocialItem>
+                <span>🏆</span>
+                <span>23+ Years Experience</span>
+              </HeroSocialItem>
+              <HeroSocialItem>
+                <span>🎓</span>
+                <span>CPA Exam Candidate</span>
+              </HeroSocialItem>
+            </HeroSocialProof>
+          </FadeIn>
+          <FadeIn>
             <HeroTitle>{t('home.title')}</HeroTitle>
           </FadeIn>
           <FadeIn>
             <HeroSubtitle>{t('home.subtitle')}</HeroSubtitle>
-            <div style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.9)', marginTop: '0.75rem', fontWeight: '500', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
-              ⭐ Trusted by 100+ clients across 5 countries | 23+ years experience | CPA Exam candidate
-            </div>
           </FadeIn>
           <FadeIn>
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <CTAGroup>
               <Link href="/consultation" passHref legacyBehavior>
-                <HeroButton onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>{t('cta.book_consultation')}</HeroButton>
+                <PrimaryCTA onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>
+                  <span>📅</span>
+                  {t('cta.book_consultation')}
+                </PrimaryCTA>
               </Link>
               <Link href="/services" passHref legacyBehavior>
-                <HeroButton variant="ghost">{t('home.cta_secondary')}</HeroButton>
+                <SecondaryCTA>
+                  <span>→</span>
+                  {t('home.cta_secondary')}
+                </SecondaryCTA>
               </Link>
-            </div>
+            </CTAGroup>
           </FadeIn>
         </HeroInner>
       </Hero>
