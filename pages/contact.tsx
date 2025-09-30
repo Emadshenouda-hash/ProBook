@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
+import type { DefaultTheme } from 'styled-components';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -28,7 +29,7 @@ const FormCard = styled.div`
   padding: 2rem;
   border: 1px solid var(--color-border);
   /* Accent border to tie into the brand colour */
-  border-left: 4px solid ${({ theme }) => theme.colors.primary};
+  border-left: 4px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
 `;
 
 // The form itself is a flex column with generous spacing between fields.
@@ -55,7 +56,7 @@ const IconWrapper = styled.span`
   display: flex;
   align-items: center;
   pointer-events: none;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
 `;
 
 const Input = styled.input`
@@ -66,7 +67,7 @@ const Input = styled.input`
   font-size: 1rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   &:focus {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(12, 94, 215, 0.15);
     outline: none;
   }
@@ -82,7 +83,7 @@ const TextArea = styled.textarea`
   min-height: 140px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   &:focus {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(12, 94, 215, 0.15);
     outline: none;
   }
@@ -90,8 +91,8 @@ const TextArea = styled.textarea`
 
 const SubmitButton = styled.button`
   padding: 0.75rem 1.5rem;
-  background-color: ${({ theme }) => theme.colors.primary};
-  background-image: linear-gradient(90deg, ${({ theme }) => theme.colors.primary} 0%, ${({ theme }) => theme.colors.secondary} 100%);
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
+  background-image: linear-gradient(90deg, ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary} 0%, ${({ theme }: { theme: DefaultTheme }) => theme.colors.secondary} 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
