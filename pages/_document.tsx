@@ -48,7 +48,8 @@ export default class MyDocument extends Document<MyDocumentProps> {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#0b5ed7" />
-          {/* Using next/font for Inter, Cairo, Merriweather; external font links removed */}
+          <meta name="google-site-verification" content="5KWsgLhz5GaPE5yrzyKV-uNaOy228-mPTxDY8zbR_ic" />
+          {/* Using next/font for Inter, Tajawal, Merriweather; external font links removed */}
 
           {/* Hreflang for i18n */}
           <link rel="alternate" hrefLang="en" href={`${baseUrl}/`} />
