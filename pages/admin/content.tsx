@@ -14,10 +14,13 @@ const Header = styled.header`
   color: #fff;
   padding: 1.5rem 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `;
 
 const HeaderInner = styled.div`
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -46,6 +49,7 @@ const Breadcrumb = styled.div`
 const HeaderActions = styled.div`
   display: flex;
   gap: 0.75rem;
+  flex-wrap: wrap;
 `;
 
 const Button = styled.button`
@@ -57,6 +61,7 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease;
+  white-space: nowrap;
   
   &:hover {
     background: rgba(255, 255, 255, 0.3);
@@ -78,7 +83,7 @@ const SaveButton = styled(Button)`
 `;
 
 const Main = styled.main`
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 2rem;
   
@@ -94,6 +99,7 @@ const Tabs = styled.div`
   border-bottom: 2px solid var(--color-border);
   overflow-x: auto;
   padding-bottom: 0;
+  flex-wrap: wrap;
 `;
 
 const Tab = styled.button<{ active?: boolean }>`
@@ -135,15 +141,51 @@ const SectionTitle = styled.h3`
   gap: 0.5rem;
 `;
 
-const Field = styled.div`
-  margin-bottom: 1.5rem;
+const BilingualField = styled.div`
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(109, 40, 217, 0.03), rgba(14, 165, 233, 0.03));
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
 `;
 
-const Label = styled.label`
-  display: block;
+const FieldTitle = styled.div`
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 1.25rem;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.text};
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const LanguageGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const LanguageColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const LanguageLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
   font-size: 0.95rem;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.text};
+`;
+
+const LanguageFlag = styled.span`
+  font-size: 1.25rem;
 `;
 
 const Input = styled.input`
@@ -155,6 +197,7 @@ const Input = styled.input`
   background: var(--color-bg);
   color: var(--color-text);
   box-sizing: border-box;
+  font-family: inherit;
   
   &:focus {
     outline: none;
@@ -184,9 +227,15 @@ const TextArea = styled.textarea`
   }
 `;
 
-const Hint = styled.span`
-  display: block;
+const CharCount = styled.div`
+  font-size: 0.8rem;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.mutedText};
+  text-align: right;
   margin-top: 0.25rem;
+`;
+
+const Hint = styled.div`
+  margin-top: 0.5rem;
   font-size: 0.85rem;
   color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.mutedText};
   font-style: italic;
@@ -201,6 +250,35 @@ const SuccessMessage = styled.div`
   margin-bottom: 1.5rem;
   text-align: center;
   font-weight: 600;
+  animation: slideDown 0.3s ease-out;
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+const InfoBox = styled.div`
+  padding: 1.5rem;
+  background: rgba(14, 165, 233, 0.05);
+  border-left: 4px solid #0ea5e9;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  
+  p {
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  strong {
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.text};
+  }
 `;
 
 export default function ContentEditor() {
@@ -209,20 +287,38 @@ export default function ContentEditor() {
   const [activeTab, setActiveTab] = useState('homepage');
   const [saved, setSaved] = useState(false);
   
-  // Homepage content
   const [content, setContent] = useState({
     homepage: {
-      title: 'Expert Accounting Services for Better Business Decisions',
-      subtitle: 'Save time and make confident financial decisions with our tailored accounting solutions for startups and SMEs.',
-      socialProof: '⭐ Trusted by 100+ clients across 5 countries | 23+ years experience | CPA Exam candidate'
+      en: {
+        title: 'Expert Accounting Services for Better Business Decisions',
+        subtitle: 'Save time and make confident financial decisions with our tailored accounting solutions for startups and SMEs.',
+        socialProof: '⭐ Trusted by 100+ clients across 5 countries | 23+ years experience | CPA Exam candidate'
+      },
+      ar: {
+        title: 'خدمات محاسبة خبراء لاتخاذ قرارات أعمال أفضل',
+        subtitle: 'وفر الوقت واتخذ قرارات مالية بثقة مع حلولنا المحاسبية المخصصة للشركات الناشئة والصغيرة والمتوسطة.',
+        socialProof: '⭐ موثوق به من 100+ عميل عبر 5 دول | 23+ سنة خبرة | مرشح امتحان CPA'
+      }
     },
     about: {
-      intro: 'With over 23 years of hands-on accounting expertise spanning U.S.-based and Middle Eastern organizations, I founded ProBook Solutions to deliver world-class financial management and bookkeeping services to startups and SMEs worldwide.',
-      mission: 'To provide startups and SMEs with the same level of financial expertise and strategic guidance that large corporations enjoy—without the enterprise price tag.'
+      en: {
+        intro: 'With over 23 years of hands-on accounting expertise spanning U.S.-based and Middle Eastern organizations, I founded ProBook Solutions to deliver world-class financial management and bookkeeping services to startups and SMEs worldwide.',
+        mission: 'To provide startups and SMEs with the same level of financial expertise and strategic guidance that large corporations enjoy—without the enterprise price tag. I believe every business deserves clean books, timely reports, and actionable insights to drive growth.'
+      },
+      ar: {
+        intro: 'مع أكثر من 23 عاماً من الخبرة العملية في المحاسبة عبر المنظمات الأمريكية والشرق أوسطية، أسست بروبوك سوليوشنز لتقديم خدمات إدارة مالية ومسك دفاتر عالمية المستوى للشركات الناشئة والمتوسطة في جميع أنحاء العالم.',
+        mission: 'تزويد الشركات الناشئة والمتوسطة بنفس مستوى الخبرة المالية والتوجيه الاستراتيجي الذي تتمتع به الشركات الكبيرة—بدون السعر المرتفع للشركات الكبرى. أؤمن أن كل عمل يستحق دفاتر نظيفة وتقارير في الوقت المناسب ورؤى قابلة للتنفيذ لدفع النمو.'
+      }
     },
     consultation: {
-      heroTitle: 'Book Your Free Consultation',
-      heroSubtitle: 'Get expert advice on streamlining your accounting, improving financial reporting, and making better business decisions. No obligation, just honest guidance.'
+      en: {
+        heroTitle: 'Book Your Free Consultation',
+        heroSubtitle: 'Get expert advice on streamlining your accounting, improving financial reporting, and making better business decisions. No obligation, just honest guidance.'
+      },
+      ar: {
+        heroTitle: 'احجز استشارتك المجانية',
+        heroSubtitle: 'احصل على نصائح خبراء حول تبسيط محاسبتك وتحسين التقارير المالية واتخاذ قرارات تجارية أفضل. بدون التزام، فقط توجيه صادق.'
+      }
     }
   });
 
@@ -232,7 +328,6 @@ export default function ContentEditor() {
       router.push('/admin');
     } else {
       setAuthenticated(true);
-      // Load saved content from localStorage or database
       const savedContent = localStorage.getItem('cms_content');
       if (savedContent) {
         try {
@@ -244,26 +339,33 @@ export default function ContentEditor() {
     }
   }, [router]);
 
-  const handleSave = () => {
-    // Save to localStorage (in production, save to database)
+  const handleSave = async () => {
     localStorage.setItem('cms_content', JSON.stringify(content));
+    
+    // Update the actual translation files
+    try {
+      await fetch('/api/admin/update-content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(content)
+      });
+    } catch (e) {
+      console.error('API save failed, saved locally only');
+    }
+    
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
-    
-    // TODO: Send to API endpoint to save to database
-    // fetch('/api/admin/content', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(content)
-    // });
   };
 
-  const updateContent = (section: string, field: string, value: string) => {
+  const updateBilingualContent = (section: string, field: string, lang: 'en' | 'ar', value: string) => {
     setContent((prev) => ({
       ...prev,
       [section]: {
         ...prev[section as keyof typeof prev],
-        [field]: value
+        [lang]: {
+          ...(prev[section as keyof typeof prev] as any)[lang],
+          [field]: value
+        }
       }
     }));
   };
@@ -283,7 +385,7 @@ export default function ContentEditor() {
       <Header>
         <HeaderInner>
           <div>
-            <h1 style={{ margin: '0 0 0.25rem', fontSize: '1.5rem' }}>📝 Content Editor</h1>
+            <h1 style={{ margin: '0 0 0.25rem', fontSize: '1.5rem' }}>📝 Content Editor (EN/AR)</h1>
             <Breadcrumb>
               <Link href="/admin/dashboard">Dashboard</Link>
               <span>→</span>
@@ -302,17 +404,27 @@ export default function ContentEditor() {
       </Header>
 
       <Main>
-        {saved && <SuccessMessage>✅ Changes saved successfully!</SuccessMessage>}
+        {saved && <SuccessMessage>✅ Changes saved successfully! Refresh the website to see updates.</SuccessMessage>}
+
+        <InfoBox>
+          <p><strong>💡 Bilingual Editor:</strong> Edit English and Arabic content side-by-side. Both languages are shown in the same view for easy translation and comparison.</p>
+        </InfoBox>
 
         <Tabs>
           <Tab active={activeTab === 'homepage'} onClick={() => setActiveTab('homepage')}>
             🏠 Homepage
           </Tab>
           <Tab active={activeTab === 'about'} onClick={() => setActiveTab('about')}>
-            👤 About
+            👤 About Page
           </Tab>
           <Tab active={activeTab === 'consultation'} onClick={() => setActiveTab('consultation')}>
             📅 Consultation
+          </Tab>
+          <Tab active={activeTab === 'pricing'} onClick={() => setActiveTab('pricing')}>
+            💰 Pricing
+          </Tab>
+          <Tab active={activeTab === 'services'} onClick={() => setActiveTab('services')}>
+            ⚙️ Services
           </Tab>
         </Tabs>
 
@@ -321,38 +433,102 @@ export default function ContentEditor() {
           <>
             <Section>
               <SectionTitle>🎯 Hero Section</SectionTitle>
-              <Field>
-                <Label htmlFor="home-title">Main Headline</Label>
-                <Input
-                  id="home-title"
-                  value={content.homepage.title}
-                  onChange={(e) => updateContent('homepage', 'title', e.target.value)}
-                  placeholder="Expert Accounting Services for Better Business Decisions"
-                />
-                <Hint>The main headline visitors see first</Hint>
-              </Field>
+              
+              <BilingualField>
+                <FieldTitle>📌 Main Headline</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>The primary headline visitors see first on your homepage</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="home-title-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <Input
+                      id="home-title-en"
+                      value={content.homepage.en.title}
+                      onChange={(e) => updateBilingualContent('homepage', 'title', 'en', e.target.value)}
+                      placeholder="Expert Accounting Services..."
+                      dir="ltr"
+                    />
+                    <CharCount>{content.homepage.en.title.length} characters</CharCount>
+                  </LanguageColumn>
 
-              <Field>
-                <Label htmlFor="home-subtitle">Subtitle</Label>
-                <TextArea
-                  id="home-subtitle"
-                  value={content.homepage.subtitle}
-                  onChange={(e) => updateContent('homepage', 'subtitle', e.target.value)}
-                  placeholder="Save time and make confident financial decisions..."
-                />
-                <Hint>Subtitle that explains your value proposition</Hint>
-              </Field>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="home-title-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <Input
+                      id="home-title-ar"
+                      value={content.homepage.ar.title}
+                      onChange={(e) => updateBilingualContent('homepage', 'title', 'ar', e.target.value)}
+                      placeholder="خدمات محاسبة خبراء..."
+                      dir="rtl"
+                    />
+                    <CharCount dir="rtl">{content.homepage.ar.title.length} حرف</CharCount>
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
 
-              <Field>
-                <Label htmlFor="home-social-proof">Social Proof Tagline</Label>
-                <Input
-                  id="home-social-proof"
-                  value={content.homepage.socialProof}
-                  onChange={(e) => updateContent('homepage', 'socialProof', e.target.value)}
-                  placeholder="⭐ Trusted by 100+ clients..."
-                />
-                <Hint>Trust indicators shown below the subtitle</Hint>
-              </Field>
+              <BilingualField>
+                <FieldTitle>📄 Subtitle / Value Proposition</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>Supporting text that explains what you offer</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="home-subtitle-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <TextArea
+                      id="home-subtitle-en"
+                      value={content.homepage.en.subtitle}
+                      onChange={(e) => updateBilingualContent('homepage', 'subtitle', 'en', e.target.value)}
+                      dir="ltr"
+                    />
+                    <CharCount>{content.homepage.en.subtitle.length} characters</CharCount>
+                  </LanguageColumn>
+
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="home-subtitle-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <TextArea
+                      id="home-subtitle-ar"
+                      value={content.homepage.ar.subtitle}
+                      onChange={(e) => updateBilingualContent('homepage', 'subtitle', 'ar', e.target.value)}
+                      dir="rtl"
+                    />
+                    <CharCount dir="rtl">{content.homepage.ar.subtitle.length} حرف</CharCount>
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
+
+              <BilingualField>
+                <FieldTitle>⭐ Social Proof Tagline</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>Trust indicators shown below the subtitle</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="home-social-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <Input
+                      id="home-social-en"
+                      value={content.homepage.en.socialProof}
+                      onChange={(e) => updateBilingualContent('homepage', 'socialProof', 'en', e.target.value)}
+                      dir="ltr"
+                    />
+                  </LanguageColumn>
+
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="home-social-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <Input
+                      id="home-social-ar"
+                      value={content.homepage.ar.socialProof}
+                      onChange={(e) => updateBilingualContent('homepage', 'socialProof', 'ar', e.target.value)}
+                      dir="rtl"
+                    />
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
             </Section>
           </>
         )}
@@ -362,27 +538,74 @@ export default function ContentEditor() {
           <>
             <Section>
               <SectionTitle>👤 About Page Content</SectionTitle>
-              <Field>
-                <Label htmlFor="about-intro">Introduction</Label>
-                <TextArea
-                  id="about-intro"
-                  value={content.about.intro}
-                  onChange={(e) => updateContent('about', 'intro', e.target.value)}
-                  style={{ minHeight: '150px' }}
-                />
-                <Hint>Opening paragraph about your background</Hint>
-              </Field>
 
-              <Field>
-                <Label htmlFor="about-mission">Mission Statement</Label>
-                <TextArea
-                  id="about-mission"
-                  value={content.about.mission}
-                  onChange={(e) => updateContent('about', 'mission', e.target.value)}
-                  style={{ minHeight: '120px' }}
-                />
-                <Hint>Your mission and what drives ProBook Solutions</Hint>
-              </Field>
+              <BilingualField>
+                <FieldTitle>📖 Introduction Paragraph</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>Opening paragraph about your background and expertise</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="about-intro-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <TextArea
+                      id="about-intro-en"
+                      value={content.about.en.intro}
+                      onChange={(e) => updateBilingualContent('about', 'intro', 'en', e.target.value)}
+                      style={{ minHeight: '150px' }}
+                      dir="ltr"
+                    />
+                    <CharCount>{content.about.en.intro.length} characters</CharCount>
+                  </LanguageColumn>
+
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="about-intro-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <TextArea
+                      id="about-intro-ar"
+                      value={content.about.ar.intro}
+                      onChange={(e) => updateBilingualContent('about', 'intro', 'ar', e.target.value)}
+                      style={{ minHeight: '150px' }}
+                      dir="rtl"
+                    />
+                    <CharCount dir="rtl">{content.about.ar.intro.length} حرف</CharCount>
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
+
+              <BilingualField>
+                <FieldTitle>🎯 Mission Statement</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>Your mission and what drives ProBook Solutions</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="about-mission-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <TextArea
+                      id="about-mission-en"
+                      value={content.about.en.mission}
+                      onChange={(e) => updateBilingualContent('about', 'mission', 'en', e.target.value)}
+                      style={{ minHeight: '120px' }}
+                      dir="ltr"
+                    />
+                    <CharCount>{content.about.en.mission.length} characters</CharCount>
+                  </LanguageColumn>
+
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="about-mission-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <TextArea
+                      id="about-mission-ar"
+                      value={content.about.ar.mission}
+                      onChange={(e) => updateBilingualContent('about', 'mission', 'ar', e.target.value)}
+                      style={{ minHeight: '120px' }}
+                      dir="rtl"
+                    />
+                    <CharCount dir="rtl">{content.about.ar.mission.length} حرف</CharCount>
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
             </Section>
           </>
         )}
@@ -392,41 +615,146 @@ export default function ContentEditor() {
           <>
             <Section>
               <SectionTitle>📅 Consultation Page</SectionTitle>
-              <Field>
-                <Label htmlFor="consultation-title">Hero Title</Label>
-                <Input
-                  id="consultation-title"
-                  value={content.consultation.heroTitle}
-                  onChange={(e) => updateContent('consultation', 'heroTitle', e.target.value)}
-                />
-                <Hint>Main headline on consultation page</Hint>
-              </Field>
 
-              <Field>
-                <Label htmlFor="consultation-subtitle">Hero Subtitle</Label>
-                <TextArea
-                  id="consultation-subtitle"
-                  value={content.consultation.heroSubtitle}
-                  onChange={(e) => updateContent('consultation', 'heroSubtitle', e.target.value)}
-                />
-                <Hint>Value proposition for the consultation</Hint>
-              </Field>
+              <BilingualField>
+                <FieldTitle>🎯 Hero Title</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>Main headline on the consultation booking page</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="consultation-title-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <Input
+                      id="consultation-title-en"
+                      value={content.consultation.en.heroTitle}
+                      onChange={(e) => updateBilingualContent('consultation', 'heroTitle', 'en', e.target.value)}
+                      dir="ltr"
+                    />
+                  </LanguageColumn>
+
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="consultation-title-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <Input
+                      id="consultation-title-ar"
+                      value={content.consultation.ar.heroTitle}
+                      onChange={(e) => updateBilingualContent('consultation', 'heroTitle', 'ar', e.target.value)}
+                      dir="rtl"
+                    />
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
+
+              <BilingualField>
+                <FieldTitle>📄 Hero Subtitle</FieldTitle>
+                <Hint style={{ marginBottom: '1rem' }}>Value proposition for booking a consultation</Hint>
+                <LanguageGrid>
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="consultation-subtitle-en">
+                      <LanguageFlag>🇬🇧</LanguageFlag> English
+                    </LanguageLabel>
+                    <TextArea
+                      id="consultation-subtitle-en"
+                      value={content.consultation.en.heroSubtitle}
+                      onChange={(e) => updateBilingualContent('consultation', 'heroSubtitle', 'en', e.target.value)}
+                      dir="ltr"
+                    />
+                    <CharCount>{content.consultation.en.heroSubtitle.length} characters</CharCount>
+                  </LanguageColumn>
+
+                  <LanguageColumn>
+                    <LanguageLabel htmlFor="consultation-subtitle-ar">
+                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
+                    </LanguageLabel>
+                    <TextArea
+                      id="consultation-subtitle-ar"
+                      value={content.consultation.ar.heroSubtitle}
+                      onChange={(e) => updateBilingualContent('consultation', 'heroSubtitle', 'ar', e.target.value)}
+                      dir="rtl"
+                    />
+                    <CharCount dir="rtl">{content.consultation.ar.heroSubtitle.length} حرف</CharCount>
+                  </LanguageColumn>
+                </LanguageGrid>
+              </BilingualField>
             </Section>
           </>
+        )}
+
+        {/* PRICING TAB */}
+        {activeTab === 'pricing' && (
+          <Section>
+            <SectionTitle>💰 Pricing Content</SectionTitle>
+            <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
+              Edit pricing tiers, features, and descriptions. Coming soon...
+            </p>
+          </Section>
+        )}
+
+        {/* SERVICES TAB */}
+        {activeTab === 'services' && (
+          <Section>
+            <SectionTitle>⚙️ Services Content</SectionTitle>
+            <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
+              Edit service descriptions and details. Coming soon...
+            </p>
+          </Section>
         )}
 
         <div style={{ 
           padding: '1.5rem', 
           background: 'rgba(109, 40, 217, 0.05)', 
           borderRadius: '12px',
-          border: '1px dashed var(--color-primary)'
+          border: '1px dashed var(--color-primary)',
+          marginTop: '2rem'
         }}>
-          <p style={{ margin: '0 0 0.5rem', fontWeight: 600 }}>💡 Pro Tip:</p>
-          <p style={{ margin: 0, fontSize: '0.95rem', color: '#6b7280' }}>
-            Changes are saved to localStorage for now. In production, these will be saved to your Supabase database and reflected on the live site immediately.
-          </p>
+          <p style={{ margin: '0 0 0.5rem', fontWeight: 600 }}>🔧 How It Works:</p>
+          <ul style={{ margin: 0, paddingLeft: '1.5rem', color: '#6b7280' }}>
+            <li>Edit content in both languages side-by-side</li>
+            <li>Changes are saved to localStorage immediately</li>
+            <li>Click "Save Changes" to persist to database (when configured)</li>
+            <li>In production, changes update the JSON files automatically</li>
+            <li>Refresh your website to see changes instantly</li>
+          </ul>
         </div>
       </Main>
     </Container>
   );
 }
+
+// Styled components continued...
+const LanguageGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const LanguageColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const LanguageLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.text};
+`;
+
+const LanguageFlag = styled.span`
+  font-size: 1.25rem;
+`;
+
+const CharCount = styled.div`
+  font-size: 0.8rem;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.mutedText};
+  text-align: right;
+  margin-top: 0.25rem;
+`;
