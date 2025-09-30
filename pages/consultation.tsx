@@ -198,7 +198,7 @@ const Field = styled.div<{ fullWidth?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  grid-column: ${({ fullWidth }) => fullWidth ? '1 / -1' : 'auto'};
+  grid-column: ${({ fullWidth }: { fullWidth?: boolean }) => fullWidth ? '1 / -1' : 'auto'};
 `;
 
 const Label = styled.label`
