@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const defLocale: string = defaultLocale || 'en';
 
   // Include core marketing pages and conversion endpoints. Exclude 404. Thank-you is fine to include if linked.
-  const baseRoutes = ['/', '/about', '/services', '/resources', '/contact', '/portal', '/consultation', '/thank-you', '/privacy'];
+  const baseRoutes = ['/', '/about', '/services', '/resources', '/contact', '/portal', '/consultation', '/thank-you', '/privacy', '/industries', '/pricing'];
   const list: Array<{ slug: string }> = (studies as any).list || [];
   const csRoutes = list.map((s) => `/case-studies/${s.slug}`);
   const routes = [...baseRoutes, '/case-studies', ...csRoutes];

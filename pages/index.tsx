@@ -7,6 +7,7 @@ import nextDynamic from 'next/dynamic';
 const LogosBar = nextDynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
+import { track } from '../utils/analytics';
 const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
@@ -341,7 +342,7 @@ export default function HomePage() {
           <FadeIn>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link href="/consultation" passHref legacyBehavior>
-                <HeroButton>{t('cta.book_consultation')}</HeroButton>
+                <HeroButton onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>{t('cta.book_consultation')}</HeroButton>
               </Link>
               <Link href="/services" passHref legacyBehavior>
                 <HeroButton variant="ghost">{t('home.cta_secondary')}</HeroButton>
@@ -358,7 +359,7 @@ export default function HomePage() {
         <BenefitsGrid>
           {benefits.map((benefit, index) => (
             <BenefitCard key={index}>
-              <BenefitIconWrapper>{benefit.icon}</BenefitIconWrapper>
+              <BenefitIconWrapper aria-hidden="true">{benefit.icon}</BenefitIconWrapper>
               <h3 style={{ marginBottom: '0.5rem', marginTop: 0 }}>{benefit.title}</h3>
               <p style={{ margin: 0 }}>{benefit.description}</p>
             </BenefitCard>

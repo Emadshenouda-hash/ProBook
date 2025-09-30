@@ -4,6 +4,7 @@ import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { track } from '../utils/analytics';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -168,6 +169,7 @@ export default function ContactPage() {
     }
     try {
       setSubmitting(true);
+      track({ name: 'form_submit', form: 'contact' });
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

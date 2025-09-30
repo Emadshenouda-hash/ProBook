@@ -4,6 +4,7 @@ import styled from '../utils/styled';
 import type { DefaultTheme } from 'styled-components';
 import { StaggerChildren, ItemUp } from '../components/Animate';
 import SEO from '../components/SEO';
+import { track } from '../utils/analytics';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -113,7 +114,15 @@ export default function ServicesPage() {
         name: item.q,
         acceptedAnswer: { '@type': 'Answer', text: item.a }
       }))
-    }
+    },
+    ...services.map((svc) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: svc.title,
+      description: svc.description,
+      provider: { '@type': 'Organization', name: 'ProBook Solutions' },
+      areaServed: 'Global'
+    }))
   ];
   return (
     <Section>
@@ -141,8 +150,11 @@ export default function ServicesPage() {
       </StaggerChildren>
       <CTAWrapper>
         <Link href="/consultation" passHref legacyBehavior>
-          <CTAButton>{t('cta.book_consultation')}</CTAButton>
+          <CTAButton onClick={() => track({ name: 'cta_click', label: 'services_consultation', href: '/consultation' })}>{t('cta.book_consultation')}</CTAButton>
         </Link>
+        <div style={{ marginTop: '0.75rem' }}>
+          <Link href="/industries">Explore industries</Link>
+        </div>
       </CTAWrapper>
 
       <FAQSection>

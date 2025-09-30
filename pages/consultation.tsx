@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import { track } from '../utils/analytics';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -226,6 +227,7 @@ export default function ConsultationPage() {
     e.preventDefault();
     setError(null);
     setSuccess(null);
+    track({ name: 'form_submit', form: 'consultation' });
     // basic validation
     if (!form.fullName || form.fullName.trim().length < 2) return setError('Please enter your full name.');
     if (!/.+@.+\..+/.test(form.email)) return setError('Please enter a valid email address.');
