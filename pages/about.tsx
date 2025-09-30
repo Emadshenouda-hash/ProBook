@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { DefaultTheme } from 'styled-components';
 
 const Section = styled.section`
@@ -23,17 +24,15 @@ const HeroSection = styled.div`
   }
 `;
 
-const PhotoPlaceholder = styled.div`
+const PhotoContainer = styled.div`
+  position: relative;
   width: 100%;
   max-width: 300px;
   aspect-ratio: 3/4;
-  background: linear-gradient(135deg, rgba(109, 40, 217, 0.1), rgba(14, 165, 233, 0.1));
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
+  overflow: hidden;
   border: 2px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   @media (max-width: 768px) {
     max-width: 200px;
     margin: 0 auto;
@@ -231,12 +230,16 @@ export default function AboutPage() {
       />
 
       <HeroSection>
-        <PhotoPlaceholder>
-          👤
-          <div style={{ position: 'absolute', bottom: '1rem', fontSize: '0.8rem', color: '#999' }}>
-            Photo coming soon
-          </div>
-        </PhotoPlaceholder>
+        <PhotoContainer>
+          <Image 
+            src="/emad-shenouda-headshot.jpg" 
+            alt="Emad Shenouda - Founder & Financial Manager, ProBook Solutions" 
+            fill
+            sizes="(max-width: 768px) 200px, 300px"
+            style={{ objectFit: 'cover', borderRadius: '12px' }}
+            priority
+          />
+        </PhotoContainer>
         
         <HeroContent>
           <Title>About Emad Shenouda</Title>
