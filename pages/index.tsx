@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 const LogosBar = dynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
-import dynamic from 'next/dynamic';
 const TrustBadges = dynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
