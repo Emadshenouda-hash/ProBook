@@ -192,9 +192,33 @@ export default function PhotoManager() {
     }
   }, [router]);
 
-  const handleFileSelect = (key: keyof typeof photos, file: File | null) => {
+  const handleFileSelect = async (key: keyof typeof photos, file: File | null) => {
+    if (!file) return;
+    
     setPhotos((prev) => ({ ...prev, [key]: file }));
-    // TODO: Upload to Vercel Blob or Supabase Storage
+    
+    // Upload to Firebase Storage
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('photoType', key);
+    
+    try {
+      const res = await fetch('/api/admin/upload-photo', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        alert(`✅ Photo uploaded successfully!\n\nURL: ${data.url}\n\nRefresh your website to see the changes.`);
+      } else {
+        alert(`❌ Upload failed: ${data.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('❌ Upload failed. Check console for details.');
+    }
   };
 
   if (!authenticated) {
