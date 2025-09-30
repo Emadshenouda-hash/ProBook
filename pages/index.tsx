@@ -3,11 +3,11 @@ import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
-import dynamic from 'next/dynamic';
-const LogosBar = dynamic(() => import('../components/LogosBar'), { ssr: true });
+import nextDynamic from 'next/dynamic';
+const LogosBar = nextDynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
-const TrustBadges = dynamic(() => import('../components/TrustBadges'), { ssr: true });
+const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
  * They avoid adding extra dependencies while still conveying meaning.
