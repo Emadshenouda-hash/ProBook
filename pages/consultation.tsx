@@ -13,7 +13,10 @@ const HeroSection = styled.section`
   color: #fff;
   padding: 4rem 1rem 3rem;
   text-align: center;
-  margin: -2rem -1rem 3rem;
+  margin: -2rem 0 3rem;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
   @media (min-width: 768px) {
     padding: 5rem 2rem 4rem;
   }
@@ -63,6 +66,8 @@ const Container = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
+  width: 100%;
+  overflow-x: hidden;
 `;
 
 const TwoColumnLayout = styled.div`
@@ -70,6 +75,8 @@ const TwoColumnLayout = styled.div`
   grid-template-columns: 1fr;
   gap: 2rem;
   margin-bottom: 3rem;
+  width: 100%;
+  overflow-x: hidden;
   @media (min-width: 1024px) {
     grid-template-columns: 1.2fr 0.8fr;
     gap: 3rem;
@@ -85,6 +92,10 @@ const CalendlyCard = styled.div`
   box-shadow: 0 8px 24px rgba(109, 40, 217, 0.15);
   position: sticky;
   top: 2rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
   @media (max-width: 1023px) {
     position: static;
   }
@@ -157,6 +168,10 @@ const FormCard = styled.div`
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 `;
 
 const FormHeader = styled.div`
@@ -166,12 +181,16 @@ const FormHeader = styled.div`
 const FormTitle = styled.h2`
   margin: 0 0 0.5rem;
   font-size: 1.75rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 `;
 
 const FormDescription = styled.p`
   margin: 0;
   color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.mutedText};
   line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 `;
 
 const FormSection = styled.div`
@@ -189,6 +208,9 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   @media (min-width: 640px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -266,8 +288,11 @@ const TextArea = styled.textarea`
 
 const CheckboxGroup = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 `;
 
 const CheckboxLabel = styled.label`
@@ -278,6 +303,8 @@ const CheckboxLabel = styled.label`
   padding: 0.5rem;
   border-radius: 6px;
   transition: background-color 0.2s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   
   &:hover {
     background-color: rgba(109, 40, 217, 0.05);
@@ -287,6 +314,12 @@ const CheckboxLabel = styled.label`
     width: 18px;
     height: 18px;
     cursor: pointer;
+    flex-shrink: 0;
+  }
+  
+  span {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 `;
 

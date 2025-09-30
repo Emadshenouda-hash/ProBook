@@ -330,7 +330,14 @@ export default function HomePage() {
       />
       <Hero>
         <HeroBg aria-hidden="true">
-          <Image src="/hero.jpg" alt="" fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
+          <Image 
+            src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=2000&q=80" 
+            alt="" 
+            fill 
+            priority 
+            sizes="100vw" 
+            style={{ objectFit: 'cover' }} 
+          />
         </HeroBg>
         <HeroInner>
           <FadeIn>
