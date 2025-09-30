@@ -577,22 +577,22 @@ export default function ConsultationPage() {
       />
 
       <HeroSection>
-        <HeroTitle>Book Your Free Consultation</HeroTitle>
+        <HeroTitle>{t('consultation.hero_title', { defaultValue: 'Book Your Free Consultation' })}</HeroTitle>
         <HeroSubtitle>
-          Get expert advice on streamlining your accounting, improving financial reporting, and making better business decisions. No obligation, just honest guidance.
+          {t('consultation.hero_subtitle', { defaultValue: 'Get expert advice on streamlining your accounting, improving financial reporting, and making better business decisions. No obligation, just honest guidance.' })}
         </HeroSubtitle>
         <HeroStats>
           <StatBox>
-            <StatNumber>20 min</StatNumber>
-            <StatLabel>Free Call</StatLabel>
+            <StatNumber>{t('consultation.hero_stats.free_call_time', { defaultValue: '20 min' })}</StatNumber>
+            <StatLabel>{t('consultation.hero_stats.free_call', { defaultValue: 'Free Call' })}</StatLabel>
           </StatBox>
           <StatBox>
-            <StatNumber>23+ Years</StatNumber>
-            <StatLabel>Experience</StatLabel>
+            <StatNumber>{t('consultation.hero_stats.years_number', { defaultValue: '23+ Years' })}</StatNumber>
+            <StatLabel>{t('consultation.hero_stats.years_exp', { defaultValue: 'Experience' })}</StatLabel>
           </StatBox>
           <StatBox>
-            <StatNumber>100+</StatNumber>
-            <StatLabel>Clients Served</StatLabel>
+            <StatNumber>{t('consultation.hero_stats.clients_number', { defaultValue: '100+' })}</StatNumber>
+            <StatLabel>{t('consultation.hero_stats.clients', { defaultValue: 'Clients Served' })}</StatLabel>
           </StatBox>
         </HeroStats>
       </HeroSection>
@@ -602,9 +602,9 @@ export default function ConsultationPage() {
           {/* MAIN FORM */}
           <FormCard>
             <FormHeader>
-              <FormTitle>Tell Us About Your Business</FormTitle>
+              <FormTitle>{t('consultation.form_title', { defaultValue: 'Tell Us About Your Business' })}</FormTitle>
               <FormDescription>
-                Fill out the form below and we'll get back to you within 24 hours with a customized plan and pricing estimate.
+                {t('consultation.form_description', { defaultValue: 'Fill out the form below and we\'ll get back to you within 24 hours with a customized plan and pricing estimate.' })}
               </FormDescription>
             </FormHeader>
 
@@ -624,7 +624,7 @@ export default function ConsultationPage() {
 
               {/* Contact Information */}
               <FormSection>
-                <SectionTitle>📋 Contact Information</SectionTitle>
+                <SectionTitle>📋 {t('consultation.contact_info', { defaultValue: 'Contact Information' })}</SectionTitle>
                 <Grid>
                   <Field>
                     <Label htmlFor="fullName">Full Name <Required>*</Required></Label>
@@ -675,7 +675,7 @@ export default function ConsultationPage() {
 
               {/* Company Details */}
               <FormSection>
-                <SectionTitle>🏢 Company Details</SectionTitle>
+                <SectionTitle>🏢 {t('consultation.company_details', { defaultValue: 'Company Details' })}</SectionTitle>
                 <Grid>
                   <Field>
                     <Label htmlFor="companySize">Company Size</Label>
@@ -730,7 +730,7 @@ export default function ConsultationPage() {
 
               {/* Services Needed */}
               <FormSection>
-                <SectionTitle>🎯 What Services Do You Need?</SectionTitle>
+                <SectionTitle>🎯 {t('consultation.services_needed', { defaultValue: 'What Services Do You Need?' })}</SectionTitle>
                 <CheckboxGroup>
                   {serviceOptions.map((s) => (
                     <CheckboxLabel key={s}>
@@ -747,7 +747,7 @@ export default function ConsultationPage() {
 
               {/* Current Systems */}
               <FormSection>
-                <SectionTitle>💻 Current Accounting Software</SectionTitle>
+                <SectionTitle>💻 {t('consultation.current_systems', { defaultValue: 'Current Accounting Software' })}</SectionTitle>
                 <CheckboxGroup>
                   {systemOptions.map((s) => (
                     <CheckboxLabel key={s}>
@@ -764,7 +764,7 @@ export default function ConsultationPage() {
 
               {/* Budget */}
               <FormSection>
-                <SectionTitle>💰 Budget & Goals</SectionTitle>
+                <SectionTitle>💰 {t('consultation.budget_goals', { defaultValue: 'Budget & Goals' })}</SectionTitle>
                 <Grid>
                   <Field>
                     <Label htmlFor="budget">Monthly Budget</Label>
@@ -855,9 +855,9 @@ export default function ConsultationPage() {
             <CalendlyCard>
               <CalendlyHeader>
                 <CalendlyIcon>📅</CalendlyIcon>
-                <CalendlyTitle>Or Schedule Directly</CalendlyTitle>
+                <CalendlyTitle>{t('consultation.calendly_title', { defaultValue: 'Or Schedule Directly' })}</CalendlyTitle>
                 <CalendlyDescription>
-                  Pick a time that works for you and book a 20-minute consultation call instantly.
+                  {t('consultation.calendly_description', { defaultValue: 'Pick a time that works for you and book a 20-minute consultation call instantly.' })}
                 </CalendlyDescription>
               </CalendlyHeader>
 
@@ -910,29 +910,29 @@ export default function ConsultationPage() {
 
         {/* BENEFITS SECTION */}
         <BenefitsSection>
-          <BenefitsTitle>What Happens Next?</BenefitsTitle>
+          <BenefitsTitle>{t('consultation.what_happens_next', { defaultValue: 'What Happens Next?' })}</BenefitsTitle>
           <BenefitsGrid>
             <BenefitCard>
               <BenefitIcon>📞</BenefitIcon>
-              <BenefitTitle>1. Discovery Call</BenefitTitle>
+              <BenefitTitle>{t('consultation.step1_title', { defaultValue: '1. Discovery Call' })}</BenefitTitle>
               <BenefitDescription>
-                We'll discuss your current situation, challenges, and goals in a 20-minute conversation.
+                {t('consultation.step1_desc', { defaultValue: 'We\'ll discuss your current situation, challenges, and goals in a 20-minute conversation.' })}
               </BenefitDescription>
             </BenefitCard>
 
             <BenefitCard>
               <BenefitIcon>📊</BenefitIcon>
-              <BenefitTitle>2. Custom Proposal</BenefitTitle>
+              <BenefitTitle>{t('consultation.step2_title', { defaultValue: '2. Custom Proposal' })}</BenefitTitle>
               <BenefitDescription>
-                Receive a tailored plan with scope, timeline, and transparent pricing within 48 hours.
+                {t('consultation.step2_desc', { defaultValue: 'Receive a tailored plan with scope, timeline, and transparent pricing within 48 hours.' })}
               </BenefitDescription>
             </BenefitCard>
 
             <BenefitCard>
               <BenefitIcon>🚀</BenefitIcon>
-              <BenefitTitle>3. Get Started</BenefitTitle>
+              <BenefitTitle>{t('consultation.step3_title', { defaultValue: '3. Get Started' })}</BenefitTitle>
               <BenefitDescription>
-                If it's a good fit, we'll onboard you and start improving your financials immediately.
+                {t('consultation.step3_desc', { defaultValue: 'If it\'s a good fit, we\'ll onboard you and start improving your financials immediately.' })}
               </BenefitDescription>
             </BenefitCard>
           </BenefitsGrid>
