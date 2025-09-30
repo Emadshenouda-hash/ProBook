@@ -175,5 +175,15 @@
   "portal": {
     "title": "Client Portal",
     "intro": "Sign in to access your personalized dashboard, financial reports, and project updates."
+  },
+  "common": {
+    "or": "or",
+    "and": "and",
+    "close": "Close",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "settings": "Settings",
+    "theme": "Theme",
+    "menu": "Menu"
   }
 }
