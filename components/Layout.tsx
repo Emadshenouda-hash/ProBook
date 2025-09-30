@@ -49,6 +49,10 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
   html { 
     overflow-x: hidden;
     width: 100%;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
