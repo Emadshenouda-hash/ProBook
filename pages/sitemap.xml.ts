@@ -1,4 +1,5 @@
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import studies from '../public/case-studies.json';
 
 const getBaseUrl = (headers: Record<string, string | string[] | undefined>) => {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
@@ -14,7 +15,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const defLocale: string = defaultLocale || 'en';
 
   // Include core marketing pages and conversion endpoints. Exclude 404. Thank-you is fine to include if linked.
-  const routes = ['/', '/about', '/services', '/resources', '/contact', '/portal', '/consultation', '/thank-you', '/privacy'];
+  const baseRoutes = ['/', '/about', '/services', '/resources', '/contact', '/portal', '/consultation', '/thank-you', '/privacy'];
+  const list: Array<{ slug: string }> = (studies as any).list || [];
+  const csRoutes = list.map((s) => `/case-studies/${s.slug}`);
+  const routes = [...baseRoutes, '/case-studies', ...csRoutes];
   const lastmod = new Date().toISOString();
 
   const urlSet = routes

@@ -7,6 +7,8 @@ import dynamic from 'next/dynamic';
 const LogosBar = dynamic(() => import('../components/LogosBar'), { ssr: true });
 import SEO from '../components/SEO';
 import Button from '../components/Button';
+import dynamic from 'next/dynamic';
+const TrustBadges = dynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
  * They avoid adding extra dependencies while still conveying meaning.
@@ -375,6 +377,7 @@ export default function HomePage() {
           ))}
         </ProcessGrid>
       </ProcessSection>
+      <TrustBadges />
       <TestimonialsSection>
         <TestimonialsTitle>{t('home.testimonials.title')}</TestimonialsTitle>
         <TestimonialsGrid>
@@ -400,6 +403,15 @@ export default function HomePage() {
         <div style={{ textAlign: 'center', marginTop: '1rem' }}>
           <Link href="/services" passHref legacyBehavior>
             <ServiceLink>{t('home.services_link')}</ServiceLink>
+          </Link>
+        </div>
+      </Section>
+      <Section>
+        <SectionTitle>Case Studies</SectionTitle>
+        <SectionText>See how we improved close times, reporting accuracy, and decision‑making.</SectionText>
+        <div style={{ textAlign: 'center' }}>
+          <Link href="/case-studies" passHref legacyBehavior>
+            <ServiceLink>View Case Studies</ServiceLink>
           </Link>
         </div>
       </Section>

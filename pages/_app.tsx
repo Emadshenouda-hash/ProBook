@@ -9,6 +9,13 @@ import { lightTheme, darkTheme } from '../theme';
 import ThemeToggleContext from '../context/ThemeToggleContext';
 import React, { useState, useEffect } from 'react';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
+import { Inter } from 'next/font/google';
+import { Cairo } from 'next/font/google';
+import { Merriweather } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo' });
+const merriweather = Merriweather({ subsets: ['latin'], weight: ['400','700'], variable: '--font-merri' });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -65,9 +72,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={activeTheme}>
           {/* Include analytics scripts if configured */}
           <Analytics />
+          <div className={`${inter.variable} ${cairo.variable} ${merriweather.variable}`}>
           <Layout>
             <Component {...pageProps} />
           </Layout>
+          </div>
           <VercelAnalytics />
         </ThemeProvider>
       </ThemeToggleContext.Provider>

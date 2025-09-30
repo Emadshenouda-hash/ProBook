@@ -1,0 +1,34 @@
+{
+  "list": [
+    {
+      "slug": "ecommerce-close-acceleration",
+      "title": "eCommerce close accelerated from 10 days to 3",
+      "industry": "eCommerce",
+      "summary": "Consolidated multi-channel sales, automated reconciliations, and standardized reporting to reduce month-end close time.
+      ",
+      "problem": "Client struggled with disjointed sales channels, slow reconciliations, and delayed management reporting.",
+      "approach": "Mapped data flows, cleaned historical transactions, standardized chart of accounts, integrated sales channels with accounting software, and implemented monthly close checklist.",
+      "results": [
+        "Close time reduced from 10 days to 3",
+        "Discrepancy rate cut by 80%",
+        "Monthly KPI dashboard delivered on day 4"
+      ],
+      "stack": ["QuickBooks Online", "Shopify", "Amazon", "CSV automations"]
+    },
+    {
+      "slug": "saas-cfo-dashboards",
+      "title": "SaaS FP&A dashboards for board reporting",
+      "industry": "SaaS",
+      "summary": "Delivered ARR/MRR, churn, CAC/LTV dashboards and cash runway forecasting for a Seed-stage company.",
+      "problem": "Board lacked timely and consistent metrics; finance model was ad-hoc and fragile.",
+      "approach": "Built a single-source-of-truth model, standardized revenue recognition, and automated weekly data refresh.",
+      "results": [
+        "Board reporting time reduced by 70%",
+        "Forecast accuracy improved within ±5%",
+        "Runway visibility extended to 12 months"
+      ],
+      "stack": ["Xero", "Stripe", "Google Sheets", "Looker Studio"]
+    }
+  ]
+}
+

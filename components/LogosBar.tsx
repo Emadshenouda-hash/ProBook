@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import type { DefaultTheme } from 'styled-components';
+import Image from 'next/image';
 
 const Wrap = styled('section')`
   padding: 1.25rem 0;
@@ -44,14 +45,22 @@ const Item = styled('li')`
 
 export default function LogosBar() {
   const { t } = useTranslation();
-  const logos = t('home.logos', { returnObjects: true }) as string[];
+  // Map to SVGs in /public/logos (placeholder names)
+  const logos: Array<{ src: string; alt: string }> = [
+    { src: '/logos/quickbooks.svg', alt: 'QuickBooks' },
+    { src: '/logos/xero.svg', alt: 'Xero' },
+    { src: '/logos/zoho-books.svg', alt: 'Zoho Books' },
+    { src: '/logos/netsuite.svg', alt: 'NetSuite' }
+  ];
   return (
     <Wrap aria-label={t('home.logos_title')}>
       <Container>
         <Title>{t('home.logos_title')}</Title>
         <List>
-          {logos.map((name, idx) => (
-            <Item key={idx} aria-label={name}>{name}</Item>
+          {logos.map((logo, idx) => (
+            <Item key={idx} aria-label={logo.alt}>
+              <Image src={logo.src} alt={logo.alt} width={120} height={32} />
+            </Item>
           ))}
         </List>
       </Container>

@@ -68,7 +68,7 @@ export default function ResourcesPage() {
                 <ArticleTitle>{article.title}</ArticleTitle>
                 <ArticleSnippet>{article.snippet}</ArticleSnippet>
                 <div>
-                  <Link href="/consultation">{t('cta.book_consultation')}</Link>
+                  <Link href="/case-studies">View Case Studies</Link> · <Link href="/consultation">{t('cta.book_consultation')}</Link>
                 </div>
               </ArticleCard>
             </ItemUp>

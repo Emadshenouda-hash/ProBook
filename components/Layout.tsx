@@ -87,9 +87,9 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     text-align: start;
   }
 
-  h1 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h1}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
-  h2 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h2}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
-  h3 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h3}; margin: 0 0 0.5rem; font-family: ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}; }
+  h1 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h1}; margin: 0 0 0.5rem; font-family: var(--font-merri, ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}); }
+  h2 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h2}; margin: 0 0 0.5rem; font-family: var(--font-merri, ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}); }
+  h3 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h3}; margin: 0 0 0.5rem; font-family: var(--font-merri, ${({ theme }: { theme: DefaultTheme }) => theme.typography.fontFamilySerifHeading}); }
   h4 { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.h4}; margin: 0 0 0.5rem; }
   p { font-size: ${({ theme }: { theme: DefaultTheme }) => theme.typography.scale.body}; }
 `;
