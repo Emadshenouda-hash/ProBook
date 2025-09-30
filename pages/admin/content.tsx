@@ -467,7 +467,7 @@ export default function ContentEditor() {
                     <Input
                       id="home-title-ar"
                       value={content.homepage.ar.title}
-                      onChange={(e) => updateBilingualContent('homepage', 'title', 'ar', e.target.value)}
+                      onChange={handleInputChange('homepage', 'title', 'ar')}
                       placeholder="خدمات محاسبة خبراء..."
                       dir="rtl"
                     />
@@ -487,7 +487,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="home-subtitle-en"
                       value={content.homepage.en.subtitle}
-                      onChange={(e) => updateBilingualContent('homepage', 'subtitle', 'en', e.target.value)}
+                      onChange={handleTextAreaChange('homepage', 'subtitle', 'en')}
                       dir="ltr"
                     />
                     <CharCount>{content.homepage.en.subtitle.length} characters</CharCount>
@@ -500,7 +500,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="home-subtitle-ar"
                       value={content.homepage.ar.subtitle}
-                      onChange={(e) => updateBilingualContent('homepage', 'subtitle', 'ar', e.target.value)}
+                      onChange={handleTextAreaChange('homepage', 'subtitle', 'ar')}
                       dir="rtl"
                     />
                     <CharCount dir="rtl">{content.homepage.ar.subtitle.length} حرف</CharCount>
@@ -519,7 +519,7 @@ export default function ContentEditor() {
                     <Input
                       id="home-social-en"
                       value={content.homepage.en.socialProof}
-                      onChange={(e) => updateBilingualContent('homepage', 'socialProof', 'en', e.target.value)}
+                      onChange={handleInputChange('homepage', 'socialProof', 'en')}
                       dir="ltr"
                     />
                   </LanguageColumn>
@@ -531,7 +531,7 @@ export default function ContentEditor() {
                     <Input
                       id="home-social-ar"
                       value={content.homepage.ar.socialProof}
-                      onChange={(e) => updateBilingualContent('homepage', 'socialProof', 'ar', e.target.value)}
+                      onChange={handleInputChange('homepage', 'socialProof', 'ar')}
                       dir="rtl"
                     />
                   </LanguageColumn>
@@ -558,7 +558,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="about-intro-en"
                       value={content.about.en.intro}
-                      onChange={(e) => updateBilingualContent('about', 'intro', 'en', e.target.value)}
+                      onChange={handleTextAreaChange('about', 'intro', 'en')}
                       style={{ minHeight: '150px' }}
                       dir="ltr"
                     />
@@ -572,7 +572,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="about-intro-ar"
                       value={content.about.ar.intro}
-                      onChange={(e) => updateBilingualContent('about', 'intro', 'ar', e.target.value)}
+                      onChange={handleTextAreaChange('about', 'intro', 'ar')}
                       style={{ minHeight: '150px' }}
                       dir="rtl"
                     />
@@ -592,7 +592,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="about-mission-en"
                       value={content.about.en.mission}
-                      onChange={(e) => updateBilingualContent('about', 'mission', 'en', e.target.value)}
+                      onChange={handleTextAreaChange('about', 'mission', 'en')}
                       style={{ minHeight: '120px' }}
                       dir="ltr"
                     />
@@ -606,7 +606,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="about-mission-ar"
                       value={content.about.ar.mission}
-                      onChange={(e) => updateBilingualContent('about', 'mission', 'ar', e.target.value)}
+                      onChange={handleTextAreaChange('about', 'mission', 'ar')}
                       style={{ minHeight: '120px' }}
                       dir="rtl"
                     />
@@ -635,7 +635,7 @@ export default function ContentEditor() {
                     <Input
                       id="consultation-title-en"
                       value={content.consultation.en.heroTitle}
-                      onChange={(e) => updateBilingualContent('consultation', 'heroTitle', 'en', e.target.value)}
+                      onChange={handleInputChange('consultation', 'heroTitle', 'en')}
                       dir="ltr"
                     />
                   </LanguageColumn>
@@ -647,7 +647,7 @@ export default function ContentEditor() {
                     <Input
                       id="consultation-title-ar"
                       value={content.consultation.ar.heroTitle}
-                      onChange={(e) => updateBilingualContent('consultation', 'heroTitle', 'ar', e.target.value)}
+                      onChange={handleInputChange('consultation', 'heroTitle', 'ar')}
                       dir="rtl"
                     />
                   </LanguageColumn>
@@ -665,7 +665,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="consultation-subtitle-en"
                       value={content.consultation.en.heroSubtitle}
-                      onChange={(e) => updateBilingualContent('consultation', 'heroSubtitle', 'en', e.target.value)}
+                      onChange={handleTextAreaChange('consultation', 'heroSubtitle', 'en')}
                       dir="ltr"
                     />
                     <CharCount>{content.consultation.en.heroSubtitle.length} characters</CharCount>
@@ -678,7 +678,7 @@ export default function ContentEditor() {
                     <TextArea
                       id="consultation-subtitle-ar"
                       value={content.consultation.ar.heroSubtitle}
-                      onChange={(e) => updateBilingualContent('consultation', 'heroSubtitle', 'ar', e.target.value)}
+                      onChange={handleTextAreaChange('consultation', 'heroSubtitle', 'ar')}
                       dir="rtl"
                     />
                     <CharCount dir="rtl">{content.consultation.ar.heroSubtitle.length} حرف</CharCount>
