@@ -627,7 +627,7 @@ export default function ConsultationPage() {
                 <SectionTitle>📋 {t('consultation.contact_info', { defaultValue: 'Contact Information' })}</SectionTitle>
                 <Grid>
                   <Field>
-                    <Label htmlFor="fullName">Full Name <Required>*</Required></Label>
+                    <Label htmlFor="fullName">{t('consultation.full_name_label', { defaultValue: 'Full Name' })} <Required>*</Required></Label>
                     <Input 
                       id="fullName" 
                       name="fullName"
@@ -638,7 +638,7 @@ export default function ConsultationPage() {
                     />
                   </Field>
                   <Field>
-                    <Label htmlFor="email">Email Address <Required>*</Required></Label>
+                    <Label htmlFor="email">{t('consultation.email_label', { defaultValue: 'Email Address' })} <Required>*</Required></Label>
                     <Input 
                       type="email" 
                       id="email" 
@@ -650,7 +650,7 @@ export default function ConsultationPage() {
                     />
                   </Field>
                   <Field>
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">{t('consultation.phone_label', { defaultValue: 'Phone Number' })}</Label>
                     <Input 
                       id="phone" 
                       name="phone"
@@ -660,7 +660,7 @@ export default function ConsultationPage() {
                     />
                   </Field>
                   <Field>
-                    <Label htmlFor="company">Company Name <Required>*</Required></Label>
+                    <Label htmlFor="company">{t('consultation.company_label', { defaultValue: 'Company Name' })} <Required>*</Required></Label>
                     <Input 
                       id="company" 
                       name="company"
@@ -678,7 +678,7 @@ export default function ConsultationPage() {
                 <SectionTitle>🏢 {t('consultation.company_details', { defaultValue: 'Company Details' })}</SectionTitle>
                 <Grid>
                   <Field>
-                    <Label htmlFor="companySize">Company Size</Label>
+                    <Label htmlFor="companySize">{t('consultation.company_size_label', { defaultValue: 'Company Size' })}</Label>
                     <Select 
                       id="companySize" 
                       name="companySize"
@@ -690,7 +690,7 @@ export default function ConsultationPage() {
                     </Select>
                   </Field>
                   <Field>
-                    <Label htmlFor="industry">Industry</Label>
+                    <Label htmlFor="industry">{t('consultation.industry_label', { defaultValue: 'Industry' })}</Label>
                     <Select 
                       id="industry" 
                       name="industry"
@@ -702,7 +702,7 @@ export default function ConsultationPage() {
                     </Select>
                   </Field>
                   <Field>
-                    <Label htmlFor="country">Country</Label>
+                    <Label htmlFor="country">{t('consultation.country_label', { defaultValue: 'Country' })}</Label>
                     <Select 
                       id="country" 
                       name="country"
@@ -714,7 +714,7 @@ export default function ConsultationPage() {
                     </Select>
                   </Field>
                   <Field>
-                    <Label htmlFor="urgency">When do you need to start?</Label>
+                    <Label htmlFor="urgency">{t('consultation.urgency_label', { defaultValue: 'When do you need to start?' })}</Label>
                     <Select 
                       id="urgency" 
                       name="urgency"
@@ -767,7 +767,7 @@ export default function ConsultationPage() {
                 <SectionTitle>💰 {t('consultation.budget_goals', { defaultValue: 'Budget & Goals' })}</SectionTitle>
                 <Grid>
                   <Field>
-                    <Label htmlFor="budget">Monthly Budget</Label>
+                    <Label htmlFor="budget">{t('consultation.budget_label', { defaultValue: 'Monthly Budget' })}</Label>
                     <Select 
                       id="budget" 
                       name="budget"
@@ -777,7 +777,7 @@ export default function ConsultationPage() {
                       <option value="">Select budget...</option>
                       {budgetOptions.map((o) => <option key={o} value={o}>{o}</option>)}
                     </Select>
-                    <Hint>Helps us recommend the right plan</Hint>
+                    <Hint>{t('consultation.budget_hint', { defaultValue: 'Helps us recommend the right plan' })}</Hint>
                   </Field>
                 </Grid>
               </FormSection>
@@ -785,13 +785,13 @@ export default function ConsultationPage() {
               {/* Goals */}
               <FormSection>
                 <Field fullWidth>
-                  <Label htmlFor="goals">What are your top 3 goals for the next 6-12 months?</Label>
+                  <Label htmlFor="goals">{t('consultation.goals_label', { defaultValue: 'What are your top 3 goals for the next 6-12 months?' })}</Label>
                   <TextArea 
                     id="goals" 
                     name="goals"
                     value={form.goals} 
                     onChange={handleTextAreaChange} 
-                    placeholder="e.g., Clean up historical books, set up monthly reporting, prepare for fundraising, reduce month-end close time..."
+                    placeholder={t('consultation.goals_placeholder', { defaultValue: 'e.g., Clean up historical books, set up monthly reporting, prepare for fundraising, reduce month-end close time...' })}
                   />
                 </Field>
               </FormSection>
@@ -799,13 +799,13 @@ export default function ConsultationPage() {
               {/* Additional Notes */}
               <FormSection>
                 <Field fullWidth>
-                  <Label htmlFor="notes">Anything else we should know?</Label>
+                  <Label htmlFor="notes">{t('consultation.notes_label', { defaultValue: 'Anything else we should know?' })}</Label>
                   <TextArea 
                     id="notes" 
                     name="notes"
                     value={form.notes} 
                     onChange={handleTextAreaChange} 
-                    placeholder="Current challenges, specific questions, or any other details..."
+                    placeholder={t('consultation.notes_placeholder', { defaultValue: 'Current challenges, specific questions, or any other details...' })}
                   />
                 </Field>
               </FormSection>
@@ -813,7 +813,7 @@ export default function ConsultationPage() {
               {/* File Upload */}
               <FormSection>
                 <Field fullWidth>
-                  <Label htmlFor="attachment">📎 Attach a File (Optional)</Label>
+                  <Label htmlFor="attachment">📎 {t('consultation.attach_file', { defaultValue: 'Attach a File (Optional)' })}</Label>
                   <Input 
                     id="attachment" 
                     type="file" 
@@ -835,13 +835,13 @@ export default function ConsultationPage() {
                       }
                     }} 
                   />
-                  {form.attachmentUrl && <Hint>✓ File uploaded successfully</Hint>}
-                  <Hint>P&L, balance sheet, or any relevant documents</Hint>
+                  {form.attachmentUrl && <Hint>{t('consultation.file_uploaded', { defaultValue: '✓ File uploaded successfully' })}</Hint>}
+                  <Hint>{t('consultation.file_hint', { defaultValue: 'P&L, balance sheet, or any relevant documents' })}</Hint>
                 </Field>
               </FormSection>
 
               <SubmitButton type="submit" disabled={submitting} aria-busy={submitting}>
-                {submitting ? '🔄 Submitting...' : '🚀 Request Free Consultation'}
+                {submitting ? t('consultation.submitting', { defaultValue: '🔄 Submitting...' }) : t('consultation.submit_button', { defaultValue: '🚀 Request Free Consultation' })}
               </SubmitButton>
 
               <PrivacyNote>
