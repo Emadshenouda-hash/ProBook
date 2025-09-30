@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
+import Link from 'next/link';
 
 const FooterContainer = styled('footer')`
   text-align: center;
@@ -12,7 +13,9 @@ export default function Footer() {
   const { t } = useTranslation();
   return (
     <FooterContainer>
-      <small>{t('footer.copyright')}</small>
+      <small>
+        {t('footer.copyright')} · <Link href="/privacy">Privacy</Link>
+      </small>
     </FooterContainer>
   );
 }

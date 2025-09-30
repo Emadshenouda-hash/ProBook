@@ -3,6 +3,7 @@ import Head from 'next/head';
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 const Section = styled.section`
@@ -156,7 +157,12 @@ export default function ConsultationPage() {
     goals: '',
     notes: '',
     attachmentUrl: '',
-    website: '' // honeypot
+    website: '', // honeypot
+    utm_source: '',
+    utm_medium: '',
+    utm_campaign: '',
+    utm_term: '',
+    utm_content: ''
   });
 
   const serviceOptions = [
@@ -192,6 +198,21 @@ export default function ConsultationPage() {
   ];
 
   const updateField = (name: string, value: any) => setForm((p) => ({ ...p, [name]: value }));
+
+  // On mount, hydrate UTM values from sessionStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const pick = (k: string) => sessionStorage.getItem(k) || '';
+      setForm((p) => ({
+        ...p,
+        utm_source: pick('utm_source'),
+        utm_medium: pick('utm_medium'),
+        utm_campaign: pick('utm_campaign'),
+        utm_term: pick('utm_term'),
+        utm_content: pick('utm_content')
+      }));
+    }
+  }, []);
 
   const toggleMulti = (name: 'services' | 'systems', value: string) => {
     setForm((p) => {
@@ -259,6 +280,12 @@ export default function ConsultationPage() {
         <Card>
           <SectionHeading>Tell us about your business</SectionHeading>
           <form onSubmit={onSubmit} noValidate>
+          {/* UTM capture fields */}
+          <input type="hidden" name="utm_source" value={form.utm_source} />
+          <input type="hidden" name="utm_medium" value={form.utm_medium} />
+          <input type="hidden" name="utm_campaign" value={form.utm_campaign} />
+          <input type="hidden" name="utm_term" value={form.utm_term} />
+          <input type="hidden" name="utm_content" value={form.utm_content} />
           <Field>
             <Label htmlFor="attachment">Attach a file (optional)</Label>
             <Input id="attachment" type="file" onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -380,6 +407,9 @@ export default function ConsultationPage() {
               {submitting ? 'Submitting…' : 'Request Consultation'}
             </Button>
           </Actions>
+          <Hint>
+            {t('consent.privacy_notice')} <Link href="/privacy">{t('consent.privacy_policy')}</Link>.
+          </Hint>
         </form>
       </Card>
       </LayoutWrap>

@@ -269,8 +269,8 @@ export default function Navbar() {
           <span aria-hidden="true">{menuOpen ? '×' : '☰'}</span>
         </HamburgerButton>
         <Link href="/consultation" passHref legacyBehavior>
-          <CTAButton aria-label="Book a consultation">
-            Book consultation
+          <CTAButton aria-label={t('cta.book_consultation')}>
+            {t('cta.book_consultation')}
           </CTAButton>
         </Link>
         <ThemeToggle />

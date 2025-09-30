@@ -141,7 +141,7 @@ export default function ServicesPage() {
       </StaggerChildren>
       <CTAWrapper>
         <Link href="/consultation" passHref legacyBehavior>
-          <CTAButton>{t('services.cta')}</CTAButton>
+          <CTAButton>{t('cta.book_consultation')}</CTAButton>
         </Link>
       </CTAWrapper>
 

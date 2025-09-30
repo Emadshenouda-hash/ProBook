@@ -340,7 +340,7 @@ export default function HomePage() {
           <FadeIn>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link href="/consultation" passHref legacyBehavior>
-                <HeroButton>Book consultation</HeroButton>
+                <HeroButton>{t('cta.book_consultation')}</HeroButton>
               </Link>
               <Link href="/services" passHref legacyBehavior>
                 <HeroButton variant="ghost">{t('home.cta_secondary')}</HeroButton>

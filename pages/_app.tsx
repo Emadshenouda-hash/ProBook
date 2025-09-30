@@ -44,6 +44,18 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [mode]);
 
+  // Capture UTM params and store for forms
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      const utms = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'] as const;
+      utms.forEach((key) => {
+        const val = url.searchParams.get(key);
+        if (val) sessionStorage.setItem(key, val);
+      });
+    }
+  }, []);
+
   const toggleTheme = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
   const activeTheme = mode === 'dark' ? darkTheme : lightTheme;
 

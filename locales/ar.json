@@ -86,6 +86,13 @@
       ]
     }
   },
+  "cta": {
+    "book_consultation": "احجز استشارة"
+  },
+  "consent": {
+    "privacy_notice": "بإرسال هذا النموذج، فإنك توافق على",
+    "privacy_policy": "سياسة الخصوصية"
+  },
   "about": {
     "title": "عن بروبوك سوليوشنز",
     "section_title": "قصتنا",

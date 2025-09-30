@@ -18,6 +18,11 @@ interface ConsultationPayload {
   goals?: string;
   notes?: string;
   website?: string; // honeypot
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -56,7 +61,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         urgency: body.urgency,
         goals: body.goals,
         notes: body.notes,
-        attachment_url: (body as any).attachmentUrl || null
+        attachment_url: (body as any).attachmentUrl || null,
+        utm_source: body.utm_source || null,
+        utm_medium: body.utm_medium || null,
+        utm_campaign: body.utm_campaign || null,
+        utm_term: body.utm_term || null,
+        utm_content: body.utm_content || null
       });
     }
     await createCrmContactAndDeal({
@@ -87,6 +97,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       <p><strong>Goals:</strong> ${body.goals || ''}</p>
       <p><strong>Notes:</strong> ${body.notes || ''}</p>
       <p><strong>Attachment:</strong> ${(body as any).attachmentUrl || ''}</p>
+      <p><strong>UTM Source:</strong> ${body.utm_source || ''}</p>
+      <p><strong>UTM Medium:</strong> ${body.utm_medium || ''}</p>
+      <p><strong>UTM Campaign:</strong> ${body.utm_campaign || ''}</p>
+      <p><strong>UTM Term:</strong> ${body.utm_term || ''}</p>
+      <p><strong>UTM Content:</strong> ${body.utm_content || ''}</p>
     `);
     // Send a thank-you email to the submitter
     if (body.email) {
