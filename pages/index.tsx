@@ -499,7 +499,7 @@ export default function HomePage() {
       <Hero>
         <HeroBg aria-hidden="true">
           <Image 
-            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=2400&q=80" 
+            src="/hero-photo.jpg" 
             alt="" 
             fill 
             priority 
