@@ -30,9 +30,28 @@ const DATA: Record<string, Props> = {
 };
 
 export default function IndustryPage({ slug, name, painPoints, solutions }: Props) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `${name} – Industry Solutions`,
+      url: `${baseUrl}/industries/${slug}`,
+      about: name
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `${name} Pain Points and Solutions`,
+      itemListElement: [
+        ...painPoints.map((p, idx) => ({ '@type': 'ListItem', position: idx + 1, name: p })),
+        ...solutions.map((s, idx) => ({ '@type': 'ListItem', position: painPoints.length + idx + 1, name: s }))
+      ]
+    }
+  ];
   return (
     <Section>
-      <SEO title={`${name} – Industry Solutions`} description={`Tailored finance and accounting for ${name}.`} canonicalPath={`/industries/${slug}`} />
+      <SEO title={`${name} – Industry Solutions`} description={`Tailored finance and accounting for ${name}.`} canonicalPath={`/industries/${slug}`} jsonLd={jsonLd} />
       <h1>{name}</h1>
       <h2>Pain Points</h2>
       <ul>{painPoints.map((p) => (<li key={p}>{p}</li>))}</ul>

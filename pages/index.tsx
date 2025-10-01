@@ -24,7 +24,7 @@ const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr
 const Hero = styled.section`
   position: relative;
   color: #ffffff;
-  min-height: 85vh;
+  min-height: 80vh;
   padding: 8rem 2rem 6rem;
   display: flex;
   flex-direction: column;
@@ -34,13 +34,13 @@ const Hero = styled.section`
   overflow: hidden;
   
   @media (max-width: 968px) {
-    min-height: 75vh;
+    min-height: 70vh;
     padding: 6rem 1.5rem 4rem;
   }
   
   @media (max-width: 640px) {
-    min-height: 70vh;
-    padding: 5rem 1rem 3rem;
+    min-height: 65vh;
+    padding: 4.5rem 1rem 3rem;
   }
 `;
 

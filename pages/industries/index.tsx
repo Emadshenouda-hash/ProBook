@@ -22,9 +22,19 @@ export default function IndustriesIndex() {
     { slug: 'ecommerce', name: 'eCommerce' },
     { slug: 'professional-services', name: 'Professional Services' }
   ];
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Industries',
+      url: `${baseUrl}/industries`,
+      hasPart: items.map((it) => ({ '@type': 'WebPage', name: it.name, url: `${baseUrl}/industries/${it.slug}` }))
+    }
+  ];
   return (
     <Section>
-      <SEO title="Industries" description="Solutions tailored for SaaS, eCommerce, and Professional Services." canonicalPath="/industries" />
+      <SEO title="Industries" description="Solutions tailored for SaaS, eCommerce, and Professional Services." canonicalPath="/industries" jsonLd={jsonLd} />
       <Title>Industries</Title>
       <List>
         {items.map((it) => (
