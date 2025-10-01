@@ -1,6 +1,7 @@
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import type { DefaultTheme } from 'styled-components';
 
 const Section = styled.section`
@@ -160,6 +161,8 @@ const CTAButton = styled(Link)`
 `;
 
 export default function IntegrationsPage() {
+  const { t } = useTranslation();
+  
   return (
     <Section>
       <SEO
@@ -168,13 +171,13 @@ export default function IntegrationsPage() {
         canonicalPath="/integrations"
       />
 
-      <Title>Technology & Integrations</Title>
+      <Title>{t('integrations.title', { defaultValue: 'Technology & Integrations' })}</Title>
       <Subtitle>
-        We work with the tools you already use. Our expertise spans leading accounting platforms, e-commerce systems, payment processors, and business management software.
+        {t('integrations.subtitle', { defaultValue: 'We work with the tools you already use. Our expertise spans leading accounting platforms, e-commerce systems, payment processors, and business management software.' })}
       </Subtitle>
 
       <CategorySection>
-        <CategoryTitle>Accounting & ERP Software</CategoryTitle>
+        <CategoryTitle>{t('integrations.accounting_erp', { defaultValue: 'Accounting & ERP Software' })}</CategoryTitle>
         <Grid>
           <IntegrationCard>
             <LogoPlaceholder>📊</LogoPlaceholder>
@@ -231,7 +234,7 @@ export default function IntegrationsPage() {
       </CategorySection>
 
       <CategorySection>
-        <CategoryTitle>E-commerce Platforms</CategoryTitle>
+        <CategoryTitle>{t('integrations.ecommerce', { defaultValue: 'E-commerce Platforms' })}</CategoryTitle>
         <Grid>
           <IntegrationCard>
             <LogoPlaceholder>🛒</LogoPlaceholder>
@@ -284,7 +287,7 @@ export default function IntegrationsPage() {
       </CategorySection>
 
       <CategorySection>
-        <CategoryTitle>Payment Processors</CategoryTitle>
+        <CategoryTitle>{t('integrations.payments', { defaultValue: 'Payment Processors' })}</CategoryTitle>
         <Grid>
           <IntegrationCard>
             <LogoPlaceholder>💳</LogoPlaceholder>
@@ -321,7 +324,7 @@ export default function IntegrationsPage() {
       </CategorySection>
 
       <CategorySection>
-        <CategoryTitle>Inventory & Operations</CategoryTitle>
+        <CategoryTitle>{t('integrations.inventory', { defaultValue: 'Inventory & Operations' })}</CategoryTitle>
         <Grid>
           <IntegrationCard>
             <LogoPlaceholder>📋</LogoPlaceholder>
@@ -358,7 +361,7 @@ export default function IntegrationsPage() {
       </CategorySection>
 
       <CategorySection>
-        <CategoryTitle>Accounts Payable & Expense Management</CategoryTitle>
+        <CategoryTitle>{t('integrations.ap_expense', { defaultValue: 'Accounts Payable & Expense Management' })}</CategoryTitle>
         <Grid>
           <IntegrationCard>
             <LogoPlaceholder>💸</LogoPlaceholder>
@@ -395,7 +398,7 @@ export default function IntegrationsPage() {
       </CategorySection>
 
       <CategorySection>
-        <CategoryTitle>Collaboration & Productivity</CategoryTitle>
+        <CategoryTitle>{t('integrations.collaboration', { defaultValue: 'Collaboration & Productivity' })}</CategoryTitle>
         <Grid>
           <IntegrationCard>
             <LogoPlaceholder>📧</LogoPlaceholder>
@@ -448,7 +451,7 @@ export default function IntegrationsPage() {
       </CategorySection>
 
       <CapabilitiesSection>
-        <CapabilitiesTitle>What We Can Do With Your Tech Stack</CapabilitiesTitle>
+        <CapabilitiesTitle>{t('integrations.capabilities_title', { defaultValue: 'What We Can Do With Your Tech Stack' })}</CapabilitiesTitle>
         <CapabilitiesGrid>
           <CapabilityCard>
             <CapabilityIcon>🔗</CapabilityIcon>
@@ -501,12 +504,12 @@ export default function IntegrationsPage() {
       </CapabilitiesSection>
 
       <CTASection>
-        <h2 style={{ marginTop: 0 }}>Don't See Your Software?</h2>
+        <h2 style={{ marginTop: 0 }}>{t('integrations.dont_see_title', { defaultValue: 'Don\'t See Your Software?' })}</h2>
         <p style={{ fontSize: '1.1rem', maxWidth: '700px', margin: '0 auto' }}>
-          We're always expanding our integration capabilities. If you use a platform not listed here, let's discuss how we can work with your existing tools or recommend alternatives.
+          {t('integrations.dont_see_desc', { defaultValue: 'We\'re always expanding our integration capabilities. If you use a platform not listed here, let\'s discuss how we can work with your existing tools or recommend alternatives.' })}
         </p>
         <CTAButton href="/consultation">
-          Book a Free Consultation
+          {t('integrations.book_free_consultation', { defaultValue: 'Book a Free Consultation' })}
         </CTAButton>
       </CTASection>
     </Section>
