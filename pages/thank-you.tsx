@@ -263,8 +263,8 @@ export default function ThankYouPage() {
         <p style={{ margin: '0 0 1rem', fontWeight: 600 }}>{t('thank_you.need_sooner_title', { defaultValue: '⏱️ Need to talk sooner?' })}</p>
         <p style={{ margin: '0 0 1rem', fontSize: '0.95rem' }}>
           {t('thank_you.need_sooner_desc', { defaultValue: 'If your request is urgent, feel free to email us directly at' })}{' '}
-          <a href="mailto:contact@probooksolutions.com" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
-            contact@probooksolutions.com
+          <a href="mailto:info@probooksolutions.com" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+            info@probooksolutions.com
           </a>{' '}
           {t('thank_you.urgent_subject', { defaultValue: 'and mention "URGENT" in the subject line.' })}
         </p>

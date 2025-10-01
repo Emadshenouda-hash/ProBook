@@ -95,7 +95,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (/(urgent|asap|emergency|quick|fast)/.test(text)) {
-      return "I understand this is urgent! We can often provide same-day support for critical issues. For immediate assistance, please email contact@probooksolutions.com with 'URGENT' in the subject line, or book a consultation and mention it's urgent. What's the specific issue you need help with?";
+      return "I understand this is urgent! We can often provide same-day support for critical issues. For immediate assistance, please email info@probooksolutions.com with 'URGENT' in the subject line, or book a consultation and mention it's urgent. What's the specific issue you need help with?";
     }
 
     // Enhanced fallback with better qualification

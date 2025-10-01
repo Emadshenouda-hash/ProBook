@@ -889,7 +889,7 @@ export default function ConsultationPage() {
                 <CalendlyFallback>
                   <p style={{ margin: '0 0 1rem' }}>📧 Email us directly:</p>
                   <a 
-                    href="mailto:contact@probooksolutions.com?subject=Consultation Request" 
+                    href="mailto:info@probooksolutions.com?subject=Consultation Request" 
                     style={{ 
                       display: 'inline-block',
                       padding: '0.75rem 1.5rem',
@@ -900,7 +900,7 @@ export default function ConsultationPage() {
                       fontWeight: 600
                     }}
                   >
-                    contact@probooksolutions.com
+                    info@probooksolutions.com
                   </a>
                 </CalendlyFallback>
               )}

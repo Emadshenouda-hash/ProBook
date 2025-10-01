@@ -141,9 +141,9 @@ export default function Footer() {
             <SocialLink href="https://twitter.com/probooksolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
               🐦
             </SocialLink>
-            <SocialLink href="mailto:contact@probooksolutions.com" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
-              ✉️
-            </SocialLink>
+                <SocialLink href="mailto:info@probooksolutions.com" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
+                  ✉️
+                </SocialLink>
           </SocialLinks>
         </FooterColumn>
 
@@ -174,15 +174,10 @@ export default function Footer() {
           <FooterHeading>{t('footer.get_started_heading', { defaultValue: 'Get Started' })}</FooterHeading>
           <FooterLink href="/consultation">{t('cta.book_consultation', { defaultValue: 'Book Consultation' })}</FooterLink>
           <FooterLink href="/contact">{t('footer.contact_us', { defaultValue: 'Contact Us' })}</FooterLink>
-          <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
-            <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
-            contact@probooksolutions.com<br />
-            <strong>{t('footer.phone_label', { defaultValue: 'Phone' })}:</strong><br />
-            +1-555-123-4567<br />
-            <strong>{t('footer.address_label', { defaultValue: 'Address' })}:</strong><br />
-            123 Business Plaza<br />
-            New York, NY 10001
-          </FooterText>
+              <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
+                <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
+                info@probooksolutions.com
+              </FooterText>
           <TrustBadgesFooter>
             <Badge>🔐 {t('footer.secure', { defaultValue: 'Secure' })}</Badge>
             <Badge>✅ {t('footer.certified', { defaultValue: 'CPA Licensed' })}</Badge>
