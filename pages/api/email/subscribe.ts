@@ -46,12 +46,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 async function handleResendSubscription(req: NextApiRequest, res: NextApiResponse, subscriber: any) {
   try {
     // Add to Resend contacts
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+    if (!audienceId) {
+      throw new Error('RESEND_AUDIENCE_ID environment variable is not set');
+    }
+
     const { data, error } = await resend.contacts.create({
       email: subscriber.email,
       firstName: subscriber.firstName,
       lastName: subscriber.lastName,
       unsubscribed: false,
-      audienceId: process.env.RESEND_AUDIENCE_ID
+      audienceId: audienceId
     });
 
     if (error) {
