@@ -12,6 +12,7 @@ type ConsentContextValue = {
   acceptAll: () => void;
   rejectAll: () => void;
   isDecided: boolean;
+  reopen: () => void;
 };
 
 const DEFAULT_CONSENT: ConsentCategories = {
@@ -56,6 +57,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 
   const acceptAll = () => setConsent({ necessary: true, analytics: true, marketing: true });
   const rejectAll = () => setConsent({ necessary: true, analytics: false, marketing: false });
+  const reopen = () => setIsDecided(false);
 
   useEffect(() => {
     // keep window in sync on initial render
@@ -64,7 +66,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     }
   }, [consent]);
 
-  const value = useMemo<ConsentContextValue>(() => ({ consent, setConsent, acceptAll, rejectAll, isDecided }), [consent, isDecided]);
+  const value = useMemo<ConsentContextValue>(() => ({ consent, setConsent, acceptAll, rejectAll, isDecided, reopen }), [consent, isDecided]);
 
   return <ConsentContext.Provider value={value}>{children}</ConsentContext.Provider>;
 }

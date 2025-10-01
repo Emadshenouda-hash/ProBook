@@ -105,8 +105,23 @@ const FooterBottomLinks = styled('div')`
   flex-wrap: wrap;
 `;
 
+const CookieSettingsButton = styled('button')`
+  appearance: none;
+  background: none;
+  border: none;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.mutedText};
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  &:hover { color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary}; }
+`;
+
 export default function Footer() {
   const { t } = useTranslation();
+  const [ConsentCtx, setCtx] = React.useState<any>(null);
+  React.useEffect(() => {
+    import('../context/ConsentContext').then((m) => setCtx(m));
+  }, []);
   const currentYear = new Date().getFullYear();
   
   return (
@@ -182,6 +197,9 @@ export default function Footer() {
         <FooterBottomLinks>
           <FooterLink href="/privacy">{t('footer.privacy_policy', { defaultValue: 'Privacy Policy' })}</FooterLink>
           <FooterLink href="/cookies">{t('footer.cookie_policy', { defaultValue: 'Cookie Policy' })}</FooterLink>
+          {ConsentCtx?.useConsent && (
+            <CookieSettingsButton onClick={() => ConsentCtx.useConsent().reopen()} aria-label="Open cookie settings">Cookie Settings</CookieSettingsButton>
+          )}
           <FooterLink href="/terms">{t('footer.terms_of_service', { defaultValue: 'Terms of Service' })}</FooterLink>
           <FooterLink href="/security">{t('footer.security_compliance', { defaultValue: 'Security & Compliance' })}</FooterLink>
           <FooterLink href="/sitemap.xml">{t('footer.sitemap', { defaultValue: 'Sitemap' })}</FooterLink>
