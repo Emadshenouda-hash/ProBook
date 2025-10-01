@@ -212,7 +212,7 @@ export default function AboutPage() {
     <Section>
       <SEO
         title="About Emad Shenouda - ProBook Solutions"
-        description="Meet Emad Shenouda, founder of ProBook Solutions with 23+ years of accounting expertise. CPA exam candidate specializing in QuickBooks, financial reporting, and remote bookkeeping services."
+        description="Meet Emad Shenouda, founder of ProBook Solutions with 23+ years of accounting expertise. Specializing in GAAP-compliant reporting, QuickBooks, and remote bookkeeping services."
         canonicalPath="/about"
         jsonLd={{
           '@context': 'https://schema.org',
@@ -249,7 +249,7 @@ export default function AboutPage() {
           </Intro>
           <CredentialsBadges>
             <Badge>✓ 23+ Years Experience</Badge>
-            <Badge>✓ CPA Exam Candidate</Badge>
+            <Badge>✓ CPA Exam (Audit) Completed</Badge>
             <Badge>✓ QuickBooks Expert</Badge>
             <Badge>✓ Bilingual (EN/AR)</Badge>
           </CredentialsBadges>
@@ -281,7 +281,7 @@ export default function AboutPage() {
           {t('about.story_para1', { defaultValue: 'I began my accounting career in 2001 in Cairo, Egypt, and have since built a diverse portfolio of experience across nonprofit organizations, media companies, PR agencies, and e-commerce businesses. My journey has taken me from local accounting roles to managing finances for international organizations with operations spanning the U.S., Middle East, and Europe.' })}
         </Paragraph>
         <Paragraph>
-          {t('about.story_para2', { defaultValue: 'In 2003, I took the CPA Exam in California, passing the Audit section and scoring 67% in Business Law, which solidified my understanding of U.S. GAAP and financial regulations. This foundation has been instrumental in serving U.S.-based clients remotely while maintaining the highest standards of accuracy and compliance.' })}
+          {t('about.story_para2', { defaultValue: 'In 2003, I sat for the CPA Exam in California and completed the Audit section, which strengthened my grounding in U.S. GAAP and financial regulations. This foundation has been instrumental in serving U.S.-based clients remotely while maintaining high standards of accuracy and compliance.' })}
         </Paragraph>
         <Paragraph>
           {t('about.story_para3', { defaultValue: 'Over the years, I\'ve specialized in QuickBooks (Desktop and Online), financial reporting, e-commerce accounting, and remote team collaboration. I\'ve helped organizations reduce expenses by up to 15%, improve reporting accuracy by 20%, and streamline month-end close processes from 10 days to 3 days.' })}
