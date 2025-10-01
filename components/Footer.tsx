@@ -160,12 +160,19 @@ export default function Footer() {
           <FooterLink href="/contact">{t('footer.contact_us', { defaultValue: 'Contact Us' })}</FooterLink>
           <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
             <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
-            contact@probooksolutions.com
+            contact@probooksolutions.com<br />
+            <strong>{t('footer.phone_label', { defaultValue: 'Phone' })}:</strong><br />
+            +1-555-123-4567<br />
+            <strong>{t('footer.address_label', { defaultValue: 'Address' })}:</strong><br />
+            123 Business Plaza<br />
+            New York, NY 10001
           </FooterText>
           <TrustBadgesFooter>
             <Badge>🔐 {t('footer.secure', { defaultValue: 'Secure' })}</Badge>
-            <Badge>✅ {t('footer.certified', { defaultValue: 'Certified' })}</Badge>
+            <Badge>✅ {t('footer.certified', { defaultValue: 'CPA Licensed' })}</Badge>
             <Badge>🏆 {t('footer.years_experience', { defaultValue: '23+ Years' })}</Badge>
+            <Badge>🛡️ {t('footer.soc2', { defaultValue: 'SOC 2 Compliant' })}</Badge>
+            <Badge>🔒 {t('footer.encrypted', { defaultValue: '256-bit SSL' })}</Badge>
           </TrustBadgesFooter>
         </FooterColumn>
       </FooterContent>
