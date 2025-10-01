@@ -14,6 +14,7 @@ import { Tajawal } from 'next/font/google';
 import { Merriweather } from 'next/font/google';
 import { ConsentProvider } from '../context/ConsentContext';
 import ConsentBanner from '../components/ConsentBanner';
+import DevelopmentBanner from '../components/DevelopmentBanner';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const tajawal = Tajawal({ subsets: ['arabic'], weight: ['400', '500', '700', '800'], variable: '--font-tajawal', display: 'swap' });
@@ -73,6 +74,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <ConsentProvider>
         <ThemeToggleContext.Provider value={{ mode, toggleTheme }}>
           <ThemeProvider theme={activeTheme}>
+            {/* Development banner - shows during active development */}
+            <DevelopmentBanner />
             {/* Include analytics scripts only after consent via provider */}
             <Analytics />
             <div className={`${inter.variable} ${tajawal.variable} ${merriweather.variable}`}>
