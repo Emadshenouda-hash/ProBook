@@ -2,11 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styled from '../utils/styled';
 
-const ImageContainer = styled.div<{ loaded: boolean }>`
+interface ImageContainerProps {
+  loaded: boolean;
+}
+
+const ImageContainer = styled.div<ImageContainerProps>`
   position: relative;
   overflow: hidden;
   background: var(--color-surface);
-  opacity: ${({ loaded }) => (loaded ? 1 : 0.7)};
+  opacity: ${({ loaded }: ImageContainerProps) => (loaded ? 1 : 0.7)};
   transition: opacity 0.3s ease-in-out;
 `;
 
