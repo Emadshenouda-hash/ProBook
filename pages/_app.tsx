@@ -12,6 +12,8 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { Inter } from 'next/font/google';
 import { Tajawal } from 'next/font/google';
 import { Merriweather } from 'next/font/google';
+import { ConsentProvider } from '../context/ConsentContext';
+import ConsentBanner from '../components/ConsentBanner';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const tajawal = Tajawal({ subsets: ['arabic'], weight: ['400', '500', '700', '800'], variable: '--font-tajawal', display: 'swap' });
@@ -68,18 +70,21 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ThemeToggleContext.Provider value={{ mode, toggleTheme }}>
-        <ThemeProvider theme={activeTheme}>
-          {/* Include analytics scripts if configured */}
-          <Analytics />
-          <div className={`${inter.variable} ${tajawal.variable} ${merriweather.variable}`}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          </div>
-          <VercelAnalytics />
-        </ThemeProvider>
-      </ThemeToggleContext.Provider>
+      <ConsentProvider>
+        <ThemeToggleContext.Provider value={{ mode, toggleTheme }}>
+          <ThemeProvider theme={activeTheme}>
+            {/* Include analytics scripts only after consent via provider */}
+            <Analytics />
+            <div className={`${inter.variable} ${tajawal.variable} ${merriweather.variable}`}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            </div>
+            <ConsentBanner />
+            <VercelAnalytics />
+          </ThemeProvider>
+        </ThemeToggleContext.Provider>
+      </ConsentProvider>
     </I18nextProvider>
   );
 }

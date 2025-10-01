@@ -51,10 +51,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
           <meta name="google-site-verification" content="5KWsgLhz5GaPE5yrzyKV-uNaOy228-mPTxDY8zbR_ic" />
           {/* Using next/font for Inter, Tajawal, Merriweather; external font links removed */}
 
-          {/* Hreflang for i18n */}
-          <link rel="alternate" hrefLang="en" href={`${baseUrl}/`} />
-          <link rel="alternate" hrefLang="ar" href={`${baseUrl}/ar`} />
-          <link rel="alternate" hrefLang="x-default" href={`${baseUrl}/`} />
+          {/* Hreflang tags are generated per-page in the SEO component to avoid duplication */}
 
           {/* Favicons placeholders (replace with your assets) */}
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

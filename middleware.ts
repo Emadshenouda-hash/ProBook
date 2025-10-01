@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { rlIsLimited } from './utils/rateLimit';
 
 /**
  * Simple in-memory rate limiter for API routes.
@@ -87,7 +88,7 @@ if (typeof setInterval !== 'undefined') {
   }, 5 * 60 * 1000);
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only apply rate limiting to API routes and form submissions
@@ -104,9 +105,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const key = getRateLimitKey(request);
-  const limited = isRateLimited(key);
-  const headers = getRateLimitHeaders(key);
+  const { limited, headers } = await rlIsLimited(request);
 
   if (limited) {
     return new NextResponse(

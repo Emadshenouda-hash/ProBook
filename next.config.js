@@ -7,7 +7,8 @@ const securityHeaders = [
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'X-XSS-Protection', value: '0' },
   { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
+  // Update deprecated interest-cohort to browsing-topics and explicitly disable sensors
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), browsing-topics=(), accelerometer=(), gyroscope=(), magnetometer=(), payment=()' },
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
   { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
   { key: 'X-Download-Options', value: 'noopen' },
@@ -50,7 +51,12 @@ const nextConfig = {
     return [
       {
         source: '/(.*)',
-        headers: securityHeaders
+        headers: [
+          ...securityHeaders,
+          // Apply a conservative Content Security Policy. In development you can
+          // switch this header to Content-Security-Policy-Report-Only to iterate safely.
+          { key: 'Content-Security-Policy', value: csp }
+        ]
       }
     ];
   },
