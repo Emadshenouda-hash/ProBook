@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import Link from 'next/link';
