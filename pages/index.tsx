@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
@@ -526,12 +527,13 @@ export default function HomePage() {
       />
           <Hero>
             <HeroBg aria-hidden="true">
-              <LazyImage
-                src="/hero-photo.jpg"
-                alt=""
+              <Image
+                src="/hero-accounting-office1.jpg"
+                alt="Professional accounting office"
                 fill
                 priority
                 sizes="100vw"
+                style={{ objectFit: 'cover' }}
               />
             </HeroBg>
         <HeroInner>
