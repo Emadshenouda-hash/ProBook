@@ -66,22 +66,26 @@ const Button = styled.button`
   }
 `;
 
-const Message = styled.div<{ type: 'success' | 'error' }>`
+interface MessageProps {
+  type: 'success' | 'error';
+}
+
+const Message = styled.div<MessageProps>`
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 0.9rem;
   text-align: center;
-  background: ${({ type }) => 
+  background: ${({ type }: MessageProps) => 
     type === 'success' 
       ? 'rgba(34, 197, 94, 0.1)' 
       : 'rgba(239, 68, 68, 0.1)'
   };
-  color: ${({ type }) => 
+  color: ${({ type }: MessageProps) => 
     type === 'success' 
       ? 'rgb(34, 197, 94)' 
       : 'rgb(239, 68, 68)'
   };
-  border: 1px solid ${({ type }) => 
+  border: 1px solid ${({ type }: MessageProps) => 
     type === 'success' 
       ? 'rgba(34, 197, 94, 0.2)' 
       : 'rgba(239, 68, 68, 0.2)'
