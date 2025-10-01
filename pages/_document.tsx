@@ -46,9 +46,10 @@ export default class MyDocument extends Document<MyDocumentProps> {
     return (
       <Html lang={locale} dir={dir}>
         <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="theme-color" content="#0b5ed7" />
-          <meta name="google-site-verification" content="5KWsgLhz5GaPE5yrzyKV-uNaOy228-mPTxDY8zbR_ic" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <meta name="theme-color" content="#0b5ed7" />
+              <meta name="google-site-verification" content="5KWsgLhz5GaPE5yrzyKV-uNaOy228-mPTxDY8zbR_ic" />
+              <meta name="msvalidate.01" content="276D711C5CB2B205312DFA3763893D1F" />
           {/* Using next/font for Inter, Tajawal, Merriweather; external font links removed */}
 
           {/* Hreflang tags are generated per-page in the SEO component to avoid duplication */}
