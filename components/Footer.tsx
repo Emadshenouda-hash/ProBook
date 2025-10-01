@@ -181,6 +181,7 @@ export default function Footer() {
         <div>© {currentYear} {t('seo.siteName', { defaultValue: 'ProBook Solutions' })}. {t('footer.all_rights', { defaultValue: 'All rights reserved.' })}</div>
         <FooterBottomLinks>
           <FooterLink href="/privacy">{t('footer.privacy_policy', { defaultValue: 'Privacy Policy' })}</FooterLink>
+          <FooterLink href="/cookies">{t('footer.cookie_policy', { defaultValue: 'Cookie Policy' })}</FooterLink>
           <FooterLink href="/terms">{t('footer.terms_of_service', { defaultValue: 'Terms of Service' })}</FooterLink>
           <FooterLink href="/security">{t('footer.security_compliance', { defaultValue: 'Security & Compliance' })}</FooterLink>
           <FooterLink href="/sitemap.xml">{t('footer.sitemap', { defaultValue: 'Sitemap' })}</FooterLink>

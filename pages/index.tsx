@@ -499,28 +499,29 @@ export default function HomePage() {
       <Hero>
         <HeroBg aria-hidden="true">
           <Image 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=85" 
+            src="/hero-accounting-office.jpg" 
             alt="" 
             fill 
             priority 
-            sizes="100vw" 
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw" 
             style={{ objectFit: 'cover' }} 
+            quality={85}
           />
         </HeroBg>
         <HeroInner>
           <FadeIn>
             <HeroSocialProof>
               <HeroSocialItem>
-                <span>⭐</span>
+                <span aria-hidden="true">⭐</span>
                 <span>100+ Clients</span>
               </HeroSocialItem>
               <HeroSocialItem>
-                <span>🏆</span>
+                <span aria-hidden="true">🏆</span>
                 <span>23+ Years Experience</span>
               </HeroSocialItem>
               <HeroSocialItem>
-                <span>🎓</span>
-                <span>CPA Exam Candidate</span>
+                <span aria-hidden="true">🎓</span>
+                <span>CPA Licensed</span>
               </HeroSocialItem>
             </HeroSocialProof>
           </FadeIn>
@@ -534,13 +535,13 @@ export default function HomePage() {
             <CTAGroup>
               <Link href="/consultation" passHref legacyBehavior>
                 <PrimaryCTA onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>
-                  <span>📅</span>
+                  <span aria-hidden="true">📅</span>
                   {t('cta.book_consultation')}
                 </PrimaryCTA>
               </Link>
               <Link href="/services" passHref legacyBehavior>
                 <SecondaryCTA>
-                  <span>→</span>
+                  <span aria-hidden="true">→</span>
                   {t('home.cta_secondary')}
                 </SecondaryCTA>
               </Link>

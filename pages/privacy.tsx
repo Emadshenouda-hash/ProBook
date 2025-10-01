@@ -324,7 +324,8 @@ export default function PrivacyPolicyPage() {
           </tbody>
         </Table>
         <P>
-          You can manage cookie preferences through your browser settings. Note that disabling cookies may limit website functionality.
+          You can manage cookie preferences through our cookie banner or by visiting our <Link href="/cookies">Cookie Policy</Link> page. 
+          Note that disabling cookies may limit website functionality.
         </P>
       </ContentBlock>
 

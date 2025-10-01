@@ -41,7 +41,7 @@ const Button = styled('button')`
 `;
 
 const Primary = styled(Button)`
-  background: linear-gradient(135deg, var(--color-primary), ${({ theme }) => theme.colors.secondary});
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   color: #fff;
   border-color: transparent;
 `;
