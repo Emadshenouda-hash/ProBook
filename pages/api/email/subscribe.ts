@@ -47,20 +47,20 @@ async function handleResendSubscription(req: NextApiRequest, res: NextApiRespons
   try {
     // Add to Resend contacts
     const audienceId = process.env.RESEND_AUDIENCE_ID;
-    if (!audienceId) {
-      throw new Error('RESEND_AUDIENCE_ID environment variable is not set');
-    }
+    
+    // If no audience ID is set, just send welcome email without adding to audience
+    if (audienceId) {
+      const { data, error } = await resend.contacts.create({
+        email: subscriber.email,
+        firstName: subscriber.firstName,
+        lastName: subscriber.lastName,
+        unsubscribed: false,
+        audienceId: audienceId
+      });
 
-    const { data, error } = await resend.contacts.create({
-      email: subscriber.email,
-      firstName: subscriber.firstName,
-      lastName: subscriber.lastName,
-      unsubscribed: false,
-      audienceId: audienceId
-    });
-
-    if (error) {
-      throw new Error(error.message);
+      if (error) {
+        throw new Error(error.message);
+      }
     }
 
     // Send welcome email
