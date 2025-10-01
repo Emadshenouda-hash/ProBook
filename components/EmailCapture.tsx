@@ -120,7 +120,7 @@ export default function EmailCapture({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (!email || !email.includes('@')) {
@@ -160,6 +160,14 @@ export default function EmailCapture({
     }
   };
 
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstName(e.target.value);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
   return (
     <FormContainer onSubmit={handleSubmit} className={className}>
       <InputGroup>
@@ -168,7 +176,7 @@ export default function EmailCapture({
           id="firstName"
           type="text"
           value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          onChange={handleFirstNameChange}
           placeholder="Your first name"
         />
       </InputGroup>
@@ -179,7 +187,7 @@ export default function EmailCapture({
           id="email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           placeholder={placeholder}
           required
         />
