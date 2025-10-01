@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <!-- PayPal blue: #003087 and lighter #009CDE -->
+  <defs>
+    <linearGradient id="ppGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#009CDE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#003087;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M20,15 L35,15 Q45,15 45,25 Q45,35 35,35 L25,35 L20,50 Z" fill="url(#ppGradient)"/>
+  <path d="M30,20 L40,20 Q48,20 48,28 Q48,36 40,36 L32,36 L28,48 Z" fill="#009CDE" opacity="0.8"/>
+  <text x="60" y="38" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#003087">PayPal</text>
+</svg>

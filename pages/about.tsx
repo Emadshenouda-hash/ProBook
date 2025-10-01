@@ -242,10 +242,10 @@ export default function AboutPage() {
         </PhotoContainer>
         
         <HeroContent>
-          <Title>About Emad Shenouda</Title>
-          <Tagline>Founder & Financial Manager</Tagline>
+          <Title>{t('about.title', { defaultValue: 'About Emad Shenouda' })}</Title>
+          <Tagline>{t('about.tagline', { defaultValue: 'Founder & Financial Manager' })}</Tagline>
           <Intro>
-            With over 23 years of hands-on accounting expertise spanning U.S.-based and Middle Eastern organizations, I founded ProBook Solutions to deliver world-class financial management and bookkeeping services to startups and SMEs worldwide.
+            {t('about.intro', { defaultValue: 'With over 23 years of hands-on accounting expertise spanning U.S.-based and Middle Eastern organizations, I founded ProBook Solutions to deliver world-class financial management and bookkeeping services to startups and SMEs worldwide.' })}
           </Intro>
           <CredentialsBadges>
             <Badge>✓ 23+ Years Experience</Badge>
@@ -276,23 +276,23 @@ export default function AboutPage() {
       </StatRow>
 
       <ContentBlock>
-        <SectionTitle>My Story</SectionTitle>
+        <SectionTitle>{t('about.my_story_title', { defaultValue: 'My Story' })}</SectionTitle>
         <Paragraph>
-          I began my accounting career in 2001 in Cairo, Egypt, and have since built a diverse portfolio of experience across nonprofit organizations, media companies, PR agencies, and e-commerce businesses. My journey has taken me from local accounting roles to managing finances for international organizations with operations spanning the U.S., Middle East, and Europe.
+          {t('about.story_para1', { defaultValue: 'I began my accounting career in 2001 in Cairo, Egypt, and have since built a diverse portfolio of experience across nonprofit organizations, media companies, PR agencies, and e-commerce businesses. My journey has taken me from local accounting roles to managing finances for international organizations with operations spanning the U.S., Middle East, and Europe.' })}
         </Paragraph>
         <Paragraph>
-          In 2003, I took the CPA Exam in California, passing the Audit section and scoring 67% in Business Law, which solidified my understanding of U.S. GAAP and financial regulations. This foundation has been instrumental in serving U.S.-based clients remotely while maintaining the highest standards of accuracy and compliance.
+          {t('about.story_para2', { defaultValue: 'In 2003, I took the CPA Exam in California, passing the Audit section and scoring 67% in Business Law, which solidified my understanding of U.S. GAAP and financial regulations. This foundation has been instrumental in serving U.S.-based clients remotely while maintaining the highest standards of accuracy and compliance.' })}
         </Paragraph>
         <Paragraph>
-          Over the years, I've specialized in QuickBooks (Desktop and Online), financial reporting, e-commerce accounting, and remote team collaboration. I've helped organizations reduce expenses by up to 15%, improve reporting accuracy by 20%, and streamline month-end close processes from 10 days to 3 days.
+          {t('about.story_para3', { defaultValue: 'Over the years, I\'ve specialized in QuickBooks (Desktop and Online), financial reporting, e-commerce accounting, and remote team collaboration. I\'ve helped organizations reduce expenses by up to 15%, improve reporting accuracy by 20%, and streamline month-end close processes from 10 days to 3 days.' })}
         </Paragraph>
         <HighlightBox>
-          <strong>My Mission:</strong> To provide startups and SMEs with the same level of financial expertise and strategic guidance that large corporations enjoy—without the enterprise price tag. I believe every business deserves clean books, timely reports, and actionable insights to drive growth.
+          <strong>{t('about.mission_title', { defaultValue: 'My Mission:' })}</strong> {t('about.mission_description', { defaultValue: 'To provide startups and SMEs with the same level of financial expertise and strategic guidance that large corporations enjoy—without the enterprise price tag. I believe every business deserves clean books, timely reports, and actionable insights to drive growth.' })}
         </HighlightBox>
       </ContentBlock>
 
       <ContentBlock>
-        <SectionTitle>Professional Experience</SectionTitle>
+        <SectionTitle>{t('about.experience_title', { defaultValue: 'Professional Experience' })}</SectionTitle>
         
         <ExperienceCard>
           <CompanyName>Approach PR & Media</CompanyName>
@@ -370,7 +370,7 @@ export default function AboutPage() {
       </ContentBlock>
 
       <ContentBlock>
-        <SectionTitle>Education & Certifications</SectionTitle>
+        <SectionTitle>{t('about.education_title', { defaultValue: 'Education & Certifications' })}</SectionTitle>
         <ExperienceCard>
           <CompanyName>CPA Exam (California)</CompanyName>
           <DateRange>2003</DateRange>
@@ -395,7 +395,7 @@ export default function AboutPage() {
       </ContentBlock>
 
       <ContentBlock>
-        <SectionTitle>Core Expertise</SectionTitle>
+        <SectionTitle>{t('about.expertise_title', { defaultValue: 'Core Expertise' })}</SectionTitle>
         <SkillsGrid>
           <SkillCard>QuickBooks Desktop & Online</SkillCard>
           <SkillCard>Financial Reporting & Analysis</SkillCard>
@@ -413,9 +413,9 @@ export default function AboutPage() {
       </ContentBlock>
 
       <ContentBlock>
-        <SectionTitle>Software & Tools</SectionTitle>
+        <SectionTitle>{t('about.software_title', { defaultValue: 'Software & Tools' })}</SectionTitle>
         <Paragraph>
-          I'm proficient in a wide range of accounting software and business tools:
+          {t('about.software_intro', { defaultValue: 'I\'m proficient in a wide range of accounting software and business tools:' })}
         </Paragraph>
         <SkillsGrid>
           <SkillCard>QuickBooks Enterprise/Pro/Premier</SkillCard>
@@ -437,7 +437,7 @@ export default function AboutPage() {
       </ContentBlock>
 
       <ContentBlock>
-        <SectionTitle>Why Work With Me?</SectionTitle>
+        <SectionTitle>{t('about.why_work_title', { defaultValue: 'Why Work With Me?' })}</SectionTitle>
         <TwoColumnGrid>
           <div>
             <h3>Deep Expertise</h3>
@@ -467,9 +467,9 @@ export default function AboutPage() {
       </ContentBlock>
 
       <CTASection>
-        <h2 style={{ marginTop: 0 }}>Ready to Get Your Books in Order?</h2>
+        <h2 style={{ marginTop: 0 }}>{t('about.ready_cta_title', { defaultValue: 'Ready to Get Your Books in Order?' })}</h2>
         <Paragraph>
-          Whether you need ongoing bookkeeping, a one-time cleanup, or fractional CFO services, I'd love to discuss how ProBook Solutions can support your business.
+          {t('about.ready_cta_desc', { defaultValue: 'Whether you need ongoing bookkeeping, a one-time cleanup, or fractional CFO services, I\'d love to discuss how ProBook Solutions can support your business.' })}
         </Paragraph>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.5rem', flexWrap: 'wrap' }}>
           <Link href="/consultation" style={{ textDecoration: 'none', padding: '0.75rem 1.5rem', background: 'var(--color-primary)', color: '#fff', borderRadius: '8px', fontWeight: 600 }}>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <defs>
+    <linearGradient id="qbGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2CA01C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3D9B35;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Green circle background -->
+  <circle cx="30" cy="30" r="25" fill="url(#qbGradient)"/>
+  <!-- White QB letters -->
+  <text x="16" y="42" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">QB</text>
+  <!-- QuickBooks text -->
+  <text x="65" y="24" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#2CA01C">QuickBooks</text>
+  <text x="65" y="42" font-family="Arial, sans-serif" font-size="12" fill="#666666">by Intuit</text>
+</svg>

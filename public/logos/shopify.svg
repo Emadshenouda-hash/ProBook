@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <!-- Shopify green: #96BF48 -->
+  <path d="M15,10 L15,50 L25,50 L25,10 Z" fill="#96BF48"/>
+  <path d="M20,5 L30,15 L30,50 L20,50 Z" fill="#5E8E3E"/>
+  <path d="M25,20 Q30,25 25,30" stroke="#96BF48" stroke-width="2" fill="none"/>
+  <text x="45" y="38" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#333333">Shopify</text>
+</svg>
