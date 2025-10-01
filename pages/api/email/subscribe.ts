@@ -65,7 +65,7 @@ async function handleResendSubscription(req: NextApiRequest, res: NextApiRespons
 
     // Send welcome email
     await resend.emails.send({
-      from: 'ProBook Solutions <info@probooksolutions.com>',
+      from: 'ProBook Solutions <info@probooksolutions.org>',
       to: [subscriber.email],
       subject: 'Welcome to ProBook Solutions!',
       html: `

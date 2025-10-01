@@ -141,7 +141,7 @@ export default function Footer() {
             <SocialLink href="https://twitter.com/probooksolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
               🐦
             </SocialLink>
-                <SocialLink href="mailto:info@probooksolutions.com" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
+                <SocialLink href="mailto:info@probooksolutions.org" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
                   ✉️
                 </SocialLink>
           </SocialLinks>
@@ -176,7 +176,7 @@ export default function Footer() {
           <FooterLink href="/contact">{t('footer.contact_us', { defaultValue: 'Contact Us' })}</FooterLink>
               <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
                 <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
-                info@probooksolutions.com
+                    info@probooksolutions.org
               </FooterText>
           <TrustBadgesFooter>
             <Badge>🔐 {t('footer.secure', { defaultValue: 'Secure' })}</Badge>
