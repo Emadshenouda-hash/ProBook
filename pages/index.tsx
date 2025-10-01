@@ -528,7 +528,7 @@ export default function HomePage() {
           <Hero>
             <HeroBg aria-hidden="true">
               <Image
-                src="/hero-accounting-office1.jpg"
+                src="/hero-accounting-office.jpg"
                 alt="Professional accounting office"
                 fill
                 priority
