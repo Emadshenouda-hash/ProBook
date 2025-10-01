@@ -20,60 +20,86 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
     const consultUrl = baseUrl ? `${baseUrl}/consultation` : '/consultation';
 
+    // Enhanced greeting and context awareness
+    if (/\b(hi|hello|hey|good\s+(morning|afternoon|evening))\b/.test(text)) {
+      return "Hello! I'm here to help with your accounting and financial needs. I can assist with bookkeeping, CFO services, tax compliance, software setup, and more. What's your biggest financial challenge right now?";
+    }
+
     // Courtesies and farewells
     if (/(thank\s*you|thanks|thx|appreciate)/.test(text)) {
-      return `You're welcome! If anything comes up, you can book a consultation here: ${consultUrl}`;
+      return "You're very welcome! I'm here to help make your accounting easier. Feel free to ask about our services or book a free consultation to discuss your specific needs.";
     }
     if (/(bye|goodbye|see\s*you|later|talk\s*to\s*you\s*later|catch\s*you\s*later)/.test(text)) {
-      return `No problem—I'm here anytime. When you're ready, book a consultation: ${consultUrl}`;
+      return "Take care! Remember, you can always book a consultation when you're ready to discuss your accounting needs. Have a great day!";
     }
     if (/(not\s*now|i'?m\s*good|all\s*set|no\s*thanks|no,?\s*thank\s*you)/.test(text)) {
-      return `All good. Feel free to reach out anytime. You can book whenever convenient: ${consultUrl}`;
+      return "No problem at all! I'm here whenever you need help with your accounting or have questions about our services.";
     }
 
-    // Small talk
+    // Small talk with more context
     if (/(how\s*are\s*you|how'?s\s*it\s*going)/.test(text)) {
-      return "I'm doing great and ready to help with your accounting or finance questions. What are you working on?";
+      return "I'm doing great and ready to help solve your accounting challenges! What's keeping you up at night when it comes to your business finances?";
     }
 
-    if (/\b(hi|hello|hey|good\s+(morning|afternoon|evening))\b/.test(text)) {
-      return "Hi! I'm the ProBook Solutions assistant. How can I help with your accounting or finance needs today?";
+    // Enhanced service-specific responses
+    if (/(bookkeep|reconcil|close|month\s*end|transactions|entries)/.test(text)) {
+      return "Our bookkeeping service handles everything: transaction coding, bank reconciliations, month-end close, and management reports. We typically process 200-500 transactions monthly and deliver reports within 5-7 business days. What's your current monthly transaction volume?";
     }
 
-    if (/(bookkeep|reconcil|close|month\s*end)/.test(text)) {
-      return "We offer full-cycle bookkeeping: transaction coding, reconciliations, month‑end close, and management reports. Would you like us to review your current setup or propose a monthly plan?";
+    if (/(cfo|forecast|model|budget|cash\s*flow|financial\s*planning|kpi|dashboard)/.test(text)) {
+      return "Our Fractional CFO service provides strategic financial leadership including financial modeling, budgeting, cash flow planning, KPI dashboards, and board reporting. We've helped clients raise funding and improve their financial processes. What's your biggest financial goal for the next 6 months?";
     }
 
-    if (/(cfo|forecast|model|budget|cash\s*flow)/.test(text)) {
-      return "Our Fractional CFO service covers financial modeling, budgets/forecasts, KPI dashboards, cash‑flow planning, board reporting, and fundraising support. Tell me your top 1–2 goals and timeline.";
+    if (/(tax|vat|sales\s*tax|compliance|filing|irs|quarterly)/.test(text)) {
+      return "We handle all tax and compliance needs including returns, quarterly filings, and multi-jurisdiction support. We stay current with tax law changes and can help with entity structuring. Which states/countries do you operate in and what's your filing deadline pressure?";
     }
 
-    if (/(tax|vat|sales\s*tax|compliance)/.test(text)) {
-      return "We handle tax and compliance: returns, filings, and entity support. Which jurisdictions do you operate in and what deadlines are coming up?";
+    if (/(payroll|salary|hr|people|employees|contractors|w2|1099)/.test(text)) {
+      return "We can set up and manage your entire payroll process including employee onboarding, contractor payments, tax filings, and compliance. We support multi-state operations and can integrate with your existing HR systems. How many team members do you have?";
     }
 
-    if (/(payroll|salary|hr|people)/.test(text)) {
-      return "We can set up and run payroll, onboard employees/contractors, and manage filings. How many team members and which countries/states?";
+    if (/(price|pricing|cost|rate|how\s*much|budget)/.test(text)) {
+      return "Our pricing is transparent and based on your specific needs:\n• Starter: $1,000/month (up to 200 transactions)\n• Growth: $2,500+/month (up to 500 transactions + advanced features)\n• Fractional CFO: Custom pricing\n\nWe offer a free consultation to determine the right plan for you. What's your monthly transaction volume?";
     }
 
-    if (/(price|pricing|cost|rate)/.test(text)) {
-      return `Our pricing is tailored to scope and tools. We start with a free consultation to size the work and offer a fixed monthly plan. You can book here: ${consultUrl}`;
+    if (/(quickbooks|xero|zoho|odoo|netsuite|erp|migration|clean\s*up|cleanup|software)/.test(text)) {
+      return "We're experts in QuickBooks (Desktop & Online), Xero, Zoho Books, and NetSuite. We can migrate your data, clean up messy books, set up integrations, and train your team. What system are you currently using and what's your biggest pain point?";
     }
 
-    if (/(quickbooks|xero|zoho|odoo|netsuite|erp|migration|clean\s*up|cleanup)/.test(text)) {
-      return "We support QuickBooks, Xero, Zoho Books, Odoo, and NetSuite. We can also migrate or clean up your books. Which system do you use today and what’s your biggest pain point?";
+    if (/(consult|call|meeting|schedule|book|appointment)/.test(text)) {
+      return "I'd love to schedule a free 20-minute consultation! We'll discuss your specific needs and create a customized plan. You can book directly here or tell me your preferred time and I'll help coordinate: " + consultUrl;
     }
 
-    if (/(consult|call|meeting|schedule|book)/.test(text)) {
-      return `Happy to schedule a consultation. Please share your name, company, and email, or book directly here: ${consultUrl}`;
+    if (/(time|how\s*long|turnaround|when|timeline)/.test(text)) {
+      return "Our typical timelines:\n• Book cleanup: 1-3 weeks\n• Monthly close: 5-7 business days\n• New setup: 1-2 weeks\n• Emergency support: Same day\n\nTimelines depend on data complexity and volume. What's your most urgent need?";
     }
 
-    if (/(time|how\s*long|turnaround)/.test(text)) {
-      return "Most cleanups complete in 1–3 weeks; ongoing monthly close is typically within 5–7 business days after month‑end. Timelines depend on volume and systems.";
+    if (/(startup|small\s*business|growing|scale|growth)/.test(text)) {
+      return "We specialize in helping startups and growing businesses! We understand the unique challenges of scaling - from basic bookkeeping to complex financial modeling. Many of our clients have grown from 5 to 500+ employees with our support. What stage is your business at?";
     }
 
-    // Fallback prompt to qualify the lead
-    return "Got it. To recommend the right plan, could you share: company size, your accounting system, countries you operate in, and your top 2–3 finance goals for the next 3–6 months?";
+    if (/(ecommerce|amazon|shopify|online|sales|inventory)/.test(text)) {
+      return "E-commerce accounting is our specialty! We handle multi-channel sales (Amazon, Shopify, etc.), inventory management, sales tax compliance, and complex revenue recognition. We can integrate all your sales channels into one clean financial picture. Which platforms do you sell on?";
+    }
+
+    if (/(saas|subscription|recurring|mrr|arr)/.test(text)) {
+      return "SaaS accounting requires special expertise in subscription billing, revenue recognition (ASC 606), and metrics tracking. We help SaaS companies with MRR/ARR reporting, churn analysis, and investor-ready financials. What's your current MRR and biggest financial challenge?";
+    }
+
+    if (/(fundraising|investor|series\s*a|series\s*b|due\s*diligence)/.test(text)) {
+      return "We've helped many companies prepare for fundraising! Our Fractional CFO service includes investor deck preparation, due diligence support, financial modeling, and post-funding financial management. We understand what investors look for. What round are you preparing for?";
+    }
+
+    if (/(problem|issue|challenge|struggle|difficult|stuck)/.test(text)) {
+      return "I understand you're facing some challenges. Many of our clients come to us with similar issues. The good news is we've helped solve these problems before. Can you tell me more about what's not working with your current accounting setup?";
+    }
+
+    if (/(urgent|asap|emergency|quick|fast)/.test(text)) {
+      return "I understand this is urgent! We can often provide same-day support for critical issues. For immediate assistance, please email contact@probooksolutions.com with 'URGENT' in the subject line, or book a consultation and mention it's urgent. What's the specific issue you need help with?";
+    }
+
+    // Enhanced fallback with better qualification
+    return "I'd love to help you find the right solution! To give you the best recommendation, could you tell me:\n\n1. What's your biggest accounting or financial challenge?\n2. How many transactions do you process monthly?\n3. What accounting software are you using?\n4. What's your timeline for getting this resolved?\n\nOr feel free to book a free consultation and we can discuss everything in detail!";
   }
 
   const provider = (process.env.CHAT_PROVIDER || 'openai').toLowerCase();
