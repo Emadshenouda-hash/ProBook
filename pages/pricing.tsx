@@ -28,6 +28,7 @@ const Grid = styled.div`
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   margin-bottom: 3rem;
+  margin-top: 2rem;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -54,16 +55,19 @@ const Tier = styled.div<{ featured?: boolean }>`
 
 const FeaturedBadge = styled.div`
   position: absolute;
-  top: -12px;
+  top: -14px;
   left: 50%;
   transform: translateX(-50%);
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
   color: #fff;
-  padding: 0.25rem 1rem;
+  padding: 0.4rem 1.25rem;
   border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+  z-index: 10;
 `;
 
 const TierName = styled.h3`
@@ -214,18 +218,18 @@ export default function PricingPage() {
         description="Transparent pricing for bookkeeping, financial reporting, and fractional CFO services. Plans starting at $1,000/month for startups and SMEs."
         canonicalPath="/pricing" 
       />
-      <Title>Transparent Pricing</Title>
+      <Title>{t('pricing.title', { defaultValue: 'Transparent Pricing' })}</Title>
       <Subtitle>
-        Choose a plan that fits your business stage and complexity. All plans include secure data handling, monthly reports, and dedicated support.
+        {t('pricing.subtitle', { defaultValue: 'Choose a plan that fits your business stage and complexity. All plans include secure data handling, monthly reports, and dedicated support.' })}
       </Subtitle>
 
       <Grid>
         <Tier>
-          <TierName>Starter</TierName>
+          <TierName>{t('pricing.starter.name', { defaultValue: 'Starter' })}</TierName>
           <TierPrice>$1,000</TierPrice>
-          <TierPeriod>per month</TierPeriod>
+          <TierPeriod>{t('common.per_month', { defaultValue: 'per month' })}</TierPeriod>
           <TierDescription>
-            Perfect for early-stage startups and small businesses with straightforward accounting needs.
+            {t('pricing.starter.description', { defaultValue: 'Perfect for early-stage startups and small businesses with straightforward accounting needs.' })}
           </TierDescription>
           <FeaturesList>
             <FeatureItem included>Bookkeeping up to 200 transactions/month</FeatureItem>
@@ -242,12 +246,12 @@ export default function PricingPage() {
         </Tier>
 
         <Tier featured>
-          <FeaturedBadge>Most Popular</FeaturedBadge>
-          <TierName>Growth</TierName>
+          <FeaturedBadge>{t('pricing.growth.badge', { defaultValue: 'Most Popular' })}</FeaturedBadge>
+          <TierName>{t('pricing.growth.name', { defaultValue: 'Growth' })}</TierName>
           <TierPrice>$2,500+</TierPrice>
-          <TierPeriod>per month</TierPeriod>
+          <TierPeriod>{t('common.per_month', { defaultValue: 'per month' })}</TierPeriod>
           <TierDescription>
-            For growing companies with multiple revenue streams, inventory, or international operations.
+            {t('pricing.growth.description', { defaultValue: 'For growing companies with multiple revenue streams, inventory, or international operations.' })}
           </TierDescription>
           <FeaturesList>
             <FeatureItem included>Bookkeeping up to 500 transactions/month</FeatureItem>
@@ -264,11 +268,11 @@ export default function PricingPage() {
         </Tier>
 
         <Tier>
-          <TierName>Fractional CFO</TierName>
-          <TierPrice>Custom</TierPrice>
-          <TierPeriod>tailored to your needs</TierPeriod>
+          <TierName>{t('pricing.cfo.name', { defaultValue: 'Fractional CFO' })}</TierName>
+          <TierPrice>{t('pricing.cfo.price', { defaultValue: 'Custom' })}</TierPrice>
+          <TierPeriod>{t('pricing.cfo.period', { defaultValue: 'tailored to your needs' })}</TierPeriod>
           <TierDescription>
-            Strategic financial leadership for scaling businesses, fundraising, or M&A.
+            {t('pricing.cfo.description', { defaultValue: 'Strategic financial leadership for scaling businesses, fundraising, or M&A.' })}
           </TierDescription>
           <FeaturesList>
             <FeatureItem included>Everything in Growth plan</FeatureItem>
