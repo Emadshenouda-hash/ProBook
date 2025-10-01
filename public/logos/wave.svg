@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <!-- Wave blue gradient -->
+  <defs>
+    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0084FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M10,30 Q20,10 30,30 T50,30" stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <text x="60" y="38" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#333333">Wave</text>
+</svg>

@@ -56,7 +56,7 @@ const lightTheme: DefaultTheme = {
   },
   typography: {
     fontFamilySansLatin: "'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'",
-    fontFamilySansArabic: "'Cairo', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'",
+    fontFamilySansArabic: "'Tajawal', 'Noto Sans Arabic', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'",
     fontFamilySerifHeading: "'Merriweather', Georgia, 'Times New Roman', Times, serif",
     lineHeightBase: 1.6,
     scale: {

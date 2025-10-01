@@ -12,7 +12,21 @@
         "Discrepancy rate cut by 80%",
         "Monthly KPI dashboard delivered on day 4"
       ],
-      "stack": ["QuickBooks Online", "Shopify", "Amazon", "CSV automations"]
+      "stack": ["QuickBooks Online", "Shopify", "Amazon", "CSV automations"],
+      "metrics": {
+        "before": {
+          "closeTime": "10 days",
+          "errorRate": "12%",
+          "reportingDelay": "15 days post month-end"
+        },
+        "after": {
+          "closeTime": "3 days",
+          "errorRate": "2.4%",
+          "reportingDelay": "4 days post month-end"
+        }
+      },
+      "testimonial": "ProBook Solutions transformed our accounting chaos into a streamlined system. We now have confidence in our numbers and can make decisions faster.",
+      "testimonialAuthor": "Sarah M., COO"
     },
     {
       "slug": "saas-cfo-dashboards",
@@ -26,7 +40,108 @@
         "Forecast accuracy improved within ±5%",
         "Runway visibility extended to 12 months"
       ],
-      "stack": ["Xero", "Stripe", "Google Sheets", "Looker Studio"]
+      "stack": ["Xero", "Stripe", "Google Sheets", "Looker Studio"],
+      "metrics": {
+        "before": {
+          "reportingTime": "12 hours per board meeting",
+          "forecastAccuracy": "±15%",
+          "runwayVisibility": "3 months"
+        },
+        "after": {
+          "reportingTime": "3.6 hours per board meeting",
+          "forecastAccuracy": "±5%",
+          "runwayVisibility": "12 months"
+        }
+      },
+      "testimonial": "Clean books, clear reports, better decisions—fast. ProBook gave us the financial visibility we needed to scale confidently.",
+      "testimonialAuthor": "James K., Founder & CEO"
+    },
+    {
+      "slug": "nonprofit-grant-reporting",
+      "title": "Nonprofit grant reporting accuracy improved 95%",
+      "industry": "Nonprofit",
+      "summary": "Standardized fund accounting, implemented grant tracking, and automated donor reporting for international NGO.",
+      "problem": "Manual fund tracking led to errors in donor reports, delayed grant reimbursements, and audit findings.",
+      "approach": "Restructured chart of accounts for fund accounting, created grant-specific tracking codes, implemented monthly reconciliation process, and built automated donor report templates.",
+      "results": [
+        "Grant reporting accuracy improved to 95%",
+        "Reimbursement cycle reduced from 45 to 12 days",
+        "Zero audit findings for two consecutive years",
+        "Donor confidence increased, leading to 20% funding growth"
+      ],
+      "stack": ["QuickBooks Enterprise", "Excel", "Custom donor report templates"],
+      "metrics": {
+        "before": {
+          "reportingAccuracy": "78%",
+          "reimbursementCycle": "45 days",
+          "auditFindings": "5 per year"
+        },
+        "after": {
+          "reportingAccuracy": "95%",
+          "reimbursementCycle": "12 days",
+          "auditFindings": "0 per year"
+        }
+      },
+      "testimonial": "Emad's expertise in fund accounting transformed our grant management. We can now report to donors with complete confidence.",
+      "testimonialAuthor": "Michael R., Executive Director"
+    },
+    {
+      "slug": "pr-agency-multi-entity",
+      "title": "PR agency multi-entity consolidation in real-time",
+      "industry": "Professional Services",
+      "summary": "Consolidated financial reporting for 3 entities across 2 countries with real-time dashboard access.",
+      "problem": "Managing separate books for U.S. parent company and two Middle East subsidiaries. Manual consolidation took 2 weeks.",
+      "approach": "Implemented QuickBooks Online Advanced with multi-entity features, standardized chart of accounts across entities, built consolidation template with currency conversion, and created executive dashboard.",
+      "results": [
+        "Consolidation time reduced from 14 days to 2 hours",
+        "Real-time visibility into all entities",
+        "Currency translation automated",
+        "Executive team can make cross-entity decisions daily"
+      ],
+      "stack": ["QuickBooks Online Advanced", "Excel", "Power BI"],
+      "metrics": {
+        "before": {
+          "consolidationTime": "14 days",
+          "reportingFrequency": "Monthly",
+          "manualEffort": "40 hours/month"
+        },
+        "after": {
+          "consolidationTime": "2 hours",
+          "reportingFrequency": "Real-time",
+          "manualEffort": "4 hours/month"
+        }
+      },
+      "testimonial": "Having real-time financial visibility across our international operations has been a game-changer for strategic decision-making.",
+      "testimonialAuthor": "David L., Managing Partner"
+    },
+    {
+      "slug": "startup-books-cleanup",
+      "title": "Startup books cleanup for Series A readiness",
+      "industry": "Technology / Startup",
+      "summary": "18-month historical cleanup, revenue recognition correction, and investor-ready financial package preparation.",
+      "problem": "Founder-managed books with inconsistent categorization, missing reconciliations, and improper revenue recognition. Investors requested clean financials before funding.",
+      "approach": "Performed complete 18-month audit and reconciliation, corrected revenue recognition to accrual basis, implemented proper expense categorization, prepared GAAP-compliant financials, and created investor presentation package.",
+      "results": [
+        "All 18 months reconciled and corrected",
+        "Revenue recognition adjusted to GAAP standards",
+        "Investor-ready financial package delivered in 3 weeks",
+        "Successfully closed $3M Series A round"
+      ],
+      "stack": ["QuickBooks Online", "Excel", "Financial modeling"],
+      "metrics": {
+        "before": {
+          "unreconciled Months": "18",
+          "categorization Accuracy": "45%",
+          "revenueRecognition": "Cash basis (incorrect for SaaS)"
+        },
+        "after": {
+          "reconciledMonths": "18 (100%)",
+          "categorizationAccuracy": "98%",
+          "revenueRecognition": "Accrual basis (GAAP compliant)"
+        }
+      },
+      "testimonial": "ProBook Solutions cleaned up 18 months of messy books in 3 weeks. Our investors were impressed with the quality of our financials, which helped us close our Series A.",
+      "testimonialAuthor": "Lisa T., Founder & CEO"
     }
   ]
 }

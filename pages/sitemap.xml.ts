@@ -14,15 +14,37 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const allLocales: string[] = locales || ['en'];
   const defLocale: string = defaultLocale || 'en';
 
-  // Include core marketing pages and conversion endpoints. Exclude 404. Thank-you is fine to include if linked.
-  const baseRoutes = ['/', '/about', '/services', '/resources', '/contact', '/portal', '/consultation', '/thank-you', '/privacy', '/industries', '/pricing'];
+  // Include all public pages with priority and changefreq
+  const baseRoutes = [
+    { path: '/', priority: '1.0', changefreq: 'daily' },
+    { path: '/about', priority: '0.9', changefreq: 'weekly' },
+    { path: '/services', priority: '0.9', changefreq: 'weekly' },
+    { path: '/pricing', priority: '0.9', changefreq: 'weekly' },
+    { path: '/consultation', priority: '1.0', changefreq: 'daily' },
+    { path: '/case-studies', priority: '0.8', changefreq: 'weekly' },
+    { path: '/integrations', priority: '0.7', changefreq: 'monthly' },
+    { path: '/industries', priority: '0.7', changefreq: 'monthly' },
+    { path: '/resources', priority: '0.7', changefreq: 'weekly' },
+    { path: '/contact', priority: '0.8', changefreq: 'monthly' },
+    { path: '/portal', priority: '0.6', changefreq: 'monthly' },
+    { path: '/security', priority: '0.6', changefreq: 'monthly' },
+    { path: '/privacy', priority: '0.5', changefreq: 'monthly' },
+    { path: '/terms', priority: '0.5', changefreq: 'monthly' },
+  ];
+  
   const list: Array<{ slug: string }> = (studies as any).list || [];
-  const csRoutes = list.map((s) => `/case-studies/${s.slug}`);
-  const routes = [...baseRoutes, '/case-studies', ...csRoutes];
+  const csRoutes = list.map((s) => ({ 
+    path: `/case-studies/${s.slug}`, 
+    priority: '0.8', 
+    changefreq: 'monthly' 
+  }));
+  
+  const allRoutes = [...baseRoutes, ...csRoutes];
   const lastmod = new Date().toISOString();
 
-  const urlSet = routes
-    .map((path) => {
+  const urlSet = allRoutes
+    .map((route) => {
+      const { path, priority, changefreq } = route;
       const localized: Array<{ loc: string; locUrl: string }> = allLocales.map((loc: string) => {
         const locPath = loc === defLocale ? path : `/${loc}${path}`;
         const locUrl = `${baseUrl}${locPath}`;
@@ -37,6 +59,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
         <url>
           <loc>${defaultEntry.locUrl}</loc>
           <lastmod>${lastmod}</lastmod>
+          <changefreq>${changefreq}</changefreq>
+          <priority>${priority}</priority>
           ${alternates}
           ${xDefault}
         </url>`;

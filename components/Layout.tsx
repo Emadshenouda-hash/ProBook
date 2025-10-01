@@ -42,12 +42,22 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
   html, body, #__next {
     height: 100%;
     width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
-  html { overflow-x: hidden; }
+  html { 
+    overflow-x: hidden;
+    width: 100%;
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
   body {
     margin: 0;
+    padding: 0;
     font-family: ${({ fontFamily }: { fontFamily: string }) => fontFamily};
     direction: ${({ dir }: { dir: string }) => dir};
     background-color: var(--color-bg);
@@ -57,11 +67,19 @@ const GlobalStyle = createGlobalStyle<{ dir: string; fontFamily: string }>`
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     overscroll-behavior-x: contain;
+    width: 100%;
+    position: relative;
   }
 
   /* Prevent any child from forcing horizontal scrolling */
-  #__next, header, nav, footer, section, main, div {
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  #__next, header, nav, footer, section, main, div, article, aside {
     max-width: 100vw;
+    overflow-x: hidden;
   }
 
   /* Prevent media from exceeding viewport width */
@@ -120,7 +138,9 @@ const Container = styled('div')`
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
   &::before {
     content: '';
     position: absolute;
@@ -129,12 +149,17 @@ const Container = styled('div')`
     border-radius: 999px;
     filter: blur(12px);
     pointer-events: none;
+    max-width: 100%;
   }
 `;
 
 const Main = styled('main')`
   padding: 1rem 0;
   min-height: 80vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 `;
 
 export default function Layout({ children }: LayoutProps) {
