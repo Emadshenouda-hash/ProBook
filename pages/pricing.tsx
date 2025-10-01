@@ -1,6 +1,7 @@
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import type { DefaultTheme } from 'styled-components';
 
 const Section = styled.section`
@@ -211,6 +212,8 @@ const Answer = styled.p`
 `;
 
 export default function PricingPage() {
+  const { t } = useTranslation();
+  
   return (
     <Section>
       <SEO 
