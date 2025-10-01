@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import { FadeIn } from '../components/Animate';
@@ -8,6 +7,9 @@ const LogosBar = nextDynamic(() => import('../components/LogosBar'), { ssr: true
 import SEO from '../components/SEO';
 import Button from '../components/Button';
 import { track } from '../utils/analytics';
+import { ConversionEvents } from '../utils/conversionTracking';
+import LazyImage from '../components/LazyImage';
+import EmailCapture from '../components/EmailCapture';
 const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
@@ -184,6 +186,32 @@ const ServiceLink = styled.a`
     text-decoration: underline;
     color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.linkHover};
   }
+`;
+
+const NewsletterSection = styled.section`
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #fff;
+  padding: 4rem 1rem;
+  margin: 4rem 0;
+`;
+
+const NewsletterContainer = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const NewsletterTitle = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+`;
+
+const NewsletterText = styled.p`
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  line-height: 1.6;
 `;
 
 const HeroInner = styled.div`
@@ -496,17 +524,16 @@ export default function HomePage() {
           }
         ]}
       />
-      <Hero>
-        <HeroBg aria-hidden="true">
-          <Image 
-            src="/hero-photo.jpg" 
-            alt="" 
-            fill 
-            priority 
-            sizes="100vw" 
-            style={{ objectFit: 'cover' }} 
-          />
-        </HeroBg>
+          <Hero>
+            <HeroBg aria-hidden="true">
+              <LazyImage
+                src="/hero-photo.jpg"
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+              />
+            </HeroBg>
         <HeroInner>
           <FadeIn>
             <HeroSocialProof>
@@ -533,13 +560,19 @@ export default function HomePage() {
           <FadeIn>
             <CTAGroup>
               <Link href="/consultation" passHref legacyBehavior>
-                <PrimaryCTA onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>
+                <PrimaryCTA onClick={() => {
+                  track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' });
+                  ConversionEvents.consultationBooked('hero_cta');
+                }}>
                   <span aria-hidden="true">📅</span>
                   {t('cta.book_consultation')}
                 </PrimaryCTA>
               </Link>
               <Link href="/services" passHref legacyBehavior>
-                <SecondaryCTA>
+                <SecondaryCTA onClick={() => {
+                  track({ name: 'cta_click', label: 'hero_services', href: '/services' });
+                  ConversionEvents.servicePageEngaged('services_overview');
+                }}>
                   <span aria-hidden="true">→</span>
                   {t('home.cta_secondary')}
                 </SecondaryCTA>
@@ -612,15 +645,32 @@ export default function HomePage() {
           </Link>
         </div>
       </Section>
-      <Section>
-        <SectionTitle>{t('home.about_title')}</SectionTitle>
-        <SectionText>{t('home.about_description')}</SectionText>
-        <div style={{ textAlign: 'center' }}>
-          <Link href="/about" passHref legacyBehavior>
-            <ServiceLink>{t('home.about_link')}</ServiceLink>
-          </Link>
-        </div>
-      </Section>
+          <Section>
+            <SectionTitle>{t('home.about_title')}</SectionTitle>
+            <SectionText>{t('home.about_description')}</SectionText>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/about" passHref legacyBehavior>
+                <ServiceLink>{t('home.about_link')}</ServiceLink>
+              </Link>
+            </div>
+          </Section>
+
+          {/* Email Newsletter Section */}
+          <NewsletterSection>
+            <NewsletterContainer>
+              <NewsletterTitle>Stay Updated with ProBook Solutions</NewsletterTitle>
+              <NewsletterText>
+                Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.
+              </NewsletterText>
+              <EmailCapture
+                placeholder="Enter your email address"
+                buttonText="Subscribe Now"
+                source="homepage_newsletter"
+                tags={['newsletter', 'homepage']}
+                onSuccess={() => ConversionEvents.emailSignup('homepage_newsletter')}
+              />
+            </NewsletterContainer>
+          </NewsletterSection>
     </>
   );
 }

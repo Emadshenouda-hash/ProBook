@@ -15,6 +15,10 @@ import { Merriweather } from 'next/font/google';
 import { ConsentProvider } from '../context/ConsentContext';
 import ConsentBanner from '../components/ConsentBanner';
 import DevelopmentBanner from '../components/DevelopmentBanner';
+import ErrorBoundary from '../components/ErrorBoundary';
+import PageTransition from '../components/PageTransition';
+import PerformanceMonitor from '../components/PerformanceMonitor';
+import HeatmapAnalytics from '../components/HeatmapAnalytics';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const tajawal = Tajawal({ subsets: ['arabic'], weight: ['400', '500', '700', '800'], variable: '--font-tajawal', display: 'swap' });
@@ -74,17 +78,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <ConsentProvider>
         <ThemeToggleContext.Provider value={{ mode, toggleTheme }}>
           <ThemeProvider theme={activeTheme}>
-            {/* Development banner - shows during active development */}
-            <DevelopmentBanner />
-            {/* Include analytics scripts only after consent via provider */}
-            <Analytics />
-            <div className={`${inter.variable} ${tajawal.variable} ${merriweather.variable}`}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            </div>
-            <ConsentBanner />
-            <VercelAnalytics />
+            <ErrorBoundary>
+              {/* Development banner - shows during active development */}
+              <DevelopmentBanner />
+              {/* Include analytics scripts only after consent via provider */}
+              <Analytics />
+              {/* Performance monitoring */}
+              <PerformanceMonitor />
+              {/* Heatmap analytics */}
+              <HeatmapAnalytics />
+              <div className={`${inter.variable} ${tajawal.variable} ${merriweather.variable}`}>
+                <Layout>
+                  <PageTransition>
+                    <Component {...pageProps} />
+                  </PageTransition>
+                </Layout>
+              </div>
+              <ConsentBanner />
+              <VercelAnalytics />
+            </ErrorBoundary>
           </ThemeProvider>
         </ThemeToggleContext.Provider>
       </ConsentProvider>
