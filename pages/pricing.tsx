@@ -38,8 +38,14 @@ const Tier = styled.div<{ featured?: boolean }>`
   border: ${({ featured }: { featured?: boolean }) => featured ? `3px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary}` : '1px solid var(--color-border)'};
   border-radius: 12px;
   padding: 2rem;
+  padding-top: ${({ featured }: { featured?: boolean }) => featured ? '3rem' : '2rem'};
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 600px;
+  
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
@@ -89,6 +95,7 @@ const FeaturesList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0 0 2rem 0;
+  flex: 1;
 `;
 
 const FeatureItem = styled.li<{ included?: boolean }>`
@@ -122,6 +129,7 @@ const CTAButton = styled(Link)<{ variant?: string }>`
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;
+  margin-top: auto;
   
   &:hover {
     background: ${({ variant, theme }: { variant?: string; theme: DefaultTheme }) => 
