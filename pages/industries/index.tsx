@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from '../../utils/styled';
 import SEO from '../../components/SEO';
+import { useTranslation } from 'react-i18next';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -17,25 +18,26 @@ const List = styled.ul`
 `;
 
 export default function IndustriesIndex() {
+  const { t } = useTranslation();
   const items = [
-    { slug: 'saas', name: 'SaaS' },
-    { slug: 'ecommerce', name: 'eCommerce' },
-    { slug: 'professional-services', name: 'Professional Services' }
+    { slug: 'saas', name: t('industries.saas', { defaultValue: 'SaaS' }) },
+    { slug: 'ecommerce', name: t('industries.ecommerce', { defaultValue: 'eCommerce' }) },
+    { slug: 'professional-services', name: t('industries.professional_services', { defaultValue: 'Professional Services' }) }
   ];
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
   const jsonLd = [
     {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: 'Industries',
+      name: t('industries.title', { defaultValue: 'Industries' }),
       url: `${baseUrl}/industries`,
       hasPart: items.map((it) => ({ '@type': 'WebPage', name: it.name, url: `${baseUrl}/industries/${it.slug}` }))
     }
   ];
   return (
     <Section>
-      <SEO title="Industries" description="Solutions tailored for SaaS, eCommerce, and Professional Services." canonicalPath="/industries" jsonLd={jsonLd} />
-      <Title>Industries</Title>
+      <SEO title={t('industries.title', { defaultValue: 'Industries' })} description={t('industries.description', { defaultValue: 'Solutions tailored for SaaS, eCommerce, and Professional Services.' })} canonicalPath="/industries" jsonLd={jsonLd} />
+      <Title>{t('industries.title', { defaultValue: 'Industries' })}</Title>
       <List>
         {items.map((it) => (
           <li key={it.slug}><Link href={`/industries/${it.slug}`}>{it.name}</Link></li>

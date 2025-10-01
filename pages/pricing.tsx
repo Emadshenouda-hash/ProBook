@@ -295,15 +295,15 @@ export default function PricingPage() {
             {t('pricing.starter.description', { defaultValue: 'Perfect for early-stage startups and small businesses with straightforward accounting needs.' })}
           </TierDescription>
           <FeaturesList>
-            <FeatureItem included>Bookkeeping up to 200 transactions/month</FeatureItem>
-            <FeatureItem included>Bank & credit card reconciliation</FeatureItem>
-            <FeatureItem included>Monthly P&L and Balance Sheet</FeatureItem>
-            <FeatureItem included>QuickBooks Online or Desktop</FeatureItem>
-            <FeatureItem included>AP/AR management</FeatureItem>
-            <FeatureItem included>Email support (24-48 hr response)</FeatureItem>
-            <FeatureItem included={false}>Multi-entity or multi-currency</FeatureItem>
-            <FeatureItem included={false}>Custom dashboards or KPIs</FeatureItem>
-            <FeatureItem included={false}>CFO advisory services</FeatureItem>
+            <FeatureItem included>{t('pricing.features.transactions', { defaultValue: 'Bookkeeping up to 200 transactions/month' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.bank_reconciliation', { defaultValue: 'Bank & credit card reconciliation' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.pl_bs', { defaultValue: 'Monthly P&L and Balance Sheet' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.quickbooks', { defaultValue: 'QuickBooks Online or Desktop' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.ap_ar', { defaultValue: 'AP/AR management' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.email_support', { defaultValue: 'Email support (24-48 hr response)' })}</FeatureItem>
+            <FeatureItem included={false}>{t('pricing.features.multi_entity', { defaultValue: 'Multi-entity or multi-currency' })}</FeatureItem>
+            <FeatureItem included={false}>{t('pricing.features.dashboards', { defaultValue: 'Custom dashboards or KPIs' })}</FeatureItem>
+            <FeatureItem included={false}>{t('pricing.features.cfo_advisory', { defaultValue: 'CFO advisory services' })}</FeatureItem>
           </FeaturesList>
           <CTAButton href="/consultation">Get Started</CTAButton>
         </Tier>
