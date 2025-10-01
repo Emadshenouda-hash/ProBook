@@ -11,6 +11,7 @@ export const ThemeProvider = sc.ThemeProvider;
 export const useTheme = sc.useTheme;
 export const ServerStyleSheet = sc.ServerStyleSheet;
 export const css = sc.css;
+export const keyframes = sc.keyframes;
 
 export default styled;
 

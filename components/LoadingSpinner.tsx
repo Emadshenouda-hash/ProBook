@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from '../utils/styled';
-import { keyframes } from 'styled-components';
+import styled, { keyframes } from '../utils/styled';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
