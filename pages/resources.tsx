@@ -51,12 +51,23 @@ const ArticleSnippet = styled.p`
 export default function ResourcesPage() {
   const { t } = useTranslation();
   const articles = t('resources.articles', { returnObjects: true }) as Array<{ title: string; snippet: string }>;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Resources',
+      url: `${baseUrl}/resources`,
+      hasPart: articles.map((a) => ({ '@type': 'Article', headline: a.title }))
+    }
+  ];
   return (
     <Section>
       <SEO
         title={t('seo.resources.title')}
         description={t('seo.resources.description')}
         canonicalPath={t('seo.resources.path')}
+        jsonLd={jsonLd}
       />
       <Title>{t('resources.title')}</Title>
       <Intro>{t('resources.intro')}</Intro>

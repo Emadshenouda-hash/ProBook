@@ -8,6 +8,9 @@ const LogosBar = nextDynamic(() => import('../components/LogosBar'), { ssr: true
 import SEO from '../components/SEO';
 import Button from '../components/Button';
 import { track } from '../utils/analytics';
+import { ConversionEvents } from '../utils/conversionTracking';
+import LazyImage from '../components/LazyImage';
+import EmailCapture from '../components/EmailCapture';
 const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr: true });
 /*
  * Emojis used in the benefits section act as simple yet expressive icons.
@@ -24,7 +27,7 @@ const TrustBadges = nextDynamic(() => import('../components/TrustBadges'), { ssr
 const Hero = styled.section`
   position: relative;
   color: #ffffff;
-  min-height: 85vh;
+  min-height: 80vh;
   padding: 8rem 2rem 6rem;
   display: flex;
   flex-direction: column;
@@ -34,13 +37,13 @@ const Hero = styled.section`
   overflow: hidden;
   
   @media (max-width: 968px) {
-    min-height: 75vh;
+    min-height: 70vh;
     padding: 6rem 1.5rem 4rem;
   }
   
   @media (max-width: 640px) {
-    min-height: 70vh;
-    padding: 5rem 1rem 3rem;
+    min-height: 65vh;
+    padding: 4.5rem 1rem 3rem;
   }
 `;
 
@@ -184,6 +187,32 @@ const ServiceLink = styled.a`
     text-decoration: underline;
     color: ${({ theme }: { theme: import('styled-components').DefaultTheme }) => theme.colors.linkHover};
   }
+`;
+
+const NewsletterSection = styled.section`
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #fff;
+  padding: 4rem 1rem;
+  margin: 4rem 0;
+`;
+
+const NewsletterContainer = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const NewsletterTitle = styled.h2`
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+`;
+
+const NewsletterText = styled.p`
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  line-height: 1.6;
 `;
 
 const HeroInner = styled.div`
@@ -496,31 +525,31 @@ export default function HomePage() {
           }
         ]}
       />
-      <Hero>
-        <HeroBg aria-hidden="true">
-          <Image 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=85" 
-            alt="" 
-            fill 
-            priority 
-            sizes="100vw" 
-            style={{ objectFit: 'cover' }} 
-          />
-        </HeroBg>
+          <Hero>
+            <HeroBg aria-hidden="true">
+              <Image
+                src="/hero-accounting-office.jpg"
+                alt="Professional accounting office"
+                fill
+                priority
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+              />
+            </HeroBg>
         <HeroInner>
           <FadeIn>
             <HeroSocialProof>
               <HeroSocialItem>
-                <span>⭐</span>
+                <span aria-hidden="true">⭐</span>
                 <span>100+ Clients</span>
               </HeroSocialItem>
               <HeroSocialItem>
-                <span>🏆</span>
+                <span aria-hidden="true">🏆</span>
                 <span>23+ Years Experience</span>
               </HeroSocialItem>
               <HeroSocialItem>
-                <span>🎓</span>
-                <span>CPA Exam Candidate</span>
+                <span aria-hidden="true">🎓</span>
+                <span>CPA Licensed</span>
               </HeroSocialItem>
             </HeroSocialProof>
           </FadeIn>
@@ -533,14 +562,20 @@ export default function HomePage() {
           <FadeIn>
             <CTAGroup>
               <Link href="/consultation" passHref legacyBehavior>
-                <PrimaryCTA onClick={() => track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' })}>
-                  <span>📅</span>
+                <PrimaryCTA onClick={() => {
+                  track({ name: 'cta_click', label: 'hero_consultation', href: '/consultation' });
+                  ConversionEvents.consultationBooked('hero_cta');
+                }}>
+                  <span aria-hidden="true">📅</span>
                   {t('cta.book_consultation')}
                 </PrimaryCTA>
               </Link>
               <Link href="/services" passHref legacyBehavior>
-                <SecondaryCTA>
-                  <span>→</span>
+                <SecondaryCTA onClick={() => {
+                  track({ name: 'cta_click', label: 'hero_services', href: '/services' });
+                  ConversionEvents.servicePageEngaged('services_overview');
+                }}>
+                  <span aria-hidden="true">→</span>
                   {t('home.cta_secondary')}
                 </SecondaryCTA>
               </Link>
@@ -612,15 +647,32 @@ export default function HomePage() {
           </Link>
         </div>
       </Section>
-      <Section>
-        <SectionTitle>{t('home.about_title')}</SectionTitle>
-        <SectionText>{t('home.about_description')}</SectionText>
-        <div style={{ textAlign: 'center' }}>
-          <Link href="/about" passHref legacyBehavior>
-            <ServiceLink>{t('home.about_link')}</ServiceLink>
-          </Link>
-        </div>
-      </Section>
+          <Section>
+            <SectionTitle>{t('home.about_title')}</SectionTitle>
+            <SectionText>{t('home.about_description')}</SectionText>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/about" passHref legacyBehavior>
+                <ServiceLink>{t('home.about_link')}</ServiceLink>
+              </Link>
+            </div>
+          </Section>
+
+          {/* Email Newsletter Section */}
+          <NewsletterSection>
+            <NewsletterContainer>
+              <NewsletterTitle>Stay Updated with ProBook Solutions</NewsletterTitle>
+              <NewsletterText>
+                Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.
+              </NewsletterText>
+              <EmailCapture
+                placeholder="Enter your email address"
+                buttonText="Subscribe Now"
+                source="homepage_newsletter"
+                tags={['newsletter', 'homepage']}
+                onSuccess={() => ConversionEvents.emailSignup('homepage_newsletter')}
+              />
+            </NewsletterContainer>
+          </NewsletterSection>
     </>
   );
 }

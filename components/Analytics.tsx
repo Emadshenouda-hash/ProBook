@@ -1,6 +1,7 @@
 import Script from 'next/script';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useConsent } from '../context/ConsentContext';
 
 /**
  * Google Analytics 4 implementation with best practices:
@@ -13,11 +14,12 @@ export default function Analytics() {
   const router = useRouter();
   const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || 'G-MLHTJEZ3ZS';
   const isDev = process.env.NODE_ENV === 'development';
+  const { consent } = useConsent();
 
-  // Track page views on route change
+  // Track page views on route change (only when analytics consent is granted)
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      if (typeof window !== 'undefined' && (window as any).gtag) {
+      if (consent.analytics && typeof window !== 'undefined' && (window as any).gtag) {
         (window as any).gtag('config', gaId, {
           page_path: url,
           page_title: document.title,
@@ -30,19 +32,22 @@ export default function Analytics() {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, [router.events, gaId]);
+  }, [router.events, gaId, consent.analytics]);
   
   return (
     <>
-      {/* Google Analytics 4 - gtag.js */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
+      {/* Google Analytics 4 - gtag.js (load but do not send events until consent) */}
+      {consent.analytics && (
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+          strategy="afterInteractive"
+        />
+      )}
       
-      {/* GA4 Configuration with Enhanced Measurement */}
-      <Script id="google-analytics-config" strategy="afterInteractive">
-        {`
+      {/* GA4 Configuration with Enhanced Measurement (only when consented) */}
+      {consent.analytics && (
+        <Script id="google-analytics-config" strategy="afterInteractive">
+          {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           
@@ -98,11 +103,13 @@ export default function Analytics() {
           
           console.log('✅ Google Analytics initialized: ${gaId}');
         `}
-      </Script>
+        </Script>
+      )}
 
-      {/* Enhanced E-commerce Tracking (for future use) */}
-      <Script id="ga-ecommerce" strategy="afterInteractive">
-        {`
+      {/* Enhanced E-commerce Tracking (only when consented) */}
+      {consent.analytics && (
+        <Script id="ga-ecommerce" strategy="afterInteractive">
+          {`
           // Track consultation bookings as conversions
           window.trackConsultation = function(data) {
             gtag('event', 'generate_lead', {
@@ -141,7 +148,8 @@ export default function Analytics() {
             });
           };
         `}
-      </Script>
+        </Script>
+      )}
     </>
   );
 }

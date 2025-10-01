@@ -1,6 +1,7 @@
 import styled from '../utils/styled';
 import SEO from '../components/SEO';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import type { DefaultTheme } from 'styled-components';
 
 const Section = styled.section`
@@ -162,30 +163,31 @@ const TestimonialAuthor = styled.div`
 `;
 
 export default function ThankYouPage() {
+  const { t } = useTranslation();
   return (
     <Section>
       <SEO 
-        title="Thank You - ProBook Solutions" 
-        description="We received your consultation request and will be in touch within 24 hours." 
+        title={t('thank_you.title', { defaultValue: 'Thank You - ProBook Solutions' })}
+        description={t('thank_you.subtitle', { defaultValue: 'We received your consultation request and will be in touch within 24 hours.' })}
         canonicalPath="/thank-you"
         noindex 
       />
       
       <SuccessIcon>✅</SuccessIcon>
-      <Title>Thank You!</Title>
+      <Title>{t('thank_you.title', { defaultValue: 'Thank You!' })}</Title>
       <Subtitle>
-        We've received your consultation request and will be in touch within 24 hours.
+        {t('thank_you.subtitle', { defaultValue: 'We\'ve received your consultation request and will be in touch within 24 hours.' })}
       </Subtitle>
 
       <TimelineBox>
-        <TimelineTitle>📋 What Happens Next</TimelineTitle>
+        <TimelineTitle>{t('thank_you.timeline_title', { defaultValue: '📋 What Happens Next' })}</TimelineTitle>
         
         <TimelineItem>
           <TimelineNumber>1</TimelineNumber>
           <TimelineContent>
-            <TimelineHeading>Confirmation Email (Within 5 minutes)</TimelineHeading>
+            <TimelineHeading>{t('thank_you.step1_title', { defaultValue: 'Confirmation Email (Within 5 minutes)' })}</TimelineHeading>
             <TimelineText>
-              Check your inbox for a confirmation email with your request details. If you don't see it, check your spam folder.
+              {t('thank_you.step1_desc', { defaultValue: 'Check your inbox for a confirmation email with your request details. If you don\'t see it, check your spam folder.' })}
             </TimelineText>
           </TimelineContent>
         </TimelineItem>
@@ -193,9 +195,9 @@ export default function ThankYouPage() {
         <TimelineItem>
           <TimelineNumber>2</TimelineNumber>
           <TimelineContent>
-            <TimelineHeading>Personal Response (Within 24 hours)</TimelineHeading>
+            <TimelineHeading>{t('thank_you.step2_title', { defaultValue: 'Personal Response (Within 24 hours)' })}</TimelineHeading>
             <TimelineText>
-              Emad Shenouda will personally review your information and send you an email with initial thoughts and next steps.
+              {t('thank_you.step2_desc', { defaultValue: 'Emad Shenouda will personally review your information and send you an email with initial thoughts and next steps.' })}
             </TimelineText>
           </TimelineContent>
         </TimelineItem>
@@ -203,9 +205,9 @@ export default function ThankYouPage() {
         <TimelineItem>
           <TimelineNumber>3</TimelineNumber>
           <TimelineContent>
-            <TimelineHeading>Discovery Call (Within 2-3 days)</TimelineHeading>
+            <TimelineHeading>{t('thank_you.step3_title', { defaultValue: 'Discovery Call (Within 2-3 days)' })}</TimelineHeading>
             <TimelineText>
-              We'll schedule a 20-30 minute call to dive deeper into your needs, answer questions, and discuss how we can help.
+              {t('thank_you.step3_desc', { defaultValue: 'We\'ll schedule a 20-30 minute call to dive deeper into your needs, answer questions, and discuss how we can help.' })}
             </TimelineText>
           </TimelineContent>
         </TimelineItem>
@@ -213,9 +215,9 @@ export default function ThankYouPage() {
         <TimelineItem>
           <TimelineNumber>4</TimelineNumber>
           <TimelineContent>
-            <TimelineHeading>Custom Proposal (Within 48 hours of call)</TimelineHeading>
+            <TimelineHeading>{t('thank_you.step4_title', { defaultValue: 'Custom Proposal (Within 48 hours of call)' })}</TimelineHeading>
             <TimelineText>
-              Receive a detailed proposal with scope of work, timeline, pricing, and expected outcomes tailored to your business.
+              {t('thank_you.step4_desc', { defaultValue: 'Receive a detailed proposal with scope of work, timeline, pricing, and expected outcomes tailored to your business.' })}
             </TimelineText>
           </TimelineContent>
         </TimelineItem>
@@ -223,51 +225,51 @@ export default function ThankYouPage() {
 
       <SocialProof>
         <TestimonialQuote>
-          "ProBook Solutions cleaned up 18 months of messy books in 3 weeks. Our investors were impressed with the quality of our financials, which helped us close our Series A."
+          {t('thank_you.testimonial', { defaultValue: '"ProBook Solutions cleaned up 18 months of messy books in 3 weeks. Our investors were impressed with the quality of our financials, which helped us close our Series A."' })}
         </TestimonialQuote>
-        <TestimonialAuthor>— Lisa T., Founder & CEO, SaaS Startup</TestimonialAuthor>
+        <TestimonialAuthor>{t('thank_you.testimonial_author', { defaultValue: '— Lisa T., Founder & CEO, SaaS Startup' })}</TestimonialAuthor>
       </SocialProof>
 
       <ResourcesSection>
-        <ResourcesTitle>While You Wait, Explore Our Resources</ResourcesTitle>
+        <ResourcesTitle>{t('thank_you.resources_title', { defaultValue: 'While You Wait, Explore Our Resources' })}</ResourcesTitle>
         <ResourcesGrid>
           <ResourceCard href="/case-studies">
             <ResourceIcon>📈</ResourceIcon>
-            <ResourceTitle>Case Studies</ResourceTitle>
+            <ResourceTitle>{t('thank_you.case_studies_title', { defaultValue: 'Case Studies' })}</ResourceTitle>
             <ResourceDescription>
-              See how we've helped other businesses reduce close time, improve accuracy, and scale operations.
+              {t('thank_you.case_studies_desc', { defaultValue: 'See how we\'ve helped other businesses reduce close time, improve accuracy, and scale operations.' })}
             </ResourceDescription>
           </ResourceCard>
 
           <ResourceCard href="/pricing">
             <ResourceIcon>💰</ResourceIcon>
-            <ResourceTitle>Pricing Guide</ResourceTitle>
+            <ResourceTitle>{t('thank_you.pricing_title', { defaultValue: 'Pricing Guide' })}</ResourceTitle>
             <ResourceDescription>
-              Review our transparent pricing tiers and feature comparison to see what fits your needs.
+              {t('thank_you.pricing_desc', { defaultValue: 'Review our transparent pricing tiers and feature comparison to see what fits your needs.' })}
             </ResourceDescription>
           </ResourceCard>
 
           <ResourceCard href="/about">
             <ResourceIcon>👤</ResourceIcon>
-            <ResourceTitle>About Emad</ResourceTitle>
+            <ResourceTitle>{t('thank_you.about_emad_title', { defaultValue: 'About Emad' })}</ResourceTitle>
             <ResourceDescription>
-              Learn about our founder's 23+ years of experience, CPA exam credentials, and proven track record.
+              {t('thank_you.about_emad_desc', { defaultValue: 'Learn about our founder\'s 23+ years of experience, CPA exam credentials, and proven track record.' })}
             </ResourceDescription>
           </ResourceCard>
         </ResourcesGrid>
       </ResourcesSection>
 
       <div style={{ marginTop: '3rem', padding: '1.5rem', background: 'var(--color-surface)', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
-        <p style={{ margin: '0 0 1rem', fontWeight: 600 }}>⏱️ Need to talk sooner?</p>
+        <p style={{ margin: '0 0 1rem', fontWeight: 600 }}>{t('thank_you.need_sooner_title', { defaultValue: '⏱️ Need to talk sooner?' })}</p>
         <p style={{ margin: '0 0 1rem', fontSize: '0.95rem' }}>
-          If your request is urgent, feel free to email us directly at{' '}
-          <a href="mailto:contact@probooksolutions.com" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
-            contact@probooksolutions.com
+          {t('thank_you.need_sooner_desc', { defaultValue: 'If your request is urgent, feel free to email us directly at' })}{' '}
+          <a href="mailto:info@probooksolutions.org" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+            info@probooksolutions.org
           </a>{' '}
-          and mention "URGENT" in the subject line.
+          {t('thank_you.urgent_subject', { defaultValue: 'and mention "URGENT" in the subject line.' })}
         </p>
         <p style={{ margin: 0, fontSize: '0.85rem', color: '#6b7280' }}>
-          Typical response time: 2-4 hours during business hours (9am-6pm Egypt Time, GMT+2)
+          {t('thank_you.response_time', { defaultValue: 'Typical response time: 2-4 hours during business hours (9am-6pm Egypt Time, GMT+2)' })}
         </p>
       </div>
     </Section>

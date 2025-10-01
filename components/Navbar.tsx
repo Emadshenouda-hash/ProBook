@@ -429,19 +429,55 @@ export default function Navbar() {
     setMenuOpen(false);
   }, [pathname]);
 
-  // Close mobile menu on escape key
+  // Close mobile menu on escape key and implement focus trap
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setMenuOpen(false);
     };
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (!menuOpen) return;
+      
+      const menu = document.getElementById('mobile-navigation');
+      if (!menu) return;
+      
+      const focusableElements = menu.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+      
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement?.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement?.focus();
+          }
+        }
+      }
+    };
+
     if (menuOpen) {
       document.addEventListener('keydown', handleEscape);
+      document.addEventListener('keydown', handleTabKey);
       document.body.style.overflow = 'hidden'; // Prevent scroll when menu open
+      
+      // Focus first element when menu opens
+      const menu = document.getElementById('mobile-navigation');
+      const firstFocusable = menu?.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') as HTMLElement;
+      firstFocusable?.focus();
     } else {
       document.body.style.overflow = '';
     }
+    
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleTabKey);
       document.body.style.overflow = '';
     };
   }, [menuOpen]);
@@ -566,7 +602,7 @@ export default function Navbar() {
                         active={pathname === item.href}
                         aria-current={pathname === item.href ? 'page' : undefined}
                       >
-                        <MobileNavIcon>{item.icon}</MobileNavIcon>
+                        <MobileNavIcon aria-hidden="true">{item.icon}</MobileNavIcon>
                         {item.label}
                       </MobileNavLink>
                     </Link>

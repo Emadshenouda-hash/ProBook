@@ -29,9 +29,34 @@ interface Props {
 }
 
 export default function CaseStudyDetail({ study }: Props) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: study.title,
+      about: study.industry,
+      description: study.summary,
+      author: { '@type': 'Organization', name: 'ProBook Solutions' },
+      publisher: {
+        '@type': 'Organization',
+        name: 'ProBook Solutions',
+        logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` }
+      },
+      mainEntityOfPage: `${baseUrl}/case-studies/${study.slug}`
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: `${study.title} – Case Study`,
+      url: `${baseUrl}/case-studies/${study.slug}`,
+      about: study.industry,
+      abstract: study.summary
+    }
+  ];
   return (
     <Section>
-      <SEO title={`${study.title} – Case Study`} description={study.summary} canonicalPath={`/case-studies/${study.slug}`} />
+      <SEO title={`${study.title} – Case Study`} description={study.summary} canonicalPath={`/case-studies/${study.slug}`} jsonLd={jsonLd} />
       <Title>{study.title}</Title>
       <Meta>{study.industry}</Meta>
       <h2>Problem</h2>

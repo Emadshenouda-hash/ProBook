@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '../utils/styled';
 import Link from 'next/link';
@@ -105,8 +106,23 @@ const FooterBottomLinks = styled('div')`
   flex-wrap: wrap;
 `;
 
+const CookieSettingsButton = styled('button')`
+  appearance: none;
+  background: none;
+  border: none;
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.mutedText};
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  &:hover { color: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary}; }
+`;
+
 export default function Footer() {
   const { t } = useTranslation();
+  const [ConsentCtx, setCtx] = React.useState<any>(null);
+  React.useEffect(() => {
+    import('../context/ConsentContext').then((m) => setCtx(m));
+  }, []);
   const currentYear = new Date().getFullYear();
   
   return (
@@ -125,9 +141,9 @@ export default function Footer() {
             <SocialLink href="https://twitter.com/probooksolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
               🐦
             </SocialLink>
-            <SocialLink href="mailto:contact@probooksolutions.com" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
-              ✉️
-            </SocialLink>
+                <SocialLink href="mailto:info@probooksolutions.org" aria-label={t('footer.email_label', { defaultValue: 'Email' })}>
+                  ✉️
+                </SocialLink>
           </SocialLinks>
         </FooterColumn>
 
@@ -158,14 +174,16 @@ export default function Footer() {
           <FooterHeading>{t('footer.get_started_heading', { defaultValue: 'Get Started' })}</FooterHeading>
           <FooterLink href="/consultation">{t('cta.book_consultation', { defaultValue: 'Book Consultation' })}</FooterLink>
           <FooterLink href="/contact">{t('footer.contact_us', { defaultValue: 'Contact Us' })}</FooterLink>
-          <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
-            <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
-            contact@probooksolutions.com
-          </FooterText>
+              <FooterText style={{ marginTop: '1rem', fontSize: '0.85rem' }}>
+                <strong>{t('footer.email_label', { defaultValue: 'Email' })}:</strong><br />
+                    info@probooksolutions.org
+              </FooterText>
           <TrustBadgesFooter>
             <Badge>🔐 {t('footer.secure', { defaultValue: 'Secure' })}</Badge>
-            <Badge>✅ {t('footer.certified', { defaultValue: 'Certified' })}</Badge>
+            <Badge>✅ {t('footer.certified', { defaultValue: 'CPA Licensed' })}</Badge>
             <Badge>🏆 {t('footer.years_experience', { defaultValue: '23+ Years' })}</Badge>
+            <Badge>🛡️ {t('footer.soc2', { defaultValue: 'SOC 2 Compliant' })}</Badge>
+            <Badge>🔒 {t('footer.encrypted', { defaultValue: '256-bit SSL' })}</Badge>
           </TrustBadgesFooter>
         </FooterColumn>
       </FooterContent>
@@ -174,6 +192,10 @@ export default function Footer() {
         <div>© {currentYear} {t('seo.siteName', { defaultValue: 'ProBook Solutions' })}. {t('footer.all_rights', { defaultValue: 'All rights reserved.' })}</div>
         <FooterBottomLinks>
           <FooterLink href="/privacy">{t('footer.privacy_policy', { defaultValue: 'Privacy Policy' })}</FooterLink>
+          <FooterLink href="/cookies">{t('footer.cookie_policy', { defaultValue: 'Cookie Policy' })}</FooterLink>
+          {ConsentCtx?.useConsent && (
+            <CookieSettingsButton onClick={() => ConsentCtx.useConsent().reopen()} aria-label="Open cookie settings">Cookie Settings</CookieSettingsButton>
+          )}
           <FooterLink href="/terms">{t('footer.terms_of_service', { defaultValue: 'Terms of Service' })}</FooterLink>
           <FooterLink href="/security">{t('footer.security_compliance', { defaultValue: 'Security & Compliance' })}</FooterLink>
           <FooterLink href="/sitemap.xml">{t('footer.sitemap', { defaultValue: 'Sitemap' })}</FooterLink>

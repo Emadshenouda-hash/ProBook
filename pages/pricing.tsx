@@ -213,6 +213,65 @@ const Answer = styled.p`
 
 export default function PricingPage() {
   const { t } = useTranslation();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How do I know which plan I need?',
+          acceptedAnswer: { '@type': 'Answer', text: 'It depends on your transaction volume, entities, and advisory needs. We help you pick on a free consultation.' }
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I switch plans later?',
+          acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can upgrade or adjust as your needs evolve. Month-to-month with 30 days\' notice.' }
+        }
+      ]
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'OfferCatalog',
+      name: 'Accounting Service Plans',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          name: 'Starter',
+          price: '1000',
+          priceCurrency: 'USD',
+          url: `${baseUrl}/pricing#starter`,
+          itemOffered: { '@type': 'Service', name: 'Bookkeeping Services' },
+          availability: 'https://schema.org/InStock'
+        },
+        {
+          '@type': 'Offer',
+          name: 'Growth',
+          price: '2500',
+          priceCurrency: 'USD',
+          url: `${baseUrl}/pricing#growth`,
+          itemOffered: { '@type': 'Service', name: 'Advanced Accounting & Reporting' },
+          availability: 'https://schema.org/InStock'
+        },
+        {
+          '@type': 'Offer',
+          name: 'Fractional CFO',
+          price: '0',
+          priceCurrency: 'USD',
+          url: `${baseUrl}/pricing#cfo`,
+          itemOffered: { '@type': 'Service', name: 'Fractional CFO Advisory' },
+          availability: 'https://schema.org/LimitedAvailability',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            price: 0,
+            priceCurrency: 'USD',
+            description: 'Custom engagement; schedule a call for tailored quote.'
+          }
+        }
+      ]
+    }
+  ];
   
   return (
     <Section>
@@ -220,6 +279,7 @@ export default function PricingPage() {
         title="Pricing - ProBook Solutions" 
         description="Transparent pricing for bookkeeping, financial reporting, and fractional CFO services. Plans starting at $1,000/month for startups and SMEs."
         canonicalPath="/pricing" 
+        jsonLd={jsonLd}
       />
       <Title>{t('pricing.title', { defaultValue: 'Transparent Pricing' })}</Title>
       <Subtitle>
@@ -235,15 +295,15 @@ export default function PricingPage() {
             {t('pricing.starter.description', { defaultValue: 'Perfect for early-stage startups and small businesses with straightforward accounting needs.' })}
           </TierDescription>
           <FeaturesList>
-            <FeatureItem included>Bookkeeping up to 200 transactions/month</FeatureItem>
-            <FeatureItem included>Bank & credit card reconciliation</FeatureItem>
-            <FeatureItem included>Monthly P&L and Balance Sheet</FeatureItem>
-            <FeatureItem included>QuickBooks Online or Desktop</FeatureItem>
-            <FeatureItem included>AP/AR management</FeatureItem>
-            <FeatureItem included>Email support (24-48 hr response)</FeatureItem>
-            <FeatureItem included={false}>Multi-entity or multi-currency</FeatureItem>
-            <FeatureItem included={false}>Custom dashboards or KPIs</FeatureItem>
-            <FeatureItem included={false}>CFO advisory services</FeatureItem>
+            <FeatureItem included>{t('pricing.features.transactions', { defaultValue: 'Bookkeeping up to 200 transactions/month' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.bank_reconciliation', { defaultValue: 'Bank & credit card reconciliation' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.pl_bs', { defaultValue: 'Monthly P&L and Balance Sheet' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.quickbooks', { defaultValue: 'QuickBooks Online or Desktop' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.ap_ar', { defaultValue: 'AP/AR management' })}</FeatureItem>
+            <FeatureItem included>{t('pricing.features.email_support', { defaultValue: 'Email support (24-48 hr response)' })}</FeatureItem>
+            <FeatureItem included={false}>{t('pricing.features.multi_entity', { defaultValue: 'Multi-entity or multi-currency' })}</FeatureItem>
+            <FeatureItem included={false}>{t('pricing.features.dashboards', { defaultValue: 'Custom dashboards or KPIs' })}</FeatureItem>
+            <FeatureItem included={false}>{t('pricing.features.cfo_advisory', { defaultValue: 'CFO advisory services' })}</FeatureItem>
           </FeaturesList>
           <CTAButton href="/consultation">Get Started</CTAButton>
         </Tier>

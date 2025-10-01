@@ -52,13 +52,86 @@ export default function SEO({
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: siteName,
-      url: baseUrl
+      url: baseUrl,
+      logo: `${baseUrl}/logo.png`,
+      description: finalDescription,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '123 Business Plaza',
+        addressLocality: 'New York',
+        addressRegion: 'NY',
+        postalCode: '10001',
+        addressCountry: 'US'
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+1-555-123-4567',
+        contactType: 'customer service',
+        availableLanguage: ['English', 'Arabic']
+      },
+      sameAs: [
+        'https://www.linkedin.com/company/probook-solutions',
+        'https://twitter.com/probooksolutions'
+      ],
+      foundingDate: '2001',
+      numberOfEmployees: '10-50',
+      areaServed: 'Global',
+      serviceType: ['Accounting', 'Bookkeeping', 'CFO Services', 'Financial Reporting', 'Tax Compliance']
     },
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: siteName,
-      url: baseUrl
+      url: baseUrl,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${baseUrl}/search?q={search_term_string}`,
+        'query-input': 'required name=search_term_string'
+      }
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ProfessionalService',
+      name: siteName,
+      url: baseUrl,
+      description: finalDescription,
+      provider: {
+        '@type': 'Organization',
+        name: siteName,
+        url: baseUrl
+      },
+      areaServed: 'Global',
+      serviceType: ['Bookkeeping', 'CFO-as-a-Service', 'Financial Reporting', 'Tax & Compliance', 'Payroll', 'ERP Setup', 'Process Optimization'],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Accounting Services',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Bookkeeping Services',
+              description: 'Comprehensive bookkeeping and record keeping services'
+            }
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'CFO-as-a-Service',
+              description: 'Strategic financial leadership and planning services'
+            }
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Tax & Compliance',
+              description: 'Tax preparation and regulatory compliance services'
+            }
+          }
+        ]
+      }
     }
   ] : undefined;
 

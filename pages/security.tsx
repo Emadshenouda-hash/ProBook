@@ -105,7 +105,7 @@ export default function SecurityPage() {
       
       <Title>Security & Compliance</Title>
       <Intro>
-        Your financial data is highly sensitive. We take security seriously and implement industry-leading practices to protect your information.
+        Your financial data is sensitive. We follow industry best practices to protect it and continuously improve our controls.
       </Intro>
 
       <ContentBlock>
@@ -117,8 +117,8 @@ export default function SecurityPage() {
           All data transmitted to and from our systems is protected using bank-grade encryption standards:
         </Paragraph>
         <List>
-          <ListItem><strong>TLS 1.3 Encryption:</strong> All connections use the latest Transport Layer Security protocol</ListItem>
-          <ListItem><strong>AES-256 Encryption:</strong> Data at rest is encrypted using military-grade encryption</ListItem>
+          <ListItem><strong>TLS 1.3:</strong> All connections use the latest Transport Layer Security protocol</ListItem>
+          <ListItem><strong>AES‑256:</strong> Data at rest is encrypted using strong encryption</ListItem>
           <ListItem><strong>End-to-End Security:</strong> Your data is encrypted from your browser to our secure servers</ListItem>
           <ListItem><strong>Secure File Storage:</strong> Documents and attachments are stored in encrypted, access-controlled storage</ListItem>
         </List>
@@ -158,8 +158,8 @@ export default function SecurityPage() {
           <Badge>✅ Xero Certified</Badge>
         </BadgesRow>
         <List>
-          <ListItem><strong>GDPR (General Data Protection Regulation):</strong> We comply with EU data protection standards, giving you control over your personal data</ListItem>
-          <ListItem><strong>CCPA (California Consumer Privacy Act):</strong> We respect your privacy rights under California law</ListItem>
+          <ListItem><strong>GDPR (General Data Protection Regulation):</strong> We align with EU data protection principles and honor data subject rights</ListItem>
+          <ListItem><strong>CCPA (California Consumer Privacy Act):</strong> We honor consumer rights under California law</ListItem>
           <ListItem><strong>Data Processing Agreements:</strong> Available upon request for enterprise clients</ListItem>
           <ListItem><strong>Industry Certifications:</strong> Our team holds recognized certifications from accounting software providers</ListItem>
         </List>
@@ -176,7 +176,8 @@ export default function SecurityPage() {
         <List>
           <ListItem><strong>Automated Daily Backups:</strong> All data is backed up daily to multiple secure locations</ListItem>
           <ListItem><strong>Geographic Redundancy:</strong> Backups are stored in geographically distributed data centers</ListItem>
-          <ListItem><strong>99.9% Uptime:</strong> Our infrastructure is designed for high availability</ListItem>
+          <ListItem><strong>High Availability:</strong> Our infrastructure is designed for resiliency and uptime
+          </ListItem>
           <ListItem><strong>Disaster Recovery Plan:</strong> Tested recovery procedures ensure business continuity</ListItem>
         </List>
       </ContentBlock>
@@ -222,9 +223,9 @@ export default function SecurityPage() {
           We actively monitor our systems and have procedures in place to respond to security incidents:
         </Paragraph>
         <List>
-          <ListItem><strong>24/7 Monitoring:</strong> Automated systems watch for suspicious activity</ListItem>
+          <ListItem><strong>Continuous Monitoring:</strong> Automated systems watch for suspicious activity</ListItem>
           <ListItem><strong>Incident Response Plan:</strong> Clear procedures for addressing security events</ListItem>
-          <ListItem><strong>Breach Notification:</strong> We commit to notifying affected parties within 72 hours of any data breach</ListItem>
+          <ListItem><strong>Breach Notification:</strong> We strive to notify affected parties promptly in accordance with applicable laws</ListItem>
           <ListItem><strong>Regular Security Audits:</strong> Quarterly internal reviews and annual external assessments</ListItem>
         </List>
       </ContentBlock>
