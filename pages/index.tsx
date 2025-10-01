@@ -499,13 +499,12 @@ export default function HomePage() {
       <Hero>
         <HeroBg aria-hidden="true">
           <Image 
-            src="/hero-accounting-office.jpg" 
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=85" 
             alt="" 
             fill 
             priority 
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw" 
+            sizes="100vw" 
             style={{ objectFit: 'cover' }} 
-            quality={85}
           />
         </HeroBg>
         <HeroInner>
