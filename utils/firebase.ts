@@ -29,12 +29,21 @@ export function initFirebase() {
     }
 
     // Parse the JSON service account
-    const credentials = JSON.parse(serviceAccount);
+    const raw = JSON.parse(serviceAccount);
 
-    // Initialize Firebase Admin
+    // Ensure private key newlines are correct when coming from env vars
+    const projectId = raw.project_id;
+    const clientEmail = raw.client_email;
+    const privateKey = (raw.private_key || '').replace(/\\n/g, '\n');
+
+    // Initialize Firebase Admin with explicit fields
     firebaseAdmin = initializeApp({
-      credential: cert(credentials),
-      storageBucket: `${credentials.project_id}.appspot.com`
+      credential: cert({
+        projectId,
+        clientEmail,
+        privateKey
+      }),
+      storageBucket: `${projectId}.appspot.com`
     });
 
     console.log('✅ Firebase Admin initialized successfully');
