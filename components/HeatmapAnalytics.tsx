@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useConsent } from '../context/ConsentContext';
 
 export default function HeatmapAnalytics() {
   const router = useRouter();
+  const { consent } = useConsent?.() || { consent: { analytics: false } } as any;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if (!consent?.analytics) return;
 
     // Crazy Egg integration
     const initCrazyEgg = () => {
@@ -21,7 +24,8 @@ export default function HeatmapAnalytics() {
     // Microsoft Clarity integration
     const initClarity = () => {
       // Use the specific Clarity ID for probooksolutions.org
-      const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID || 'tjj89qw6wn';
+      const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
+      if (!clarityId) return;
       
       (function(c: any, l: any, a: any, r: any, i: any, t?: any, y?: any) {
         c[a] = c[a] || function() { (c[a].q = c[a].q || []).push(arguments) };
@@ -55,7 +59,7 @@ export default function HeatmapAnalytics() {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, [router]);
+  }, [router, consent?.analytics]);
 
   return null;
 }

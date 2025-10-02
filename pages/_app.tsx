@@ -18,7 +18,8 @@ import DevelopmentBanner from '../components/DevelopmentBanner';
 import ErrorBoundary from '../components/ErrorBoundary';
 import PageTransition from '../components/PageTransition';
 import PerformanceMonitor from '../components/PerformanceMonitor';
-import HeatmapAnalytics from '../components/HeatmapAnalytics';
+import dynamic from 'next/dynamic';
+const HeatmapAnalytics = dynamic(() => import('../components/HeatmapAnalytics'), { ssr: false });
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const tajawal = Tajawal({ subsets: ['arabic'], weight: ['400', '500', '700', '800'], variable: '--font-tajawal', display: 'swap' });
@@ -79,8 +80,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <ThemeToggleContext.Provider value={{ mode, toggleTheme }}>
           <ThemeProvider theme={activeTheme}>
             <ErrorBoundary>
-              {/* Development banner - shows during active development */}
-              <DevelopmentBanner />
+              {/* Development banner - only in development */}
+              {process.env.NODE_ENV === 'development' && <DevelopmentBanner />}
               {/* Include analytics scripts only after consent via provider */}
               <Analytics />
               {/* Performance monitoring */}
