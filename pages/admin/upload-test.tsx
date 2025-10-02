@@ -98,11 +98,11 @@ export default function UploadTestPage() {
         <form onSubmit={onSubmit}>
           <Row>
             <Label htmlFor="token">Admin Token</Label>
-            <Input id="token" placeholder="Firebase ID token or session token" value={token} onChange={(e) => setToken(e.target.value)} />
+            <Input id="token" placeholder="Firebase ID token or session token" value={token} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setToken(e.target.value)} />
           </Row>
           <Row>
             <Label htmlFor="photoType">Photo Type</Label>
-            <Select id="photoType" value={photoType} onChange={(e) => setPhotoType(e.target.value)}>
+            <Select id="photoType" value={photoType} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPhotoType(e.target.value)}>
               <option value="hero">hero</option>
               <option value="logo">logo</option>
               <option value="gallery">gallery</option>
@@ -110,7 +110,7 @@ export default function UploadTestPage() {
           </Row>
           <Row>
             <Label htmlFor="file">File</Label>
-            <Input id="file" type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+            <Input id="file" type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files?.[0] || null)} />
           </Row>
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
             <Button type="submit" disabled={loading}>{loading ? 'Uploading…' : 'Upload'}</Button>
