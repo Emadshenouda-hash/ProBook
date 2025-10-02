@@ -133,17 +133,40 @@ export async function uploadToFirebase(file: Buffer, path: string, contentType: 
 
   // Prefer explicit bucket from env if provided
   const envBucket = normalizeBucketName(process.env.FIREBASE_STORAGE_BUCKET);
-  const bucket = envBucket ? storage.bucket(envBucket) : storage.bucket();
+  const defaultBucket = storage.bucket();
+  const defaultBucketName = defaultBucket.name;
 
-  // Validate bucket exists to provide a clearer error
-  try {
-    const [exists] = await bucket.exists();
-    if (!exists) {
-      throw new Error(`Storage bucket not found: ${bucket.name}. Enable Cloud Storage in Firebase Console or set FIREBASE_STORAGE_BUCKET to your bucket name.`);
+  const candidates: string[] = [];
+  if (envBucket) {
+    candidates.push(envBucket);
+    if (envBucket.endsWith('.firebasestorage.app')) {
+      const project = envBucket.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
     }
-  } catch (checkErr: any) {
-    // Bubble up detailed error
-    throw checkErr;
+  }
+  if (!candidates.includes(defaultBucketName)) {
+    candidates.push(defaultBucketName);
+  }
+
+  let bucket = defaultBucket;
+  let found = false;
+  let tried: string[] = [];
+  for (const name of candidates) {
+    const b = storage.bucket(name);
+    tried.push(name);
+    try {
+      const [exists] = await b.exists();
+      if (exists) {
+        bucket = b;
+        found = true;
+        break;
+      }
+    } catch {
+      // ignore and try next
+    }
+  }
+  if (!found) {
+    throw new Error(`Storage bucket not found. Tried: ${tried.join(', ')}. Ensure Cloud Storage is enabled and set FIREBASE_STORAGE_BUCKET to your bucket name (e.g., ${defaultBucketName}).`);
   }
   const fileRef = bucket.file(path);
 
