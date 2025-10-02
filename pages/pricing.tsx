@@ -515,6 +515,9 @@ export default function PricingPage() {
             Month-to-month contracts with 30 days' written notice. No long-term lock-in. Upon termination, we'll provide a clean handoff with all files and documentation.
           </Answer>
         </FAQItem>
+        <p style={{ marginTop: '1rem', color: '#6b7280', fontSize: '0.9rem' }}>
+          {t('disclaimers.not_legal_tax', { defaultValue: 'Information provided here is for general guidance and is not legal or tax advice.' })}
+        </p>
       </FAQSection>
 
       <InfoBox style={{ textAlign: 'center', marginTop: '3rem' }}>

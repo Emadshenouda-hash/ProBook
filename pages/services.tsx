@@ -167,6 +167,9 @@ export default function ServicesPage() {
             </FAQItem>
           ))}
         </FAQList>
+        <p style={{ marginTop: '1rem', color: '#6b7280', fontSize: '0.9rem' }}>
+          {t('disclaimers.not_legal_tax', { defaultValue: 'Information provided here is for general guidance and is not legal or tax advice.' })}
+        </p>
       </FAQSection>
     </Section>
   );

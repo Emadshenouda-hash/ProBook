@@ -181,7 +181,7 @@ export default function Footer() {
           <TrustBadgesFooter>
             <Badge>🔐 {t('footer.secure', { defaultValue: 'Secure' })}</Badge>
             <Badge>🏆 {t('footer.years_experience', { defaultValue: '23+ Years' })}</Badge>
-            <Badge>🛡️ {t('footer.soc2', { defaultValue: 'SOC 2 Compliant' })}</Badge>
+            <Badge>🛡️ {t('footer.soc2', { defaultValue: 'SOC 2–aligned controls' })}</Badge>
             <Badge>🔒 {t('footer.encrypted', { defaultValue: '256-bit SSL' })}</Badge>
           </TrustBadgesFooter>
         </FooterColumn>

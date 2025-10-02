@@ -271,6 +271,9 @@
       "generic": "Something went wrong. Please try again later."
     }
   },
+  "disclaimers": {
+    "not_legal_tax": "Information provided here is for general guidance and is not legal or tax advice."
+  },
   "common": {
     "or": "or",
     "and": "and",
