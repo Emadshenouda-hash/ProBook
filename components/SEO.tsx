@@ -55,19 +55,12 @@ export default function SEO({
       url: baseUrl,
       logo: `${baseUrl}/logo.png`,
       description: finalDescription,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '123 Business Plaza',
-        addressLocality: 'New York',
-        addressRegion: 'NY',
-        postalCode: '10001',
-        addressCountry: 'US'
-      },
       contactPoint: {
         '@type': 'ContactPoint',
-        telephone: '+1-555-123-4567',
+        email: 'info@probooksolutions.org',
         contactType: 'customer service',
-        availableLanguage: ['English', 'Arabic']
+        availableLanguage: ['English', 'Arabic'],
+        areaServed: 'Global'
       },
       sameAs: [
         'https://www.linkedin.com/company/probook-solutions',

@@ -12,8 +12,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const baseUrl = getBaseUrl(req.headers as Record<string, string | string[] | undefined>);
   const content = `User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /api/
 
-Sitemap: ${baseUrl}/sitemap.xml`;
+# Sitemaps
+Sitemap: ${baseUrl}/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1`;
 
   res.setHeader('Content-Type', 'text/plain');
   res.write(content);

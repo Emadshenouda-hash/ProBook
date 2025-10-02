@@ -131,16 +131,31 @@ export default function AdminLogin() {
     setError('');
     setLoading(true);
 
-    // Simple password-based authentication
-    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'probook2025admin';
-    
-    if (password === adminPassword) {
-      const token = `admin_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      localStorage.setItem('admin_token', token);
-      localStorage.setItem('admin_login_time', Date.now().toString());
-      router.push('/admin/dashboard');
-    } else {
-      setError('Incorrect password. Please try again.');
+    try {
+      // Call authentication API
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Store token in localStorage AND cookie will be set by API
+        localStorage.setItem('admin_token', data.token);
+        localStorage.setItem('admin_login_time', Date.now().toString());
+        
+        // Redirect to dashboard or original destination
+        const redirect = router.query.redirect as string;
+        router.push(redirect || '/admin/dashboard');
+      } else {
+        const error = await response.json();
+        setError(error.message || 'Incorrect password. Please try again.');
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
       setLoading(false);
     }
   };

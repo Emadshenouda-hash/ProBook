@@ -4,14 +4,38 @@ import { getSupabaseAdmin } from '../../utils/supabase';
 import { saveToFirestore } from '../../utils/firebase';
 import { sendEmail, sendEmailTo } from '../../utils/email';
 
+/**
+ * Contact form submission handler
+ * 🔐 PROTECTED: Rate-limited by middleware, includes spam protection
+ */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
   }
+  
   const { name, email, message, website, utm_source, utm_medium, utm_campaign, utm_term, utm_content } = req.body || {};
-  if (website) return res.status(200).json({ ok: true }); // honeypot pass
+  
+  // Honeypot check - if filled, it's a bot
+  if (website) return res.status(200).json({ ok: true });
+  
+  // Validation
   if (!name || !email || !message) {
-    return res.status(400).json({ ok: false, error: 'Missing fields' });
+    return res.status(400).json({ ok: false, error: 'Missing required fields' });
+  }
+  
+  // Email format validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ ok: false, error: 'Invalid email format' });
+  }
+  
+  // Length validation
+  if (name.length < 2 || name.length > 100) {
+    return res.status(400).json({ ok: false, error: 'Name must be between 2-100 characters' });
+  }
+  
+  if (message.length < 10 || message.length > 5000) {
+    return res.status(400).json({ ok: false, error: 'Message must be between 10-5000 characters' });
   }
   try {
     // Persist to Firebase (primary)

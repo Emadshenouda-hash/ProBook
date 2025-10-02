@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import fs from 'fs';
 import { uploadToFirebase, saveToFirestore } from '../../../utils/firebase';
+import { requireAdmin } from '../../../utils/auth';
 
 export const config = {
   api: {
@@ -12,8 +13,13 @@ export const config = {
 /**
  * Upload photos to Firebase Storage
  * Saves photo URLs to Firestore
+ * 🔐 PROTECTED: Requires admin authentication
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // 🔐 SECURITY: Require admin authentication
+  const admin = await requireAdmin(req, res);
+  if (!admin) return; // Response already sent by requireAdmin
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
