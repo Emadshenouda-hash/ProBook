@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="ProBook Solutions">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0b5ed7"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="256" height="256" rx="48" fill="url(#g)"/>
+  <g fill="#ffffff">
+    <path d="M76 72h72c26 0 44 16 44 40c0 18-12 32-29 35v1c14 3 24 14 24 31c0 26-21 41-53 41H76V72zm36 62h36c13 0 21-7 21-18s-8-18-21-18h-36v36zm0 68h39c15 0 24-7 24-19c0-11-9-18-24-18h-39v37z"/>
+  </g>
+</svg>
+
