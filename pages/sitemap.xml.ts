@@ -42,35 +42,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const allRoutes = [...baseRoutes, ...csRoutes];
   const lastmod = new Date().toISOString();
 
+  // Generate URLs for all locales (cleaner format without xhtml:link)
   const urlSet = allRoutes
-    .map((route) => {
+    .flatMap((route) => {
       const { path, priority, changefreq } = route;
-      const localized: Array<{ loc: string; locUrl: string }> = allLocales.map((loc: string) => {
+      
+      // Create URL entry for each locale
+      return allLocales.map((loc: string) => {
         const locPath = loc === defLocale ? path : `/${loc}${path}`;
         const locUrl = `${baseUrl}${locPath}`;
-        return { loc, locUrl };
+        
+        return `
+    <url>
+      <loc>${locUrl}</loc>
+      <lastmod>${lastmod}</lastmod>
+      <changefreq>${changefreq}</changefreq>
+      <priority>${priority}</priority>
+    </url>`;
       });
-      const defaultEntry = localized.find((entry) => entry.loc === defLocale)!;
-      const alternates = localized
-        .map((entry) => `<xhtml:link rel=\"alternate\" hreflang=\"${entry.loc}\" href=\"${entry.locUrl}\" />`)
-        .join('');
-      const xDefault = `<xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"${defaultEntry.locUrl}\" />`;
-      return `
-        <url>
-          <loc>${defaultEntry.locUrl}</loc>
-          <lastmod>${lastmod}</lastmod>
-          <changefreq>${changefreq}</changefreq>
-          <priority>${priority}</priority>
-          ${alternates}
-          ${xDefault}
-        </url>`;
     })
     .join('');
 
   const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">
-    ${urlSet}
-  </urlset>`;
+<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">
+  ${urlSet}
+</urlset>`;
 
   res.setHeader('Content-Type', 'application/xml');
   res.write(xml);
