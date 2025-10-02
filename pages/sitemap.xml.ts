@@ -2,10 +2,17 @@ import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import studies from '../public/case-studies.json';
 
 const getBaseUrl = (headers: Record<string, string | string[] | undefined>) => {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  // Always use the canonical domain for sitemap
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace('www.', '');
+  }
+  
+  // Fallback: use host header but remove www.
   const proto = (headers['x-forwarded-proto'] as string) || 'https';
   const host = (headers['x-forwarded-host'] as string) || (headers['host'] as string) || 'localhost:3000';
-  return `${proto}://${host}`;
+  const cleanHost = host.replace('www.', '').replace('.com', '.org');
+  
+  return `${proto}://${cleanHost}`;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
