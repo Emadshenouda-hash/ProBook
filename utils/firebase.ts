@@ -10,6 +10,29 @@ import { getAuth } from 'firebase-admin/auth';
 
 let firebaseAdmin: ReturnType<typeof initializeApp> | null = null;
 
+/**
+ * Normalize various bucket formats to the canonical bucket name
+ * Accepts values like:
+ *  - probooksolution-b724f.appspot.com
+ *  - gs://probooksolution-b724f.appspot.com
+ *  - https://storage.googleapis.com/probooksolution-b724f.appspot.com
+ *  - probooksolution-b724f.firebasestorage.app (console UI hostname) → maps to appspot.com bucket
+ */
+function normalizeBucketName(input?: string): string | undefined {
+  if (!input) return undefined;
+  let name = input.trim();
+  // Strip gs:// or https:// prefixes
+  name = name.replace(/^gs:\/\//, '').replace(/^https?:\/\//, '');
+  // If it's a storage.googleapis.com URL, take the path part
+  if (name.startsWith('storage.googleapis.com')) {
+    const parts = name.split('/');
+    name = parts[1] || '';
+  }
+  // Accept firebasestorage.app hostnames as-is (newer Firebase UI shows this)
+  // No conversion to appspot.com; use provided bucket exactly
+  return name;
+}
+
 export function initFirebase() {
   if (firebaseAdmin) return firebaseAdmin;
   
@@ -37,7 +60,8 @@ export function initFirebase() {
     const privateKey = (raw.private_key || '').replace(/\\n/g, '\n');
 
     // Initialize Firebase Admin with explicit fields
-    const envBucket = process.env.FIREBASE_STORAGE_BUCKET;
+    const rawEnvBucket = process.env.FIREBASE_STORAGE_BUCKET;
+    const envBucket = normalizeBucketName(rawEnvBucket);
     firebaseAdmin = initializeApp({
       credential: cert({
         projectId,
@@ -108,7 +132,7 @@ export async function uploadToFirebase(file: Buffer, path: string, contentType: 
   if (!storage) throw new Error('Firebase Storage not initialized');
 
   // Prefer explicit bucket from env if provided
-  const envBucket = process.env.FIREBASE_STORAGE_BUCKET;
+  const envBucket = normalizeBucketName(process.env.FIREBASE_STORAGE_BUCKET);
   const bucket = envBucket ? storage.bucket(envBucket) : storage.bucket();
 
   // Validate bucket exists to provide a clearer error
