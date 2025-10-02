@@ -26,6 +26,7 @@ interface ConsultationPayload {
   utm_content?: string;
   promoCode?: string;
   promoName?: string;
+  selectedPlan?: 'starter' | 'growth' | 'custom' | string;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -45,6 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!fullName || fullName.length < 2) return res.status(400).json({ error: 'Invalid name' });
   if (!/.+@.+\..+/.test(email)) return res.status(400).json({ error: 'Invalid email' });
   if (!company) return res.status(400).json({ error: 'Company required' });
+  if (!body.selectedPlan) return res.status(400).json({ error: 'Plan required' });
 
   try {
     // Persist to Firebase (primary)
@@ -70,7 +72,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         utmTerm: body.utm_term,
         utmContent: body.utm_content,
         promoCode: body.promoCode || null,
-        promoName: body.promoName || null
+        promoName: body.promoName || null,
+        selectedPlan: body.selectedPlan || null
       });
     } catch (fbError) {
       console.warn('Firebase save failed:', fbError);
@@ -100,7 +103,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         utm_term: body.utm_term || null,
         utm_content: body.utm_content || null,
         promo_code: body.promoCode || null,
-        promo_name: body.promoName || null
+        promo_name: body.promoName || null,
+        selected_plan: body.selectedPlan || null
       });
     }
     await createCrmContactAndDeal({
@@ -137,6 +141,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       <p><strong>UTM Term:</strong> ${body.utm_term || ''}</p>
       <p><strong>UTM Content:</strong> ${body.utm_content || ''}</p>
       <p><strong>Promo:</strong> ${body.promoCode || ''} ${body.promoName ? `(${body.promoName})` : ''}</p>
+      <p><strong>Selected Plan:</strong> ${body.selectedPlan || ''}</p>
     `);
     // Send a thank-you email to the submitter
     if (body.email) {

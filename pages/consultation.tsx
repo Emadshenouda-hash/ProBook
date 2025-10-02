@@ -469,6 +469,7 @@ export default function ConsultationPage() {
     goals: '',
     notes: '',
     attachmentUrl: '',
+    selectedPlan: '',
     website: '', // honeypot
     utm_source: '',
     utm_medium: '',
@@ -567,6 +568,10 @@ export default function ConsultationPage() {
     if (!form.fullName || form.fullName.trim().length < 2) return setError('Please enter your full name.');
     if (!/.+@.+\..+/.test(form.email)) return setError('Please enter a valid email address.');
     if (!form.company.trim()) return setError('Please enter your company name.');
+    if (!form.selectedPlan) return setError('Please select a plan.');
+    if (!form.companySize) return setError('Please select your company size.');
+    if (!form.industry) return setError('Please select your industry.');
+    if (!form.services || form.services.length === 0) return setError('Please select at least one service.');
     
     setSubmitting(true);
     try {
@@ -708,6 +713,23 @@ export default function ConsultationPage() {
                       placeholder="Acme Inc."
                       required 
                     />
+                  </Field>
+                </Grid>
+              </FormSection>
+
+              {/* Plan Selection */}
+              <FormSection>
+                <SectionTitle>🧩 {t('consultation.plan_selection', { defaultValue: 'Which plan are you looking for?' })}</SectionTitle>
+                <Grid>
+                  <Field>
+                    <Label htmlFor="selectedPlan">{t('consultation.plan_label', { defaultValue: 'Plan' })} <Required>*</Required></Label>
+                    <Select id="selectedPlan" name="selectedPlan" value={(form as any).selectedPlan} onChange={handleSelectChange} required>
+                      <option value="">Select a plan…</option>
+                      <option value="starter">Starter — $750 (Oct promo)</option>
+                      <option value="growth">Growth — $2000</option>
+                      <option value="custom">Custom / Not sure</option>
+                    </Select>
+                    <Hint>{t('consultation.plan_hint', { defaultValue: 'This helps us tailor your consultation.' })}</Hint>
                   </Field>
                 </Grid>
               </FormSection>
