@@ -85,7 +85,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               <Analytics />
               {/* Performance monitoring */}
               <PerformanceMonitor />
-              {/* Heatmap analytics */}
+              {/* Heatmap analytics (Hotjar removed) */}
               <HeatmapAnalytics />
               <div className={`${inter.variable} ${tajawal.variable} ${merriweather.variable}`}>
                 <Layout>

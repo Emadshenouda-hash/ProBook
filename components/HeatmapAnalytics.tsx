@@ -7,21 +7,6 @@ export default function HeatmapAnalytics() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Hotjar integration
-    const initHotjar = () => {
-      // Use the specific Hotjar ID for probooksolutions.org
-      const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID || '6535512';
-      
-      (function(h: any, o: any, t: any, j: any, a?: any, r?: any) {
-        h.hj = h.hj || function() { (h.hj.q = h.hj.q || []).push(arguments) };
-        h._hjSettings = { hjid: hotjarId, hjsv: 6 };
-        a = o.getElementsByTagName('head')[0];
-        r = o.createElement('script'); r.async = 1;
-        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-    };
-
     // Crazy Egg integration
     const initCrazyEgg = () => {
       if (process.env.NEXT_PUBLIC_CRAZYEGG_ID) {
@@ -46,17 +31,11 @@ export default function HeatmapAnalytics() {
     };
 
     // Initialize all heatmap services
-    initHotjar();
     initCrazyEgg();
     initClarity();
 
     // Track page views for heatmap services
     const trackPageView = () => {
-      // Hotjar page view tracking
-      if ((window as any).hj) {
-        (window as any).hj('stateChange', router.asPath);
-      }
-
       // Clarity page view tracking
       if ((window as any).clarity) {
         (window as any).clarity('set', 'page', router.asPath);
@@ -81,7 +60,6 @@ export default function HeatmapAnalytics() {
   return null;
 }
 
-// Environment variables needed (add to .env.local):
-// NEXT_PUBLIC_HOTJAR_ID=your_hotjar_id
+// Environment variables (optional):
 // NEXT_PUBLIC_CRAZYEGG_ID=your_crazyegg_id  
 // NEXT_PUBLIC_CLARITY_ID=your_clarity_id
