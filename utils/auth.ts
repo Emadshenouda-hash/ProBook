@@ -54,7 +54,8 @@ export async function verifyAdminToken(token: string): Promise<AdminUser | null>
  * Used when Firebase is not configured
  */
 export function verifyAdminPassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD;
+  // Prefer server-only ADMIN_PASSWORD; fallback to legacy NEXT_PUBLIC_ADMIN_PASSWORD for compatibility
+  const adminPassword = process.env.ADMIN_PASSWORD || process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
   
   if (!adminPassword) {
     console.error('ADMIN_PASSWORD not set in environment variables');
