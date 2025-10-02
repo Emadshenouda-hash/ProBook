@@ -318,7 +318,7 @@ This is a private project. For internal development:
 
 ## 📞 Support
 
-For technical issues, contact: [your-dev-email@probooksolutions.com]
+For technical issues, contact: [your-dev-email@probooksolutions.org]
 
 ## 🗺️ Roadmap
 

@@ -29,7 +29,7 @@ interface Props {
 }
 
 export default function CaseStudyDetail({ study }: Props) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.org';
   const jsonLd = [
     {
       '@context': 'https://schema.org',

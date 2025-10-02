@@ -19,7 +19,7 @@ I've updated your sitemap to use the **standard format** that Google prefers:
 ### **Before (Had Issues):**
 ```xml
 <url>
-  <loc>https://www.probooksolutions.com/</loc>
+  <loc>https://www.probooksolutions.org/</loc>
   <xhtml:link rel="alternate" hreflang="en" href="..." />
   <xhtml:link rel="alternate" hreflang="ar" href="..." />
   <xhtml:link rel="alternate" hreflang="x-default" href="..." />
@@ -31,13 +31,13 @@ Google Search Console validator doesn't like `xhtml:link` tags.
 ### **After (Google-Friendly):**
 ```xml
 <url>
-  <loc>https://www.probooksolutions.com/</loc>
+  <loc>https://www.probooksolutions.org/</loc>
   <lastmod>2025-10-02T...</lastmod>
   <changefreq>daily</changefreq>
   <priority>1.0</priority>
 </url>
 <url>
-  <loc>https://www.probooksolutions.com/ar/</loc>
+  <loc>https://www.probooksolutions.org/ar/</loc>
   <lastmod>2025-10-02T...</lastmod>
   <changefreq>daily</changefreq>
   <priority>1.0</priority>
@@ -59,8 +59,8 @@ Now each locale gets its own `<url>` entry (cleaner, Google-approved).
 4. ✅ Cleaner, standard sitemap format
 
 **Your sitemap now includes:**
-- English URLs: `https://www.probooksolutions.com/about`
-- Arabic URLs: `https://www.probooksolutions.com/ar/about`
+- English URLs: `https://www.probooksolutions.org/about`
+- Arabic URLs: `https://www.probooksolutions.org/ar/about`
 - All properly formatted
 
 ---
@@ -82,20 +82,20 @@ Watch in Vercel dashboard - should take ~1-2 minutes.
 
 ### **Step 3: Verify Sitemap**
 
-Visit: `https://www.probooksolutions.com/sitemap.xml`
+Visit: `https://www.probooksolutions.org/sitemap.xml`
 
 Should look like:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.probooksolutions.com/</loc>
+    <loc>https://www.probooksolutions.org/</loc>
     <lastmod>2025-10-02T08:43:00.000Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.probooksolutions.com/ar/</loc>
+    <loc>https://www.probooksolutions.org/ar/</loc>
     <lastmod>2025-10-02T08:43:00.000Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -111,7 +111,7 @@ Should look like:
 ### **In Google Search Console:**
 
 1. **Go to:** https://search.google.com/search-console
-2. **Select your property:** probooksolutions.com
+2. **Select your property:** probooksolutions.org
 3. **Navigate to:** Sitemaps (left sidebar)
 4. **Remove old sitemap:**
    - Click the "..." menu on existing sitemap
@@ -204,7 +204,7 @@ But the current fix is **perfectly fine** and Google-compliant!
 
 2. **After deployment, verify:**
    ```
-   https://www.probooksolutions.com/sitemap.xml
+   https://www.probooksolutions.org/sitemap.xml
    ```
 
 3. **Resubmit to Google Search Console**

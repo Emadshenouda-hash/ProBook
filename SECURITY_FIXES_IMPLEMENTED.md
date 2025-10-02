@@ -207,7 +207,7 @@ Disallow: /admin/
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://www.probooksolutions.com/sitemap.xml
+Sitemap: https://www.probooksolutions.org/sitemap.xml
 Crawl-delay: 1
 ```
 

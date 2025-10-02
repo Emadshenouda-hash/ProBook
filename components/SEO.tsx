@@ -30,7 +30,7 @@ export default function SEO({
   const router = useRouter();
   const { locale = 'en', defaultLocale = 'en', asPath = '/', locales = ['en', 'ar'] } = router as unknown as { locale?: string; defaultLocale?: string; asPath?: string; locales?: string[] };
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://probooksolutions.org';
   const cleanPath = (canonicalPath || asPath.split('?')[0]) || '/';
   const localizedPath = locale && locale !== defaultLocale ? `/${locale}${cleanPath}` : cleanPath;
   const absoluteUrl = `${baseUrl}${localizedPath}`;

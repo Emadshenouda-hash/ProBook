@@ -79,12 +79,12 @@ ProBook Solutions is a **well-architected Next.js application** for an accountin
 Create `.env.example` with all required variables:
 ```bash
 # Site Configuration
-NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
 NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=
 
 # Email (Resend)
 RESEND_API_KEY=
-RESEND_FROM=no-reply@probooksolutions.com
+RESEND_FROM=no-reply@probooksolutions.org
 CONTACT_INBOX=info@probooksolutions.org
 
 # Database (Supabase)

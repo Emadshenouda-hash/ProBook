@@ -273,7 +273,7 @@ git push origin main
 # 7. Wait for deployment (watch in Vercel Dashboard)
 
 # 8. Test
-curl https://probooksolutions.com/api/test-firebase
+curl https://probooksolutions.org/api/test-firebase
 # {"status":"OK",...}
 
 # 9. Done! ✅

@@ -284,9 +284,9 @@ npm run dev             # Test locally
 
 ### Essential Environment Variables:
 ```bash
-NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
 RESEND_API_KEY=re_your_key_here
-CONTACT_INBOX=contact@probooksolutions.com
+CONTACT_INBOX=contact@probooksolutions.org
 ```
 
 ### Optional (Recommended):

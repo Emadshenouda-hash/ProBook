@@ -18,16 +18,16 @@ I've updated your structured data to include proper logo markup:
   "@type": "Organization",
   "logo": {
     "@type": "ImageObject",
-    "url": "https://www.probooksolutions.com/logo.png",
+    "url": "https://www.probooksolutions.org/logo.png",
     "width": "512",
     "height": "512",
     "caption": "ProBook Solutions Logo"
   },
-  "image": "https://www.probooksolutions.com/logo.png",
+  "image": "https://www.probooksolutions.org/logo.png",
   "brand": {
     "@type": "Brand",
     "name": "ProBook Solutions",
-    "logo": "https://www.probooksolutions.com/logo.png"
+    "logo": "https://www.probooksolutions.org/logo.png"
   }
 }
 ```
@@ -134,7 +134,7 @@ Upload your logo to:
 ### **4. Verify in Google Search Console**
 
 1. **Go to:** https://search.google.com/search-console
-2. **Add property:** probooksolutions.com (if not added)
+2. **Add property:** probooksolutions.org (if not added)
 3. **Verify ownership** (you already have the meta tag)
 4. **Submit sitemap:** sitemap.xml
 
@@ -168,7 +168,7 @@ Format: PNG (with transparent background)
 Size: 512 x 512 pixels (square)
 File size: < 100 KB
 Location: /public/logo.png
-URL: https://www.probooksolutions.com/logo.png
+URL: https://www.probooksolutions.org/logo.png
 ```
 
 **For wide logos:**
@@ -234,7 +234,7 @@ After deploying a proper logo:
 2. **Deploy changes** 
 3. **Test with Google Rich Results Test:**
    - https://search.google.com/test/rich-results
-   - Enter: https://www.probooksolutions.com
+   - Enter: https://www.probooksolutions.org
    - Should show Organization with logo
 
 4. **Wait for Google to crawl** (1-4 weeks)

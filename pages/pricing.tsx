@@ -213,7 +213,7 @@ const Answer = styled.p`
 
 export default function PricingPage() {
   const { t } = useTranslation();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://probooksolutions.org';
   const jsonLd = [
     {
       '@context': 'https://schema.org',

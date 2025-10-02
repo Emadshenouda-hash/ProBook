@@ -259,8 +259,8 @@ export default function TermsPage() {
         </Paragraph>
         <Paragraph>
           <strong>ProBook Solutions</strong><br />
-          Email: legal@probooksolutions.com<br />
-          Website: <a href="/">www.probooksolutions.com</a>
+          Email: legal@probooksolutions.org<br />
+          Website: <a href="/">www.probooksolutions.org</a>
         </Paragraph>
       </ContentBlock>
 

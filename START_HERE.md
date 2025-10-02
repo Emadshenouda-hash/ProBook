@@ -19,9 +19,9 @@ cp .env.example .env.local
 
 **Edit `.env.local` and add these MINIMUM variables:**
 ```bash
-NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
 RESEND_API_KEY=re_YOUR_KEY_HERE
-CONTACT_INBOX=contact@probooksolutions.com
+CONTACT_INBOX=contact@probooksolutions.org
 ```
 
 **Get Resend API Key:**
@@ -184,7 +184,7 @@ If you don't have Calendly yet:
 
 **Steps:**
 1. Sign up at resend.com
-2. Add and verify your domain (probooksolutions.com)
+2. Add and verify your domain (probooksolutions.org)
 3. Set DNS records (SPF, DKIM, DMARC)
 4. Create API key
 5. Add to `.env.local`

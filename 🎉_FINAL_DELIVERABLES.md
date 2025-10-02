@@ -365,7 +365,7 @@
 
 ### URL: `/admin`
 
-**Example:** `https://probooksolutions.com/admin`
+**Example:** `https://probooksolutions.org/admin`
 
 ### Login:
 - **Password:** Set in environment variable

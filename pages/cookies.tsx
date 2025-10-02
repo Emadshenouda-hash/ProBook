@@ -163,7 +163,7 @@ export default function CookiePolicy() {
           <List>
             <ListItem>Use the cookie banner that appears when you first visit our site</ListItem>
             <ListItem>Click the "Cookie Settings" link in our footer</ListItem>
-            <ListItem>Contact us directly at privacy@probooksolutions.com</ListItem>
+            <ListItem>Contact us directly at privacy@probooksolutions.org</ListItem>
           </List>
         </Section>
 
@@ -198,7 +198,7 @@ export default function CookiePolicy() {
             If you have any questions about our use of cookies, please contact us:
           </Paragraph>
           <List>
-            <ListItem>Email: privacy@probooksolutions.com</ListItem>
+            <ListItem>Email: privacy@probooksolutions.org</ListItem>
             <ListItem>Phone: +1-555-123-4567</ListItem>
             <ListItem>Address: 123 Business Plaza, New York, NY 10001</ListItem>
           </List>

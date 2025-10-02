@@ -30,7 +30,7 @@ const DATA: Record<string, Props> = {
 };
 
 export default function IndustryPage({ slug, name, painPoints, solutions }: Props) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.org';
   const jsonLd = [
     {
       '@context': 'https://schema.org',
