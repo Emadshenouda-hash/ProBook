@@ -37,7 +37,7 @@ const Grid = styled.div`
 
 const Tier = styled.div<{ featured?: boolean }>`
   background: var(--color-surface);
-  border: ${({ featured }: { featured?: boolean }) => featured ? `3px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary}` : '1px solid var(--color-border)'};
+  border: ${({ featured, theme }: { featured?: boolean; theme: DefaultTheme }) => featured ? `3px solid ${theme.colors.primary}` : '1px solid var(--color-border)'};
   border-radius: 12px;
   padding: 2rem;
   padding-top: ${({ featured }: { featured?: boolean }) => featured ? '3rem' : '2rem'};
@@ -47,6 +47,7 @@ const Tier = styled.div<{ featured?: boolean }>`
   flex-direction: column;
   height: 100%;
   min-height: 600px;
+  overflow: visible;
   
   &:hover {
     transform: translateY(-4px);
@@ -56,9 +57,9 @@ const Tier = styled.div<{ featured?: boolean }>`
 
 const FeaturedBadge = styled.div`
   position: absolute;
-  top: -14px;
+  top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
   color: #fff;
   padding: 0.4rem 1.25rem;
@@ -69,6 +70,7 @@ const FeaturedBadge = styled.div`
   white-space: nowrap;
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
   z-index: 10;
+  pointer-events: none;
 `;
 
 const TierName = styled.h3`
