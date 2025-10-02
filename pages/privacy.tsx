@@ -243,7 +243,7 @@ export default function PrivacyPolicyPage() {
 
         <HighlightBox>
           <strong>To Exercise Your Rights:</strong><br />
-          Email us at <a href="mailto:privacy@probooksolutions.com">privacy@probooksolutions.com</a> with your request. We will respond within 30 days (GDPR) or 45 days (CCPA).
+          Email us at <a href="mailto:privacy@probooksolutions.org">privacy@probooksolutions.org</a> with your request. We will respond within 30 days (GDPR) or 45 days (CCPA).
         </HighlightBox>
       </ContentBlock>
 
@@ -358,7 +358,7 @@ export default function PrivacyPolicyPage() {
         <P>
           <strong>ProBook Solutions</strong><br />
           Privacy Officer<br />
-          Email: <a href="mailto:privacy@probooksolutions.com">privacy@probooksolutions.com</a><br />
+          Email: <a href="mailto:privacy@probooksolutions.org">privacy@probooksolutions.org</a><br />
           Website: <Link href="/contact">Contact Form</Link>
         </P>
         <P>

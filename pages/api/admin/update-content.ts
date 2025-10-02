@@ -1,12 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
+import { requireAdmin } from '../../../utils/auth';
 
 /**
  * API endpoint to update content from CMS admin panel
  * Saves changes to the translation JSON files
+ * 🔐 PROTECTED: Requires admin authentication
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // 🔐 SECURITY: Require admin authentication
+  const admin = await requireAdmin(req, res);
+  if (!admin) return; // Response already sent by requireAdmin
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }

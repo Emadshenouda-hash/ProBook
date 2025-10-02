@@ -25,15 +25,15 @@ cp .env.example .env.local
 
 **Edit `.env.local` and add these 3 ESSENTIAL variables:**
 ```bash
-NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
 RESEND_API_KEY=re_YOUR_KEY_HERE
-CONTACT_INBOX=contact@probooksolutions.com
+CONTACT_INBOX=contact@probooksolutions.org
 ```
 
 **How to get Resend API Key (FREE):**
 1. Go to [resend.com](https://resend.com)
 2. Sign up (free tier: 3,000 emails/month)
-3. Add your domain (probooksolutions.com)
+3. Add your domain (probooksolutions.org)
 4. Verify domain with DNS records
 5. Create API key
 6. Paste into `.env.local`
@@ -117,7 +117,7 @@ vercel --prod
 
 Visit your site at:
 - Vercel URL: `https://your-project.vercel.app`
-- Custom domain: `https://www.probooksolutions.com` (after DNS setup)
+- Custom domain: `https://www.probooksolutions.org` (after DNS setup)
 
 ---
 

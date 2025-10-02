@@ -255,7 +255,7 @@ export default function SecurityPage() {
           If you discover a security vulnerability or have concerns about data protection, please contact us immediately:
         </Paragraph>
         <Paragraph>
-          <strong>Security Email:</strong> security@probooksolutions.com<br />
+          <strong>Security Email:</strong> security@probooksolutions.org<br />
           <strong>Response Time:</strong> Within 24 hours
         </Paragraph>
       </HighlightBox>

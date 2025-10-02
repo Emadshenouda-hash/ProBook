@@ -91,15 +91,29 @@ if (typeof setInterval !== 'undefined') {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only apply rate limiting to API routes and form submissions
-  const protectedPaths = [
+  // 🔐 PROTECT ADMIN PAGES
+  // Redirect to login if accessing admin pages without auth
+  if (pathname.startsWith('/admin') && pathname !== '/admin') {
+    const token = request.cookies.get('admin_token')?.value;
+    
+    // Check if token exists (basic check, full validation happens in API routes)
+    if (!token) {
+      const loginUrl = new URL('/admin', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // 🚦 RATE LIMITING for API routes and form submissions
+  const rateLimitPaths = [
     '/api/contact',
     '/api/consultation',
     '/api/consultation-upload',
-    '/api/chat'
+    '/api/chat',
+    '/api/email/subscribe'
   ];
 
-  const shouldRateLimit = protectedPaths.some(path => pathname.startsWith(path));
+  const shouldRateLimit = rateLimitPaths.some(path => pathname.startsWith(path));
 
   if (!shouldRateLimit) {
     return NextResponse.next();
@@ -135,9 +149,13 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // API routes to rate limit
     '/api/contact',
     '/api/consultation',
     '/api/consultation-upload',
-    '/api/chat'
+    '/api/chat',
+    '/api/email/subscribe',
+    // Admin pages to protect
+    '/admin/:path*'
   ]
 };

@@ -41,7 +41,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
   render() {
     const dir: 'ltr' | 'rtl' = this.props.dir || 'ltr';
     const locale: string = this.props.locale || 'en';
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://probooksolutions.org';
 
     return (
       <Html lang={locale} dir={dir}>

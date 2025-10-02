@@ -30,7 +30,7 @@ export default function SEO({
   const router = useRouter();
   const { locale = 'en', defaultLocale = 'en', asPath = '/', locales = ['en', 'ar'] } = router as unknown as { locale?: string; defaultLocale?: string; asPath?: string; locales?: string[] };
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://probooksolutions.org';
   const cleanPath = (canonicalPath || asPath.split('?')[0]) || '/';
   const localizedPath = locale && locale !== defaultLocale ? `/${locale}${cleanPath}` : cleanPath;
   const absoluteUrl = `${baseUrl}${localizedPath}`;
@@ -53,30 +53,36 @@ export default function SEO({
       '@type': 'Organization',
       name: siteName,
       url: baseUrl,
-      logo: `${baseUrl}/logo.png`,
-      description: finalDescription,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '123 Business Plaza',
-        addressLocality: 'New York',
-        addressRegion: 'NY',
-        postalCode: '10001',
-        addressCountry: 'US'
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/logo.png`,
+        width: '512',
+        height: '512',
+        caption: 'ProBook Solutions Logo'
       },
+      image: `${baseUrl}/logo.png`,
+      description: finalDescription,
       contactPoint: {
         '@type': 'ContactPoint',
-        telephone: '+1-555-123-4567',
+        email: 'info@probooksolutions.org',
         contactType: 'customer service',
-        availableLanguage: ['English', 'Arabic']
+        availableLanguage: ['English', 'Arabic'],
+        areaServed: 'Global'
       },
       sameAs: [
         'https://www.linkedin.com/company/probook-solutions',
-        'https://twitter.com/probooksolutions'
+        'https://twitter.com/probooksolutions',
+        'https://www.facebook.com/probooksolutions'
       ],
       foundingDate: '2001',
       numberOfEmployees: '10-50',
       areaServed: 'Global',
-      serviceType: ['Accounting', 'Bookkeeping', 'CFO Services', 'Financial Reporting', 'Tax Compliance']
+      serviceType: ['Accounting', 'Bookkeeping', 'CFO Services', 'Financial Reporting', 'Tax Compliance'],
+      brand: {
+        '@type': 'Brand',
+        name: 'ProBook Solutions',
+        logo: `${baseUrl}/logo.png`
+      }
     },
     {
       '@context': 'https://schema.org',

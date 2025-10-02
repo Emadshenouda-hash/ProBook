@@ -742,11 +742,11 @@ GROUP BY services;
 
 ```bash
 # Site
-NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
 
 # Email
 RESEND_API_KEY=re_xxxxxxxxxxxx
-CONTACT_INBOX=contact@probooksolutions.com
+CONTACT_INBOX=contact@probooksolutions.org
 
 # Supabase (from supabase-violet-park)
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co

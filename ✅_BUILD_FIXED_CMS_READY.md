@@ -115,9 +115,9 @@ npm install
 cp .env.example .env.local
 
 # Add to .env.local:
-# NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+# NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
 # RESEND_API_KEY=re_your_key
-# CONTACT_INBOX=contact@probooksolutions.com
+# CONTACT_INBOX=contact@probooksolutions.org
 # NEXT_PUBLIC_ADMIN_PASSWORD=YourSecurePassword123!
 
 # Build

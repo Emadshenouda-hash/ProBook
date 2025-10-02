@@ -128,9 +128,9 @@ If you don't have a professional headshot yet, consider:
 - [ ] **Copy `.env.example` to `.env.local`**
 - [ ] **Fill in minimum environment variables:**
   ```bash
-  NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+  NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
   RESEND_API_KEY=your_resend_api_key
-  CONTACT_INBOX=contact@probooksolutions.com
+  CONTACT_INBOX=contact@probooksolutions.org
   ```
 - [ ] **Add your professional photo** to `/public/emad-shenouda-headshot.jpg`
 - [ ] **Run `npm run build`** to verify no errors
@@ -211,7 +211,7 @@ In Vercel dashboard, go to **Settings → Environment Variables** and add:
 ```
 NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app (or custom domain)
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxx
-CONTACT_INBOX=contact@probooksolutions.com
+CONTACT_INBOX=contact@probooksolutions.org
 ```
 
 **Recommended:**
@@ -238,7 +238,7 @@ CHAT_DEMO_MODE=true (set to false when ready to use real AI)
 
 ### Step 5: Add Custom Domain (Optional)
 1. In Vercel, go to **Settings → Domains**
-2. Add `www.probooksolutions.com`
+2. Add `www.probooksolutions.org`
 3. Update DNS records as instructed by Vercel
 4. SSL certificate is automatic
 

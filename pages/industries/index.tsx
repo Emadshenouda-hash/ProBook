@@ -24,7 +24,7 @@ export default function IndustriesIndex() {
     { slug: 'ecommerce', name: t('industries.ecommerce', { defaultValue: 'eCommerce' }) },
     { slug: 'professional-services', name: t('industries.professional_services', { defaultValue: 'Professional Services' }) }
   ];
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.org';
   const jsonLd = [
     {
       '@context': 'https://schema.org',

@@ -2,10 +2,17 @@ import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import studies from '../public/case-studies.json';
 
 const getBaseUrl = (headers: Record<string, string | string[] | undefined>) => {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  // Always use the canonical domain for sitemap
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace('www.', '');
+  }
+  
+  // Fallback: use host header but remove www.
   const proto = (headers['x-forwarded-proto'] as string) || 'https';
   const host = (headers['x-forwarded-host'] as string) || (headers['host'] as string) || 'localhost:3000';
-  return `${proto}://${host}`;
+  const cleanHost = host.replace('www.', '').replace('.com', '.org');
+  
+  return `${proto}://${cleanHost}`;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -42,35 +49,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   const allRoutes = [...baseRoutes, ...csRoutes];
   const lastmod = new Date().toISOString();
 
+  // Generate URLs for all locales (cleaner format without xhtml:link)
   const urlSet = allRoutes
-    .map((route) => {
+    .flatMap((route) => {
       const { path, priority, changefreq } = route;
-      const localized: Array<{ loc: string; locUrl: string }> = allLocales.map((loc: string) => {
+      
+      // Create URL entry for each locale
+      return allLocales.map((loc: string) => {
         const locPath = loc === defLocale ? path : `/${loc}${path}`;
         const locUrl = `${baseUrl}${locPath}`;
-        return { loc, locUrl };
+        
+        return `
+    <url>
+      <loc>${locUrl}</loc>
+      <lastmod>${lastmod}</lastmod>
+      <changefreq>${changefreq}</changefreq>
+      <priority>${priority}</priority>
+    </url>`;
       });
-      const defaultEntry = localized.find((entry) => entry.loc === defLocale)!;
-      const alternates = localized
-        .map((entry) => `<xhtml:link rel=\"alternate\" hreflang=\"${entry.loc}\" href=\"${entry.locUrl}\" />`)
-        .join('');
-      const xDefault = `<xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"${defaultEntry.locUrl}\" />`;
-      return `
-        <url>
-          <loc>${defaultEntry.locUrl}</loc>
-          <lastmod>${lastmod}</lastmod>
-          <changefreq>${changefreq}</changefreq>
-          <priority>${priority}</priority>
-          ${alternates}
-          ${xDefault}
-        </url>`;
     })
     .join('');
 
   const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-  <urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">
-    ${urlSet}
-  </urlset>`;
+<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">
+  ${urlSet}
+</urlset>`;
 
   res.setHeader('Content-Type', 'application/xml');
   res.write(xml);

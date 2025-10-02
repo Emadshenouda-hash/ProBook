@@ -339,9 +339,9 @@ public/case-studies.json                  (34 → 148 lines, +114)
 
 3. **Minimum required variables:**
    ```bash
-   NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.com
+   NEXT_PUBLIC_SITE_URL=https://www.probooksolutions.org
    RESEND_API_KEY=re_your_key_here
-   CONTACT_INBOX=contact@probooksolutions.com
+   CONTACT_INBOX=contact@probooksolutions.org
    ```
 
 4. **Test build:**

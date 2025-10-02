@@ -877,7 +877,7 @@ export default function ConsultationPage() {
                   <CalendlyEmbed>
                     <iframe
                       title="Schedule consultation with ProBook Solutions"
-                      src={`${calendlyUrl}?embed_domain=${typeof window !== 'undefined' ? window.location.hostname : 'www.probooksolutions.com'}&embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1`}
+                      src={`${calendlyUrl}?embed_domain=${typeof window !== 'undefined' ? window.location.hostname : 'www.probooksolutions.org'}&embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1`}
                       width="100%"
                       height="700"
                       frameBorder="0"

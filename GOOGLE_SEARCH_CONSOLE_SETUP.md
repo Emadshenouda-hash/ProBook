@@ -1,6 +1,6 @@
 # 🔍 Google Search Console Setup Guide
 
-**Your Sitemap:** `https://www.probooksolutions.com/sitemap.xml`  
+**Your Sitemap:** `https://www.probooksolutions.org/sitemap.xml`  
 **Status:** ✅ READY TO SUBMIT  
 **Purpose:** Get indexed by Google, track SEO performance
 
@@ -10,7 +10,7 @@
 
 ### **Automatically Generated:**
 
-**URL:** `https://www.probooksolutions.com/sitemap.xml`
+**URL:** `https://www.probooksolutions.org/sitemap.xml`
 
 **Contains:**
 - ✅ All 14 main pages (homepage, about, services, etc.)
@@ -36,7 +36,7 @@
 
 **Enter:**
 ```
-https://www.probooksolutions.com
+https://www.probooksolutions.org
 ```
 
 **Click:** Continue
@@ -164,12 +164,12 @@ https://www.probooksolutions.com
 **Each page includes:**
 ```xml
 <url>
-  <loc>https://www.probooksolutions.com/about</loc>
+  <loc>https://www.probooksolutions.org/about</loc>
   
   <!-- Alternate language versions -->
-  <xhtml:link rel="alternate" hreflang="en" href="https://www.probooksolutions.com/about" />
-  <xhtml:link rel="alternate" hreflang="ar" href="https://www.probooksolutions.com/ar/about" />
-  <xhtml:link rel="alternate" hreflang="x-default" href="https://www.probooksolutions.com/about" />
+  <xhtml:link rel="alternate" hreflang="en" href="https://www.probooksolutions.org/about" />
+  <xhtml:link rel="alternate" hreflang="ar" href="https://www.probooksolutions.org/ar/about" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://www.probooksolutions.org/about" />
   
   <lastmod>2025-09-30T...</lastmod>
   <changefreq>weekly</changefreq>
@@ -187,14 +187,14 @@ https://www.probooksolutions.com
 
 ## 🔍 Robots.txt (Also Important)
 
-**Your robots.txt:** `https://www.probooksolutions.com/robots.txt`
+**Your robots.txt:** `https://www.probooksolutions.org/robots.txt`
 
 **Content:**
 ```
 User-agent: *
 Allow: /
 
-Sitemap: https://www.probooksolutions.com/sitemap.xml
+Sitemap: https://www.probooksolutions.org/sitemap.xml
 
 # Block admin pages
 Disallow: /admin/
@@ -318,7 +318,7 @@ See which pages get most traffic:
 ## 📋 Google Search Console Checklist
 
 ### **Initial Setup:**
-- [ ] Add property (URL: www.probooksolutions.com)
+- [ ] Add property (URL: www.probooksolutions.org)
 - [ ] Verify ownership (HTML tag or file)
 - [ ] Submit sitemap (sitemap.xml)
 - [ ] Wait for indexing (1-7 days)
@@ -343,33 +343,33 @@ See which pages get most traffic:
 
 **High Priority (1.0):**
 ```
-https://www.probooksolutions.com/
-https://www.probooksolutions.com/consultation
+https://www.probooksolutions.org/
+https://www.probooksolutions.org/consultation
 ```
 
 **Very High Priority (0.9):**
 ```
-https://www.probooksolutions.com/about
-https://www.probooksolutions.com/services
-https://www.probooksolutions.com/pricing
+https://www.probooksolutions.org/about
+https://www.probooksolutions.org/services
+https://www.probooksolutions.org/pricing
 ```
 
 **High Priority (0.8):**
 ```
-https://www.probooksolutions.com/case-studies
-https://www.probooksolutions.com/case-studies/ecommerce-close-acceleration
-https://www.probooksolutions.com/case-studies/saas-cfo-dashboards
-https://www.probooksolutions.com/case-studies/nonprofit-grant-reporting
-https://www.probooksolutions.com/case-studies/pr-agency-multi-entity
-https://www.probooksolutions.com/case-studies/startup-books-cleanup
-https://www.probooksolutions.com/contact
+https://www.probooksolutions.org/case-studies
+https://www.probooksolutions.org/case-studies/ecommerce-close-acceleration
+https://www.probooksolutions.org/case-studies/saas-cfo-dashboards
+https://www.probooksolutions.org/case-studies/nonprofit-grant-reporting
+https://www.probooksolutions.org/case-studies/pr-agency-multi-entity
+https://www.probooksolutions.org/case-studies/startup-books-cleanup
+https://www.probooksolutions.org/contact
 ```
 
 **Plus Arabic versions (+19 URLs):**
 ```
-https://www.probooksolutions.com/ar/
-https://www.probooksolutions.com/ar/consultation
-https://www.probooksolutions.com/ar/about
+https://www.probooksolutions.org/ar/
+https://www.probooksolutions.org/ar/consultation
+https://www.probooksolutions.org/ar/about
 ...etc
 ```
 
@@ -385,7 +385,7 @@ https://www.probooksolutions.com/ar/about
 
 **2. Add property:**
 ```
-https://www.probooksolutions.com
+https://www.probooksolutions.org
 ```
 
 **3. Verify (choose method):**
@@ -484,7 +484,7 @@ Organic leads: 5-15/month
 
 **Quality:** Enterprise-grade 🏆
 
-**URL:** `https://www.probooksolutions.com/sitemap.xml`
+**URL:** `https://www.probooksolutions.org/sitemap.xml`
 
 **Action:** Submit to Google Search Console NOW! 🚀
 
@@ -494,13 +494,13 @@ Organic leads: 5-15/month
 
 **Your Sitemap URL:**
 ```
-https://www.probooksolutions.com/sitemap.xml
+https://www.probooksolutions.org/sitemap.xml
 ```
 
 **How to Submit:**
 ```
 1. Go to: search.google.com/search-console
-2. Add property: www.probooksolutions.com
+2. Add property: www.probooksolutions.org
 3. Verify ownership (HTML tag)
 4. Sitemaps → Submit: sitemap.xml
 5. Done! ✅
