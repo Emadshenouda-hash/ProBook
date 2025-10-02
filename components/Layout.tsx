@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import Breadcrumbs from './Breadcrumbs';
 import Footer from './Footer';
 import dynamic from 'next/dynamic';
+import PromoBar from './PromoBar';
 
 // Dynamically import the chat widget only on the client to prevent
 // mismatches during server-side rendering. This avoids loading any
@@ -183,6 +184,7 @@ export default function Layout({ children }: LayoutProps) {
       <GlobalStyle dir={dir} fontFamily={fontFamily} />
       <SkipLink href="#main">Skip to content</SkipLink>
       <Navbar />
+      <PromoBar />
       <Container>
         {/* Render breadcrumbs to help users understand where they are in the site hierarchy */}
         <Breadcrumbs />

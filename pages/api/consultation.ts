@@ -24,6 +24,8 @@ interface ConsultationPayload {
   utm_campaign?: string;
   utm_term?: string;
   utm_content?: string;
+  promoCode?: string;
+  promoName?: string;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -66,7 +68,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         utmMedium: body.utm_medium,
         utmCampaign: body.utm_campaign,
         utmTerm: body.utm_term,
-        utmContent: body.utm_content
+        utmContent: body.utm_content,
+        promoCode: body.promoCode || null,
+        promoName: body.promoName || null
       });
     } catch (fbError) {
       console.warn('Firebase save failed:', fbError);
@@ -94,7 +98,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         utm_medium: body.utm_medium || null,
         utm_campaign: body.utm_campaign || null,
         utm_term: body.utm_term || null,
-        utm_content: body.utm_content || null
+        utm_content: body.utm_content || null,
+        promo_code: body.promoCode || null,
+        promo_name: body.promoName || null
       });
     }
     await createCrmContactAndDeal({
@@ -130,6 +136,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       <p><strong>UTM Campaign:</strong> ${body.utm_campaign || ''}</p>
       <p><strong>UTM Term:</strong> ${body.utm_term || ''}</p>
       <p><strong>UTM Content:</strong> ${body.utm_content || ''}</p>
+      <p><strong>Promo:</strong> ${body.promoCode || ''} ${body.promoName ? `(${body.promoName})` : ''}</p>
     `);
     // Send a thank-you email to the submitter
     if (body.email) {
