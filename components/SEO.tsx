@@ -53,7 +53,14 @@ export default function SEO({
       '@type': 'Organization',
       name: siteName,
       url: baseUrl,
-      logo: `${baseUrl}/logo.png`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/logo.png`,
+        width: '512',
+        height: '512',
+        caption: 'ProBook Solutions Logo'
+      },
+      image: `${baseUrl}/logo.png`,
       description: finalDescription,
       contactPoint: {
         '@type': 'ContactPoint',
@@ -64,12 +71,18 @@ export default function SEO({
       },
       sameAs: [
         'https://www.linkedin.com/company/probook-solutions',
-        'https://twitter.com/probooksolutions'
+        'https://twitter.com/probooksolutions',
+        'https://www.facebook.com/probooksolutions'
       ],
       foundingDate: '2001',
       numberOfEmployees: '10-50',
       areaServed: 'Global',
-      serviceType: ['Accounting', 'Bookkeeping', 'CFO Services', 'Financial Reporting', 'Tax Compliance']
+      serviceType: ['Accounting', 'Bookkeeping', 'CFO Services', 'Financial Reporting', 'Tax Compliance'],
+      brand: {
+        '@type': 'Brand',
+        name: 'ProBook Solutions',
+        logo: `${baseUrl}/logo.png`
+      }
     },
     {
       '@context': 'https://schema.org',
