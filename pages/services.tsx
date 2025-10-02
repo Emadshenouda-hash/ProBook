@@ -153,7 +153,7 @@ export default function ServicesPage() {
           <CTAButton onClick={() => track({ name: 'cta_click', label: 'services_consultation', href: '/consultation' })}>{t('cta.book_consultation')}</CTAButton>
         </Link>
         <div style={{ marginTop: '0.75rem' }}>
-          <Link href="/industries">Explore industries</Link>
+          <Link href="/industries">{t('services.explore_industries', { defaultValue: 'Explore industries' })}</Link>
         </div>
       </CTAWrapper>
 

@@ -9,7 +9,15 @@
     "language": "Language"
   },
   "footer": {
-    "copyright": "© 2025 ProBook Solutions. All rights reserved."
+    "copyright": "© 2025 ProBook Solutions. All rights reserved.",
+    "cookie_policy": "Cookie Policy",
+    "secure": "Secure",
+    "years_experience": "23+ Years",
+    "soc2": "SOC 2 Compliant",
+    "encrypted": "256-bit SSL",
+    "case_studies": "Case Studies",
+    "pricing": "Pricing",
+    "email_label": "Email"
   },
   "seo": {
     "siteName": "ProBook Solutions",
@@ -44,6 +52,11 @@
       "title": "Client Portal",
       "description": "Sign in to access your dashboard, financial reports, and project updates.",
       "path": "/portal"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "description": "Transparent pricing for bookkeeping, financial reporting, and fractional CFO services. Plans starting at $1,000/month.",
+      "path": "/pricing"
     }
   },
   "home": {
@@ -84,7 +97,16 @@
         { "icon": "🤝", "title": "Personalised Service", "description": "Get tailored accounting support that grows with your business." },
         { "icon": "🧘", "title": "Peace of Mind", "description": "Focus on your business while we handle the numbers." }
       ]
-    }
+    },
+    "case_studies_title": "Case Studies",
+    "case_studies_description": "See how we improved close times, reporting accuracy, and decision‑making.",
+    "case_studies_link": "View Case Studies"
+  },
+  "newsletter": {
+    "title": "Stay Updated with ProBook Solutions",
+    "subtitle": "Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.",
+    "placeholder": "Enter your email address",
+    "cta": "Subscribe Now"
   },
   "cta": {
     "book_consultation": "Book a Consultation"
@@ -109,7 +131,12 @@
       "Remote Team Collaboration",
       "AP/AR Management",
       "Excel, Google Workspace, Slack, Notion, Asana"
-    ]
+    ],
+    "badges": {
+      "years_exp": "✓ 23+ Years Experience",
+      "qb_expert": "✓ QuickBooks Expert",
+      "bilingual": "✓ Bilingual (EN/AR)"
+    }
   },
   "services": {
     "title": "Our Services",
@@ -137,6 +164,7 @@
       }
     ],
     "cta": "Schedule Consultation",
+    "explore_industries": "Explore industries",
     "faq": {
       "title": "Frequently Asked Questions",
       "items": [
@@ -175,6 +203,24 @@
   "portal": {
     "title": "Client Portal",
     "intro": "Sign in to access your personalized dashboard, financial reports, and project updates."
+  },
+  "404": {
+    "title": "Page Not Found",
+    "description": "This page does not exist.",
+    "body": "Sorry, we can’t find that page.",
+    "cta": "Go home"
+  },
+  "thank_you": {
+    "contact_success": "Thanks! We will get back to you soon."
+  },
+  "consultation": {
+    "errors": {
+      "spam": "Spam detected.",
+      "name_required": "Please enter your full name.",
+      "email_invalid": "Please enter a valid email address.",
+      "message_required": "Please write a brief message (10+ chars).",
+      "generic": "Something went wrong. Please try again later."
+    }
   },
   "common": {
     "or": "or",

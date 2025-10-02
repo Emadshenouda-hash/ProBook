@@ -547,10 +547,6 @@ export default function HomePage() {
                 <span aria-hidden="true">🏆</span>
                 <span>23+ Years Experience</span>
               </HeroSocialItem>
-              <HeroSocialItem>
-                <span aria-hidden="true">🎓</span>
-                <span>CPA Licensed</span>
-              </HeroSocialItem>
             </HeroSocialProof>
           </FadeIn>
           <FadeIn>
@@ -638,15 +634,15 @@ export default function HomePage() {
           </Link>
         </div>
       </Section>
-      <Section>
-        <SectionTitle>Case Studies</SectionTitle>
-        <SectionText>See how we improved close times, reporting accuracy, and decision‑making.</SectionText>
-        <div style={{ textAlign: 'center' }}>
-          <Link href="/case-studies" passHref legacyBehavior>
-            <ServiceLink>View Case Studies</ServiceLink>
-          </Link>
-        </div>
-      </Section>
+          <Section>
+            <SectionTitle>{t('home.case_studies_title', { defaultValue: 'Case Studies' })}</SectionTitle>
+            <SectionText>{t('home.case_studies_description', { defaultValue: 'See how we improved close times, reporting accuracy, and decision‑making.' })}</SectionText>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/case-studies" passHref legacyBehavior>
+                <ServiceLink>{t('home.case_studies_link', { defaultValue: 'View Case Studies' })}</ServiceLink>
+              </Link>
+            </div>
+          </Section>
           <Section>
             <SectionTitle>{t('home.about_title')}</SectionTitle>
             <SectionText>{t('home.about_description')}</SectionText>
@@ -660,13 +656,13 @@ export default function HomePage() {
           {/* Email Newsletter Section */}
           <NewsletterSection>
             <NewsletterContainer>
-              <NewsletterTitle>Stay Updated with ProBook Solutions</NewsletterTitle>
+              <NewsletterTitle>{t('newsletter.title', { defaultValue: 'Stay Updated with ProBook Solutions' })}</NewsletterTitle>
               <NewsletterText>
-                Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.
+                {t('newsletter.subtitle', { defaultValue: 'Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.' })}
               </NewsletterText>
               <EmailCapture
-                placeholder="Enter your email address"
-                buttonText="Subscribe Now"
+                placeholder={t('newsletter.placeholder', { defaultValue: 'Enter your email address' }) as string}
+                buttonText={t('newsletter.cta', { defaultValue: 'Subscribe Now' }) as string}
                 source="homepage_newsletter"
                 tags={['newsletter', 'homepage']}
                 onSuccess={() => ConversionEvents.emailSignup('homepage_newsletter')}
