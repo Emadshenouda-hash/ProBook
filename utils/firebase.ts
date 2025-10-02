@@ -37,13 +37,14 @@ export function initFirebase() {
     const privateKey = (raw.private_key || '').replace(/\\n/g, '\n');
 
     // Initialize Firebase Admin with explicit fields
+    const envBucket = process.env.FIREBASE_STORAGE_BUCKET;
     firebaseAdmin = initializeApp({
       credential: cert({
         projectId,
         clientEmail,
         privateKey
       }),
-      storageBucket: `${projectId}.appspot.com`
+      storageBucket: envBucket || `${projectId}.appspot.com`
     });
 
     console.log('✅ Firebase Admin initialized successfully');
@@ -106,7 +107,20 @@ export async function uploadToFirebase(file: Buffer, path: string, contentType: 
   const storage = getFirebaseStorage();
   if (!storage) throw new Error('Firebase Storage not initialized');
 
-  const bucket = storage.bucket();
+  // Prefer explicit bucket from env if provided
+  const envBucket = process.env.FIREBASE_STORAGE_BUCKET;
+  const bucket = envBucket ? storage.bucket(envBucket) : storage.bucket();
+
+  // Validate bucket exists to provide a clearer error
+  try {
+    const [exists] = await bucket.exists();
+    if (!exists) {
+      throw new Error(`Storage bucket not found: ${bucket.name}. Enable Cloud Storage in Firebase Console or set FIREBASE_STORAGE_BUCKET to your bucket name.`);
+    }
+  } catch (checkErr: any) {
+    // Bubble up detailed error
+    throw checkErr;
+  }
   const fileRef = bucket.file(path);
 
   await fileRef.save(file, {
