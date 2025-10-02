@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type React from 'react';
 import styled from '../../utils/styled';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -173,15 +174,18 @@ const Specs = styled.div`
   margin-top: 0.5rem;
 `;
 
+type PhotoKey = 'hero' | 'headshot' | 'caseStudy1' | 'caseStudy2';
+type PhotoMap = Record<PhotoKey, File | null>;
+
 export default function PhotoManager() {
   const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
-  const [photos, setPhotos] = useState({
-    hero: null as File | null,
-    headshot: null as File | null,
-    caseStudy1: null as File | null,
-    caseStudy2: null as File | null
+  const [photos, setPhotos] = useState<PhotoMap>({
+    hero: null,
+    headshot: null,
+    caseStudy1: null,
+    caseStudy2: null
   });
   const [uploadedUrls, setUploadedUrls] = useState<Record<string, string>>({});
 
@@ -203,7 +207,7 @@ export default function PhotoManager() {
     }
   }, [router]);
 
-  const handleFileSelect = async (key: keyof typeof photos, file: File | null) => {
+  const handleFileSelect = async (key: PhotoKey, file: File | null) => {
     if (!file) return;
     
     // Validate file size (max 5MB)
@@ -219,17 +223,20 @@ export default function PhotoManager() {
       return;
     }
     
-    setPhotos((prev) => ({ ...prev, [key]: file }));
+    setPhotos((prev: PhotoMap) => ({ ...prev, [key]: file }));
     setUploading(key);
     
     // Upload to Firebase Storage via API
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('photoType', key);
+    formData.append('photoType', String(key));
     
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;
       const res = await fetch('/api/admin/upload-photo', {
         method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        credentials: 'same-origin',
         body: formData
       });
       
@@ -314,7 +321,7 @@ export default function PhotoManager() {
                 <input
                   type="file"
                   accept="image/jpeg,image/jpg,image/webp,image/png"
-                  onChange={(e) => handleFileSelect('hero', e.target.files?.[0] || null)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileSelect('hero', e.target.files?.[0] || null)}
                 />
                 <div style={{ padding: '0.5rem' }}>
                   📤 {photos.hero ? 'Change Image' : 'Upload Image'}
@@ -350,7 +357,7 @@ export default function PhotoManager() {
                 <input
                   type="file"
                   accept="image/jpeg,image/jpg,image/webp,image/png"
-                  onChange={(e) => handleFileSelect('headshot', e.target.files?.[0] || null)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileSelect('headshot', e.target.files?.[0] || null)}
                 />
                 <div style={{ padding: '0.5rem' }}>
                   📤 {photos.headshot ? 'Change Photo' : 'Upload Photo'}
@@ -386,7 +393,7 @@ export default function PhotoManager() {
                 <input
                   type="file"
                   accept="image/jpeg,image/jpg,image/webp,image/png"
-                  onChange={(e) => handleFileSelect('caseStudy1', e.target.files?.[0] || null)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileSelect('caseStudy1', e.target.files?.[0] || null)}
                 />
                 <div style={{ padding: '0.5rem' }}>
                   📤 {photos.caseStudy1 ? 'Change Image' : 'Upload Image'}
@@ -422,7 +429,7 @@ export default function PhotoManager() {
                 <input
                   type="file"
                   accept="image/jpeg,image/jpg,image/webp,image/png"
-                  onChange={(e) => handleFileSelect('caseStudy2', e.target.files?.[0] || null)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileSelect('caseStudy2', e.target.files?.[0] || null)}
                 />
                 <div style={{ padding: '0.5rem' }}>
                   📤 {photos.caseStudy2 ? 'Change Image' : 'Upload Image'}
