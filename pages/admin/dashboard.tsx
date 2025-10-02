@@ -190,6 +190,14 @@ export default function AdminDashboard() {
             </CardDescription>
           </Card>
 
+          <Card href="/admin/gallery">
+            <CardIcon>📚</CardIcon>
+            <CardTitle>Gallery</CardTitle>
+            <CardDescription>
+              View uploaded photos, copy URLs, and delete items from Storage/Firestore.
+            </CardDescription>
+          </Card>
+
           <Card href="/admin/translations">
             <CardIcon>🌍</CardIcon>
             <CardTitle>Translations <Badge>EN/AR</Badge></CardTitle>

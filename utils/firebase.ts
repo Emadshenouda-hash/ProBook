@@ -223,3 +223,77 @@ export async function getFromFirestore(collection: string, limit: number = 100) 
     ...doc.data()
   }));
 }
+
+/**
+ * Get a Firestore document by ID
+ */
+export async function getFirestoreDocById(collection: string, id: string) {
+  const db = getFirebaseDB();
+  if (!db) throw new Error('Firestore not initialized');
+
+  const ref = db.collection(collection).doc(id);
+  const snap = await ref.get();
+  if (!snap.exists) return null;
+  return { id: snap.id, ...snap.data() } as any;
+}
+
+/**
+ * Delete a Firestore document by ID
+ */
+export async function deleteFromFirestore(collection: string, id: string) {
+  const db = getFirebaseDB();
+  if (!db) throw new Error('Firestore not initialized');
+
+  await db.collection(collection).doc(id).delete();
+  return true;
+}
+
+/**
+ * Delete a file from Firebase Storage by path
+ */
+export async function deleteFromFirebase(path: string) {
+  const storage = getFirebaseStorage();
+  if (!storage) throw new Error('Firebase Storage not initialized');
+
+  const envBucket = normalizeBucketName(process.env.FIREBASE_STORAGE_BUCKET);
+  const defaultBucket = storage.bucket();
+  const defaultBucketName = defaultBucket.name;
+
+  const candidates: string[] = [];
+  if (envBucket) {
+    candidates.push(envBucket);
+    if (envBucket.endsWith('.firebasestorage.app')) {
+      const project = envBucket.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
+    if (envBucket.endsWith('.appspot.com')) {
+      const project = envBucket.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+  }
+  if (!candidates.includes(defaultBucketName)) {
+    candidates.push(defaultBucketName);
+    if (defaultBucketName.endsWith('.appspot.com')) {
+      const project = defaultBucketName.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+    if (defaultBucketName.endsWith('.firebasestorage.app')) {
+      const project = defaultBucketName.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
+  }
+
+  let lastErr: any = null;
+  for (const name of candidates) {
+    try {
+      const bucket = storage.bucket(name);
+      const fileRef = bucket.file(path);
+      await fileRef.delete();
+      return true;
+    } catch (err: any) {
+      lastErr = err;
+      // try next candidate
+    }
+  }
+  throw lastErr || new Error(`Failed to delete file at path: ${path}`);
+}
