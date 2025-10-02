@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
+import { sendEmail } from '../../../utils/email';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -85,6 +86,14 @@ async function handleResendSubscription(req: NextApiRequest, res: NextApiRespons
         </div>
       `
     });
+
+    // Admin notification
+    await sendEmail('New newsletter subscriber', `
+      <p><strong>Email:</strong> ${subscriber.email}</p>
+      <p><strong>Name:</strong> ${(subscriber.firstName || '')} ${(subscriber.lastName || '')}</p>
+      <p><strong>Source:</strong> ${subscriber.source || ''}</p>
+      <p><strong>Tags:</strong> ${(subscriber.tags || []).join(', ')}</p>
+    `);
 
     return res.status(200).json({ 
       success: true, 
