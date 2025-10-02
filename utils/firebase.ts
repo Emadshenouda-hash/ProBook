@@ -143,9 +143,21 @@ export async function uploadToFirebase(file: Buffer, path: string, contentType: 
       const project = envBucket.replace('.firebasestorage.app', '');
       candidates.push(`${project}.appspot.com`);
     }
+    if (envBucket.endsWith('.appspot.com')) {
+      const project = envBucket.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
   }
   if (!candidates.includes(defaultBucketName)) {
     candidates.push(defaultBucketName);
+    if (defaultBucketName.endsWith('.appspot.com')) {
+      const project = defaultBucketName.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+    if (defaultBucketName.endsWith('.firebasestorage.app')) {
+      const project = defaultBucketName.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
   }
 
   let bucket = defaultBucket;

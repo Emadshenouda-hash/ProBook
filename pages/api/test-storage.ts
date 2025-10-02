@@ -28,14 +28,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const defaultBucketName = defaultBucket.name;
 
     const candidates: string[] = [];
-    if (envBucket) candidates.push(envBucket);
-    // Also try appspot variant if env points at firebasestorage.app
-    if (envBucket && envBucket.endsWith('.firebasestorage.app')) {
-      const project = envBucket.replace('.firebasestorage.app', '');
-      candidates.push(`${project}.appspot.com`);
+    if (envBucket) {
+      candidates.push(envBucket);
+      // Add cross-variant for convenience
+      if (envBucket.endsWith('.firebasestorage.app')) {
+        const project = envBucket.replace('.firebasestorage.app', '');
+        candidates.push(`${project}.appspot.com`);
+      }
+      if (envBucket.endsWith('.appspot.com')) {
+        const project = envBucket.replace('.appspot.com', '');
+        candidates.push(`${project}.firebasestorage.app`);
+      }
     }
     if (!candidates.includes(defaultBucketName)) {
       candidates.push(defaultBucketName);
+      // Also add cross-variant for default
+      if (defaultBucketName.endsWith('.appspot.com')) {
+        const project = defaultBucketName.replace('.appspot.com', '');
+        candidates.push(`${project}.firebasestorage.app`);
+      }
+      if (defaultBucketName.endsWith('.firebasestorage.app')) {
+        const project = defaultBucketName.replace('.firebasestorage.app', '');
+        candidates.push(`${project}.appspot.com`);
+      }
     }
 
     const results: Array<{ name: string; exists: boolean; error?: string }> = [];
