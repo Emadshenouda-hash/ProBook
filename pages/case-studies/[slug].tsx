@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import styled from '../../utils/styled';
 import SEO from '../../components/SEO';
 import studies from '../../public/case-studies.json';
+import { useRouter } from 'next/router';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -29,6 +30,7 @@ interface Props {
 }
 
 export default function CaseStudyDetail({ study }: Props) {
+  const { locale } = useRouter();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.org';
   const jsonLd = [
     {
@@ -54,21 +56,28 @@ export default function CaseStudyDetail({ study }: Props) {
       abstract: study.summary
     }
   ];
+  const title = locale === 'ar' ? (study as any).title_ar || study.title : study.title;
+  const industry = locale === 'ar' ? (study as any).industry_ar || study.industry : study.industry;
+  const summary = locale === 'ar' ? (study as any).summary_ar || study.summary : study.summary;
+  const problem = locale === 'ar' ? (study as any).problem_ar || study.problem : study.problem;
+  const approach = locale === 'ar' ? (study as any).approach_ar || study.approach : study.approach;
+  const results = (locale === 'ar' ? (study as any).results_ar || study.results : study.results) as string[];
+  const stack = (locale === 'ar' ? (study as any).stack_ar || study.stack : study.stack) as string[];
   return (
     <Section>
-      <SEO title={`${study.title} – Case Study`} description={study.summary} canonicalPath={`/case-studies/${study.slug}`} jsonLd={jsonLd} />
-      <Title>{study.title}</Title>
-      <Meta>{study.industry}</Meta>
+      <SEO title={`${title} – Case Study`} description={summary} canonicalPath={`/case-studies/${study.slug}`} jsonLd={jsonLd} />
+      <Title>{title}</Title>
+      <Meta>{industry}</Meta>
       <h2>Problem</h2>
-      <p>{study.problem}</p>
+      <p>{problem}</p>
       <h2>Approach</h2>
-      <p>{study.approach}</p>
+      <p>{approach}</p>
       <h2>Results</h2>
       <ul>
-        {study.results.map((r, i) => (<li key={i}>{r}</li>))}
+        {results.map((r, i) => (<li key={i}>{r}</li>))}
       </ul>
       <h3>Stack</h3>
-      <p>{study.stack.join(', ')}</p>
+      <p>{stack.join(', ')}</p>
     </Section>
   );
 }
