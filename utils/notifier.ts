@@ -1,5 +1,5 @@
 import { saveToFirestore } from './firebase';
-import { sendEmail } from './email';
+import { sendEmail, sendEmailTo } from './email';
 import { createEmailToken } from './tokens';
 
 export type ContactType = 'subscriber' | 'consultation' | 'contact';
@@ -67,6 +67,19 @@ export async function sendConfirmEmail(email: string) {
       <p>Or copy and paste this link into your browser:<br/>${url}</p>
     </div>
   `;
-  await sendEmail(`Confirm your email – ProBook Solutions`, html);
+  await sendEmailTo(email, `Confirm your email – ProBook Solutions`, html);
+}
+
+export async function sendWelcomeEmail(email: string) {
+  const unsubToken = createEmailToken(email, 'unsubscribe', 60 * 60 * 24 * 365 * 10);
+  const unsubUrl = `${siteUrl()}/api/unsubscribe?token=${encodeURIComponent(unsubToken)}`;
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto">
+      <h2>Welcome to ProBook Solutions!</h2>
+      <p>Thanks for confirming your email. You’ll now receive occasional updates and resources.</p>
+      <p style="font-size:12px;color:#6b7280">Prefer not to receive emails? <a href="${unsubUrl}">Unsubscribe</a> anytime.</p>
+    </div>
+  `;
+  await sendEmailTo(email, 'Welcome to ProBook Solutions', html);
 }
 

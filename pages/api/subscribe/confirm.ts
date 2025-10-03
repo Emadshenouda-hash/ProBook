@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifyEmailToken } from '../../../utils/tokens';
 import { saveToFirestore } from '../../../utils/firebase';
+import { sendWelcomeEmail } from '../../../utils/notifier';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token } = req.query as { token?: string };
@@ -18,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       unsubscribed: false,
       source: 'double_opt_in'
     });
+    await sendWelcomeEmail(email);
   } catch {
     // ignore
   }
