@@ -190,6 +190,14 @@ export default function AdminDashboard() {
             </CardDescription>
           </Card>
 
+          <Card href="/admin/contacts">
+            <CardIcon>👥</CardIcon>
+            <CardTitle>Contacts</CardTitle>
+            <CardDescription>
+              View subscribers and leads, filter, export CSV, and manage unsubscribes.
+            </CardDescription>
+          </Card>
+
           <Card href="/admin/gallery">
             <CardIcon>📚</CardIcon>
             <CardTitle>Gallery</CardTitle>
