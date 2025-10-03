@@ -8,7 +8,7 @@ function parseEmailList(value?: string | null): string[] {
     .filter((s) => s.includes('@'));
 }
 
-function getFromAddress(): string | null {
+export function getFromAddress(): string | null {
   // MUST be a verified domain in Resend
   const envFrom = process.env.RESEND_FROM;
   if (envFrom) return envFrom;
@@ -16,7 +16,7 @@ function getFromAddress(): string | null {
   return 'info@probooksolutions.org';
 }
 
-function getAdminRecipients(): string[] {
+export function getAdminRecipients(): string[] {
   const primary = parseEmailList(process.env.CONTACT_INBOX || '');
   const forward = parseEmailList(process.env.CONTACT_FORWARD_TO || '');
   const all = [...primary, ...forward];
