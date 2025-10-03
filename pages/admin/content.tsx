@@ -286,6 +286,8 @@ export default function ContentEditor() {
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<'editor' | 'blocks' | 'homepage' | 'about' | 'consultation' | 'pricing' | 'services'>('editor');
   const [saved, setSaved] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<string | null>(null);
   const [kvKeys, setKvKeys] = useState<Array<{ key: string; defaultValue: string; overrideValue: string | null }>>([]);
   const [kvLocale, setKvLocale] = useState<'en' | 'ar'>('en');
   const [kvQuery, setKvQuery] = useState('');
@@ -481,6 +483,30 @@ export default function ContentEditor() {
             </Breadcrumb>
           </div>
           <HeaderActions>
+            <Button onClick={async () => {
+              try {
+                setImporting(true);
+                setImportMsg(null);
+                const token = localStorage.getItem('admin_token') || '';
+                const res = await fetch('/api/admin/import-about', { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok) {
+                  setImportMsg(`Imported ${data.written || 0} keys for About.`);
+                  // If currently on About or Blocks with about. prefix, reload
+                  if (activeTab === 'about' || (activeTab === 'blocks' && blockPrefix.startsWith('about.'))) {
+                    loadBlock('about.');
+                  }
+                } else {
+                  setImportMsg(data?.error || 'Import failed');
+                }
+              } catch (e) {
+                setImportMsg('Import failed');
+              } finally {
+                setImporting(false);
+              }
+            }} disabled={importing}>
+              {importing ? 'Importing…' : 'Load About Defaults'}
+            </Button>
             <SaveButton onClick={handleSave}>
               💾 Save Changes
             </SaveButton>
@@ -493,6 +519,11 @@ export default function ContentEditor() {
 
       <Main>
         {saved && <SuccessMessage>✅ Changes saved successfully! Refresh the website to see updates.</SuccessMessage>}
+        {importMsg && (
+          <div style={{ padding: '0.75rem 1rem', background: 'rgba(14,165,233,0.08)', border: '1px solid #0ea5e9', color: '#0ea5e9', borderRadius: 8, marginBottom: '1rem', textAlign: 'center' }}>
+            {importMsg}
+          </div>
+        )}
 
         <InfoBox>
           <p><strong>💡 Bilingual Editor:</strong> Edit English and Arabic content side-by-side. Both languages are shown in the same view for easy translation and comparison.</p>
