@@ -75,8 +75,10 @@ export default function AdminContacts() {
   const [q, setQ] = useState('');
   const [type, setType] = useState('');
   const [unsub, setUnsub] = useState('');
+  const [cursor, setCursor] = useState<string | null>(null);
+  const [detail, setDetail] = useState<{ item: any; events: any[] } | null>(null);
 
-  const load = async () => {
+  const load = async (append = false) => {
     setLoading(true);
     setError(null);
     try {
@@ -85,10 +87,12 @@ export default function AdminContacts() {
       if (q) params.set('q', q);
       if (type) params.set('type', type);
       if (unsub) params.set('unsubscribed', unsub);
+      if (cursor) params.set('cursor', cursor);
       const res = await fetch(`/api/admin/contacts?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Failed to load');
-      setItems(data.items || []);
+      setItems((prev) => (append ? [...prev, ...(data.items || [])] : (data.items || [])));
+      setCursor(data.nextCursor || null);
     } catch (e: any) {
       setError(e?.message || 'Failed to load');
     } finally {
@@ -128,6 +132,13 @@ export default function AdminContacts() {
     if (res.ok) {
       setItems((prev) => prev.map((x) => (x.id === id ? { ...x, unsubscribed: val } : x)));
     }
+  };
+
+  const openDetail = async (id: string) => {
+    const token = localStorage.getItem('admin_token') || '';
+    const res = await fetch(`/api/admin/contacts?id=${encodeURIComponent(id)}`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    if (res.ok) setDetail({ item: data.item, events: data.events || [] });
   };
 
   return (
@@ -181,8 +192,8 @@ export default function AdminContacts() {
             </thead>
             <tbody>
               {items.map((it) => (
-                <tr key={it.id}>
-                  <Td>{it.email}</Td>
+                <tr key={it.id} onClick={() => openDetail(it.id)} style={{ cursor: 'pointer' }}>
+                  <Td><strong>{it.email}</strong><br/><span style={{ color: '#6b7280', fontSize: 12 }}>{it.createdAt || ''}</span></Td>
                   <Td>{it.type}</Td>
                   <Td>{it.name || ''}</Td>
                   <Td>{it.selectedPlan || ''}</Td>
@@ -200,6 +211,20 @@ export default function AdminContacts() {
               ))}
             </tbody>
           </Table>
+        )}
+        {cursor && (
+          <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+            <Button onClick={() => load(true)} disabled={loading}>Load more</Button>
+          </div>
+        )}
+
+        {detail && (
+          <div style={{ marginTop: '2rem' }}>
+            <h3>Details for {detail.item.email}</h3>
+            <pre style={{ background: 'var(--color-surface)', padding: '1rem', borderRadius: 8, overflowX: 'auto' }}>{JSON.stringify(detail.item, null, 2)}</pre>
+            <h4>Recent events</h4>
+            <pre style={{ background: 'var(--color-surface)', padding: '1rem', borderRadius: 8, overflowX: 'auto' }}>{JSON.stringify(detail.events, null, 2)}</pre>
+          </div>
         )}
       </Main>
     </Container>

@@ -31,11 +31,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     try {
-      const { type, q, unsubscribed, limit, format } = req.query as any;
+      const { type, q, unsubscribed, limit, format, cursor, id } = req.query as any;
+      // Detail mode: return single contact with events
+      if (id && typeof id === 'string') {
+        const doc = await db.collection('contacts').doc(id).get();
+        if (!doc.exists) return res.status(404).json({ ok: false, error: 'Not found' });
+        const eventsSnap = await db.collection('contacts').doc(id).collection('events').orderBy('at', 'desc').limit(50).get();
+        const events = eventsSnap.docs.map((d) => ({ id: d.id, ...(d.data() as any) }));
+        return res.status(200).json({ ok: true, item: { id: doc.id, ...(doc.data() as any) }, events });
+      }
+
       const take = Math.min(parseInt(limit || '500', 10) || 500, 2000);
 
       // Build query (admin SDK)
-      let query: FirebaseFirestore.Query = db.collection('contacts').orderBy('createdAt', 'desc').limit(take);
+      let query: FirebaseFirestore.Query = db.collection('contacts').orderBy('createdAt', 'desc');
+      if (cursor && typeof cursor === 'string') {
+        query = query.startAfter(cursor);
+      }
+      query = query.limit(take);
       if (type && typeof type === 'string') {
         query = query.where('type', '==', type);
       }
@@ -65,7 +78,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(200).send(csv);
       }
 
-      return res.status(200).json({ ok: true, items });
+      const nextCursor = items.length > 0 ? items[items.length - 1].createdAt : null;
+      return res.status(200).json({ ok: true, items, nextCursor });
     } catch (e: any) {
       return res.status(500).json({ ok: false, error: e?.message || 'Failed to load contacts' });
     }
