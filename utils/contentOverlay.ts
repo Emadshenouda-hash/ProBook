@@ -1,5 +1,4 @@
 import i18n from '../i18n';
-import { getFirebaseDB } from './firebase';
 
 /**
  * Fetches Firestore overrides for the current locale and overlays them on top of i18n resources.
@@ -7,18 +6,13 @@ import { getFirebaseDB } from './firebase';
  */
 export async function applyContentOverlay(locale: string) {
   try {
-    const db = getFirebaseDB();
-    if (!db) return;
-    const snap = await db.collection('site_content').where('locale', '==', locale).get();
-    if (snap.empty) return;
-    const updates: Record<string, any> = {};
-    snap.forEach((doc) => {
-      const data = doc.data() as any;
-      if (!data || typeof data.key !== 'string') return;
-      updates[data.key] = data.value;
-    });
-    if (Object.keys(updates).length === 0) return;
-    i18n.addResources(locale, 'translation', unflatten(updates));
+    const res = await fetch(`/api/content-overlay?locale=${encodeURIComponent(locale)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const updates: Record<string, any> = data?.overrides || {};
+    if (updates && Object.keys(updates).length > 0) {
+      i18n.addResources(locale, 'translation', unflatten(updates));
+    }
   } catch {}
 }
 
