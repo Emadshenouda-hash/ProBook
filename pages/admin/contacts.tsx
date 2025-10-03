@@ -145,14 +145,14 @@ export default function AdminContacts() {
       </Header>
       <Main>
         <Actions>
-          <Input placeholder="Search email or name" value={q} onChange={(e) => setQ(e.target.value)} />
-          <Select value={type} onChange={(e) => setType(e.target.value)}>
+          <Input placeholder="Search email or name" value={q} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQ(e.target.value)} />
+          <Select value={type} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setType(e.target.value)}>
             <option value="">All types</option>
             <option value="subscriber">Subscribers</option>
             <option value="consultation">Consultations</option>
             <option value="contact">Contacts</option>
           </Select>
-          <Select value={unsub} onChange={(e) => setUnsub(e.target.value)}>
+          <Select value={unsub} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUnsub(e.target.value)}>
             <option value="">All</option>
             <option value="false">Subscribed</option>
             <option value="true">Unsubscribed</option>
@@ -192,7 +192,7 @@ export default function AdminContacts() {
                   <Td>{it.consent ? 'Yes' : 'No'}</Td>
                   <Td>
                     <label style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
-                      <input type="checkbox" checked={!!it.unsubscribed} onChange={(e) => toggleUnsub(it.id, e.target.checked)} />
+                      <input type="checkbox" checked={!!it.unsubscribed} onChange={(e: React.ChangeEvent<HTMLInputElement>) => toggleUnsub(it.id, e.target.checked)} />
                       {it.unsubscribed ? 'Unsubscribed' : 'Active'}
                     </label>
                   </Td>
