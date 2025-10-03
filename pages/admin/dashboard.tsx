@@ -210,7 +210,7 @@ export default function AdminDashboard() {
             <CardIcon>🌍</CardIcon>
             <CardTitle>Translations <Badge>EN/AR</Badge></CardTitle>
             <CardDescription>
-              Edit English and Arabic translations for all pages. Manage bilingual content.
+              View and search translation keys across EN/AR to manage bilingual content.
             </CardDescription>
           </Card>
 
