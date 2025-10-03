@@ -284,8 +284,12 @@ const InfoBox = styled.div`
 export default function ContentEditor() {
   const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState('homepage');
+  const [activeTab, setActiveTab] = useState<'editor' | 'homepage' | 'about' | 'consultation' | 'pricing' | 'services'>('editor');
   const [saved, setSaved] = useState(false);
+  const [kvKeys, setKvKeys] = useState<Array<{ key: string; defaultValue: string; overrideValue: string | null }>>([]);
+  const [kvLocale, setKvLocale] = useState<'en' | 'ar'>('en');
+  const [kvQuery, setKvQuery] = useState('');
+  const [kvOnlyOverridden, setKvOnlyOverridden] = useState(false);
   
   const [content, setContent] = useState({
     homepage: {
@@ -328,6 +332,7 @@ export default function ContentEditor() {
       router.push('/admin');
     } else {
       setAuthenticated(true);
+      loadKeys();
       const savedContent = localStorage.getItem('cms_content');
       if (savedContent) {
         try {
@@ -338,6 +343,15 @@ export default function ContentEditor() {
       }
     }
   }, [router]);
+
+  const loadKeys = async () => {
+    const token = localStorage.getItem('admin_token') || '';
+    const params = new URLSearchParams({ locale: kvLocale, q: kvQuery });
+    if (kvOnlyOverridden) params.set('overridden', 'true');
+    const res = await fetch(`/api/admin/content-keys?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    if (res.ok) setKvKeys(data.items || []);
+  };
 
   const handleSave = async () => {
     localStorage.setItem('cms_content', JSON.stringify(content));
@@ -419,6 +433,9 @@ export default function ContentEditor() {
         </InfoBox>
 
         <Tabs>
+          <Tab active={activeTab === 'editor'} onClick={() => setActiveTab('editor')}>
+            ✏️ Key-Value Editor
+          </Tab>
           <Tab active={activeTab === 'homepage'} onClick={() => setActiveTab('homepage')}>
             🏠 Homepage
           </Tab>
@@ -435,6 +452,53 @@ export default function ContentEditor() {
             ⚙️ Services
           </Tab>
         </Tabs>
+
+        {/* KEY-VALUE EDITOR */}
+        {activeTab === 'editor' && (
+          <Section>
+            <SectionTitle>✏️ Edit Any Text Key</SectionTitle>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+              <select value={kvLocale} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setKvLocale(e.target.value as 'en' | 'ar'); setTimeout(loadKeys, 0); }}>
+                <option value="en">English (en)</option>
+                <option value="ar">العربية (ar)</option>
+              </select>
+              <input placeholder="Search key or text" value={kvQuery} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKvQuery(e.target.value)} />
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <input type="checkbox" checked={kvOnlyOverridden} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKvOnlyOverridden(e.target.checked)} />
+                Only overridden
+              </label>
+              <Button onClick={loadKeys}>Search</Button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem' }}>
+              {kvKeys.map((item) => (
+                <div key={item.key} style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '0.75rem' }}>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>{item.key}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Default</div>
+                      <div style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{item.defaultValue}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Override ({kvLocale})</div>
+                      <input defaultValue={item.overrideValue ?? ''} onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const token = localStorage.getItem('admin_token') || '';
+                        const value = e.target.value;
+                        await fetch('/api/admin/content-keys', {
+                          method: 'PATCH',
+                          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                          body: JSON.stringify({ locale: kvLocale, key: item.key, value })
+                        });
+                      }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {kvKeys.length === 0 && (
+                <div style={{ color: '#6b7280' }}>No keys found. Try a different search.</div>
+              )}
+            </div>
+          </Section>
+        )}
 
         {/* HOMEPAGE TAB */}
         {activeTab === 'homepage' && (
