@@ -58,7 +58,7 @@ export async function notifyAdmin(data: NormalizedContact) {
 
 export async function sendConfirmEmail(email: string) {
   const token = createEmailToken(email, 'confirm', 60 * 60 * 24 * 3);
-  const url = `${siteUrl()}/api/subscribe/confirm?token=${encodeURIComponent(token)}`;
+  const url = `${siteUrl()}/subscribe/confirm?token=${encodeURIComponent(token)}`;
   const html = `
     <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto">
       <h2>Confirm your subscription</h2>
@@ -72,7 +72,7 @@ export async function sendConfirmEmail(email: string) {
 
 export async function sendWelcomeEmail(email: string) {
   const unsubToken = createEmailToken(email, 'unsubscribe', 60 * 60 * 24 * 365 * 10);
-  const unsubUrl = `${siteUrl()}/api/unsubscribe?token=${encodeURIComponent(unsubToken)}`;
+  const unsubUrl = `${siteUrl()}/unsubscribe?token=${encodeURIComponent(unsubToken)}`;
   const html = `
     <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto">
       <h2>Welcome to ProBook Solutions!</h2>
