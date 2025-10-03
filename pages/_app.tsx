@@ -20,6 +20,7 @@ import PageTransition from '../components/PageTransition';
 import PerformanceMonitor from '../components/PerformanceMonitor';
 import dynamic from 'next/dynamic';
 const HeatmapAnalytics = dynamic(() => import('../components/HeatmapAnalytics'), { ssr: false });
+import { applyContentOverlay } from '../utils/contentOverlay';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const tajawal = Tajawal({ subsets: ['arabic'], weight: ['400', '500', '700', '800'], variable: '--font-tajawal', display: 'swap' });
@@ -70,6 +71,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       });
     }
   }, []);
+
+  // Apply Firestore content overlay for the current locale
+  useEffect(() => {
+    const run = async () => {
+      try {
+        await applyContentOverlay(locale || 'en');
+      } catch {}
+    };
+    run();
+  }, [locale]);
 
   const toggleTheme = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
   const activeTheme = mode === 'dark' ? darkTheme : lightTheme;
