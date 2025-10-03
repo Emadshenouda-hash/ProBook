@@ -200,8 +200,17 @@ export async function saveToFirestore(collection: string, data: any) {
   const db = getFirebaseDB();
   if (!db) throw new Error('Firestore not initialized');
 
+  // Remove undefined values to satisfy Firestore constraints
+  const sanitized: any = {};
+  Object.keys(data || {}).forEach((key) => {
+    const value = (data as any)[key];
+    if (value !== undefined) {
+      sanitized[key] = value;
+    }
+  });
+
   const docRef = await db.collection(collection).add({
-    ...data,
+    ...sanitized,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
