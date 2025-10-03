@@ -183,43 +183,43 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📊</LogoPlaceholder>
             <IntegrationName>QuickBooks Desktop</IntegrationName>
             <IntegrationDescription>
-              Enterprise, Pro, Premier. 20+ years of expertise in setup, migration, and optimization.
+              {t('integrations.cards.quickbooks_desktop.desc', { defaultValue: 'Enterprise, Pro, Premier. 20+ years of expertise in setup, migration, and optimization.' })}
             </IntegrationDescription>
-            <Badge>Expert</Badge>
+            <Badge>{t('integrations.expert', { defaultValue: 'Expert' })}</Badge>
           </IntegrationCard>
 
           <IntegrationCard>
             <LogoPlaceholder>☁️</LogoPlaceholder>
             <IntegrationName>QuickBooks Online</IntegrationName>
             <IntegrationDescription>
-              Cloud-based accounting with real-time collaboration. Advanced ProAdvisor certified.
+              {t('integrations.cards.quickbooks_online.desc', { defaultValue: 'Cloud-based accounting with real-time collaboration. Advanced ProAdvisor certified.' })}
             </IntegrationDescription>
-            <Badge>Certified</Badge>
+            <Badge>{t('integrations.certified', { defaultValue: 'Certified' })}</Badge>
           </IntegrationCard>
 
           <IntegrationCard>
             <LogoPlaceholder>📈</LogoPlaceholder>
             <IntegrationName>Xero</IntegrationName>
             <IntegrationDescription>
-              Modern cloud accounting for small businesses. Certified Xero partner with proven implementations.
+              {t('integrations.cards.xero.desc', { defaultValue: 'Modern cloud accounting for small businesses. Certified Xero partner with proven implementations.' })}
             </IntegrationDescription>
-            <Badge>Certified</Badge>
+            <Badge>{t('integrations.certified', { defaultValue: 'Certified' })}</Badge>
           </IntegrationCard>
 
           <IntegrationCard>
             <LogoPlaceholder>🔷</LogoPlaceholder>
             <IntegrationName>Zoho Books</IntegrationName>
             <IntegrationDescription>
-              Affordable cloud accounting with CRM integration. Expert in setup and customization.
+              {t('integrations.cards.zoho_books.desc', { defaultValue: 'Affordable cloud accounting with CRM integration. Expert in setup and customization.' })}
             </IntegrationDescription>
-            <Badge>Partner</Badge>
+            <Badge>{t('integrations.partner', { defaultValue: 'Partner' })}</Badge>
           </IntegrationCard>
 
           <IntegrationCard>
             <LogoPlaceholder>🏢</LogoPlaceholder>
             <IntegrationName>NetSuite</IntegrationName>
             <IntegrationDescription>
-              Enterprise ERP for complex organizations. Financial management and reporting expertise.
+              {t('integrations.cards.netsuite.desc', { defaultValue: 'Enterprise ERP for complex organizations. Financial management and reporting expertise.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -227,7 +227,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📦</LogoPlaceholder>
             <IntegrationName>Odoo</IntegrationName>
             <IntegrationDescription>
-              Open-source ERP with accounting module. Implementation and configuration support.
+              {t('integrations.cards.odoo.desc', { defaultValue: 'Open-source ERP with accounting module. Implementation and configuration support.' })}
             </IntegrationDescription>
           </IntegrationCard>
         </Grid>
@@ -240,7 +240,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🛒</LogoPlaceholder>
             <IntegrationName>Shopify</IntegrationName>
             <IntegrationDescription>
-              Sales reconciliation, inventory sync, and multi-channel reporting.
+              {t('integrations.cards.shopify.desc', { defaultValue: 'Sales reconciliation, inventory sync, and multi-channel reporting.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -248,7 +248,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📦</LogoPlaceholder>
             <IntegrationName>Amazon Seller Central</IntegrationName>
             <IntegrationDescription>
-              FBA accounting, fee breakdowns, inventory tracking, and sales reports.
+              {t('integrations.cards.amazon.desc', { defaultValue: 'FBA accounting, fee breakdowns, inventory tracking, and sales reports.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -256,7 +256,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🎯</LogoPlaceholder>
             <IntegrationName>Target Plus</IntegrationName>
             <IntegrationDescription>
-              Vendor portal integration for sales tracking and reconciliation.
+              {t('integrations.cards.target_plus.desc', { defaultValue: 'Vendor portal integration for sales tracking and reconciliation.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -264,7 +264,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🏪</LogoPlaceholder>
             <IntegrationName>Walmart Marketplace</IntegrationName>
             <IntegrationDescription>
-              Seller account reconciliation and multi-channel inventory management.
+              {t('integrations.cards.walmart.desc', { defaultValue: 'Seller account reconciliation and multi-channel inventory management.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -272,7 +272,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🛍️</LogoPlaceholder>
             <IntegrationName>WooCommerce</IntegrationName>
             <IntegrationDescription>
-              WordPress e-commerce integration with accounting systems.
+              {t('integrations.cards.woocommerce.desc', { defaultValue: 'WordPress e-commerce integration with accounting systems.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -280,7 +280,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🏬</LogoPlaceholder>
             <IntegrationName>BigCommerce</IntegrationName>
             <IntegrationDescription>
-              Enterprise e-commerce platform with advanced reporting needs.
+              {t('integrations.cards.bigcommerce.desc', { defaultValue: 'Enterprise e-commerce platform with advanced reporting needs.' })}
             </IntegrationDescription>
           </IntegrationCard>
         </Grid>
@@ -293,7 +293,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>💳</LogoPlaceholder>
             <IntegrationName>Stripe</IntegrationName>
             <IntegrationDescription>
-              Transaction reconciliation, fee tracking, and revenue recognition.
+              {t('integrations.cards.stripe.desc', { defaultValue: 'Transaction reconciliation, fee tracking, and revenue recognition.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -301,7 +301,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🔲</LogoPlaceholder>
             <IntegrationName>Square</IntegrationName>
             <IntegrationDescription>
-              POS and online payment reconciliation, inventory sync.
+              {t('integrations.cards.square.desc', { defaultValue: 'POS and online payment reconciliation, inventory sync.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -309,7 +309,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>💰</LogoPlaceholder>
             <IntegrationName>PayPal</IntegrationName>
             <IntegrationDescription>
-              Transaction import, fee allocation, and multi-currency support.
+              {t('integrations.cards.paypal.desc', { defaultValue: 'Transaction import, fee allocation, and multi-currency support.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -317,7 +317,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🌐</LogoPlaceholder>
             <IntegrationName>Authorize.net</IntegrationName>
             <IntegrationDescription>
-              Payment gateway integration for transaction tracking.
+              {t('integrations.cards.authorize_net.desc', { defaultValue: 'Payment gateway integration for transaction tracking.' })}
             </IntegrationDescription>
           </IntegrationCard>
         </Grid>
@@ -330,7 +330,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📋</LogoPlaceholder>
             <IntegrationName>DEAR Inventory</IntegrationName>
             <IntegrationDescription>
-              Advanced inventory management with manufacturing and multi-location support.
+              {t('integrations.cards.dear_inventory.desc', { defaultValue: 'Advanced inventory management with manufacturing and multi-location support.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -338,7 +338,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🏭</LogoPlaceholder>
             <IntegrationName>Cin7</IntegrationName>
             <IntegrationDescription>
-              Omnichannel inventory and order management system integration.
+              {t('integrations.cards.cin7.desc', { defaultValue: 'Omnichannel inventory and order management system integration.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -346,7 +346,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📊</LogoPlaceholder>
             <IntegrationName>TradeGecko (QuickBooks Commerce)</IntegrationName>
             <IntegrationDescription>
-              Inventory and order management for wholesale and retail.
+              {t('integrations.cards.tradegecko.desc', { defaultValue: 'Inventory and order management for wholesale and retail.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -354,7 +354,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📦</LogoPlaceholder>
             <IntegrationName>ShipStation</IntegrationName>
             <IntegrationDescription>
-              Shipping cost tracking and fulfillment reconciliation.
+              {t('integrations.cards.shipstation.desc', { defaultValue: 'Shipping cost tracking and fulfillment reconciliation.' })}
             </IntegrationDescription>
           </IntegrationCard>
         </Grid>
@@ -367,7 +367,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>💸</LogoPlaceholder>
             <IntegrationName>Bill.com</IntegrationName>
             <IntegrationDescription>
-              AP automation, bill approvals, and payment processing.
+              {t('integrations.cards.bill_com.desc', { defaultValue: 'AP automation, bill approvals, and payment processing.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -375,7 +375,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📄</LogoPlaceholder>
             <IntegrationName>Expensify</IntegrationName>
             <IntegrationDescription>
-              Expense report automation and receipt management.
+              {t('integrations.cards.expensify.desc', { defaultValue: 'Expense report automation and receipt management.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -383,7 +383,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>💼</LogoPlaceholder>
             <IntegrationName>Ramp</IntegrationName>
             <IntegrationDescription>
-              Corporate card and expense management platform.
+              {t('integrations.cards.ramp.desc', { defaultValue: 'Corporate card and expense management platform.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -391,7 +391,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>🎫</LogoPlaceholder>
             <IntegrationName>Brex</IntegrationName>
             <IntegrationDescription>
-              Startup-focused corporate card with built-in expense tracking.
+              {t('integrations.cards.brex.desc', { defaultValue: 'Startup-focused corporate card with built-in expense tracking.' })}
             </IntegrationDescription>
           </IntegrationCard>
         </Grid>
@@ -404,7 +404,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📧</LogoPlaceholder>
             <IntegrationName>Google Workspace</IntegrationName>
             <IntegrationDescription>
-              Gmail, Drive, Sheets for document sharing and collaboration.
+              {t('integrations.cards.google_workspace.desc', { defaultValue: 'Gmail, Drive, Sheets for document sharing and collaboration.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -412,7 +412,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>💬</LogoPlaceholder>
             <IntegrationName>Slack</IntegrationName>
             <IntegrationDescription>
-              Real-time communication for quick questions and updates.
+              {t('integrations.cards.slack.desc', { defaultValue: 'Real-time communication for quick questions and updates.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -420,7 +420,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📝</LogoPlaceholder>
             <IntegrationName>Asana</IntegrationName>
             <IntegrationDescription>
-              Project management for tracking deliverables and deadlines.
+              {t('integrations.cards.asana.desc', { defaultValue: 'Project management for tracking deliverables and deadlines.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -428,7 +428,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📌</LogoPlaceholder>
             <IntegrationName>Notion</IntegrationName>
             <IntegrationDescription>
-              Documentation, wiki, and knowledge base management.
+              {t('integrations.cards.notion.desc', { defaultValue: 'Documentation, wiki, and knowledge base management.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -436,7 +436,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📊</LogoPlaceholder>
             <IntegrationName>Microsoft Excel</IntegrationName>
             <IntegrationDescription>
-              Advanced spreadsheet analysis, pivot tables, and financial modeling.
+              {t('integrations.cards.microsoft_excel.desc', { defaultValue: 'Advanced spreadsheet analysis, pivot tables, and financial modeling.' })}
             </IntegrationDescription>
           </IntegrationCard>
 
@@ -444,7 +444,7 @@ export default function IntegrationsPage() {
             <LogoPlaceholder>📈</LogoPlaceholder>
             <IntegrationName>Google Sheets</IntegrationName>
             <IntegrationDescription>
-              Cloud-based spreadsheets for collaborative financial analysis.
+              {t('integrations.cards.google_sheets.desc', { defaultValue: 'Cloud-based spreadsheets for collaborative financial analysis.' })}
             </IntegrationDescription>
           </IntegrationCard>
         </Grid>

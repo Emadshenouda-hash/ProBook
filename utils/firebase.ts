@@ -10,6 +10,29 @@ import { getAuth } from 'firebase-admin/auth';
 
 let firebaseAdmin: ReturnType<typeof initializeApp> | null = null;
 
+/**
+ * Normalize various bucket formats to the canonical bucket name
+ * Accepts values like:
+ *  - probooksolution-b724f.appspot.com
+ *  - gs://probooksolution-b724f.appspot.com
+ *  - https://storage.googleapis.com/probooksolution-b724f.appspot.com
+ *  - probooksolution-b724f.firebasestorage.app (console UI hostname) → maps to appspot.com bucket
+ */
+function normalizeBucketName(input?: string): string | undefined {
+  if (!input) return undefined;
+  let name = input.trim();
+  // Strip gs:// or https:// prefixes
+  name = name.replace(/^gs:\/\//, '').replace(/^https?:\/\//, '');
+  // If it's a storage.googleapis.com URL, take the path part
+  if (name.startsWith('storage.googleapis.com')) {
+    const parts = name.split('/');
+    name = parts[1] || '';
+  }
+  // Accept firebasestorage.app hostnames as-is (newer Firebase UI shows this)
+  // No conversion to appspot.com; use provided bucket exactly
+  return name;
+}
+
 export function initFirebase() {
   if (firebaseAdmin) return firebaseAdmin;
   
@@ -29,12 +52,23 @@ export function initFirebase() {
     }
 
     // Parse the JSON service account
-    const credentials = JSON.parse(serviceAccount);
+    const raw = JSON.parse(serviceAccount);
 
-    // Initialize Firebase Admin
+    // Ensure private key newlines are correct when coming from env vars
+    const projectId = raw.project_id;
+    const clientEmail = raw.client_email;
+    const privateKey = (raw.private_key || '').replace(/\\n/g, '\n');
+
+    // Initialize Firebase Admin with explicit fields
+    const rawEnvBucket = process.env.FIREBASE_STORAGE_BUCKET;
+    const envBucket = normalizeBucketName(rawEnvBucket);
     firebaseAdmin = initializeApp({
-      credential: cert(credentials),
-      storageBucket: `${credentials.project_id}.appspot.com`
+      credential: cert({
+        projectId,
+        clientEmail,
+        privateKey
+      }),
+      storageBucket: envBucket || `${projectId}.appspot.com`
     });
 
     console.log('✅ Firebase Admin initialized successfully');
@@ -97,7 +131,55 @@ export async function uploadToFirebase(file: Buffer, path: string, contentType: 
   const storage = getFirebaseStorage();
   if (!storage) throw new Error('Firebase Storage not initialized');
 
-  const bucket = storage.bucket();
+  // Prefer explicit bucket from env if provided
+  const envBucket = normalizeBucketName(process.env.FIREBASE_STORAGE_BUCKET);
+  const defaultBucket = storage.bucket();
+  const defaultBucketName = defaultBucket.name;
+
+  const candidates: string[] = [];
+  if (envBucket) {
+    candidates.push(envBucket);
+    if (envBucket.endsWith('.firebasestorage.app')) {
+      const project = envBucket.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
+    if (envBucket.endsWith('.appspot.com')) {
+      const project = envBucket.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+  }
+  if (!candidates.includes(defaultBucketName)) {
+    candidates.push(defaultBucketName);
+    if (defaultBucketName.endsWith('.appspot.com')) {
+      const project = defaultBucketName.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+    if (defaultBucketName.endsWith('.firebasestorage.app')) {
+      const project = defaultBucketName.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
+  }
+
+  let bucket = defaultBucket;
+  let found = false;
+  let tried: string[] = [];
+  for (const name of candidates) {
+    const b = storage.bucket(name);
+    tried.push(name);
+    try {
+      const [exists] = await b.exists();
+      if (exists) {
+        bucket = b;
+        found = true;
+        break;
+      }
+    } catch {
+      // ignore and try next
+    }
+  }
+  if (!found) {
+    throw new Error(`Storage bucket not found. Tried: ${tried.join(', ')}. Ensure Cloud Storage is enabled and set FIREBASE_STORAGE_BUCKET to your bucket name (e.g., ${defaultBucketName}).`);
+  }
   const fileRef = bucket.file(path);
 
   await fileRef.save(file, {
@@ -118,8 +200,17 @@ export async function saveToFirestore(collection: string, data: any) {
   const db = getFirebaseDB();
   if (!db) throw new Error('Firestore not initialized');
 
+  // Remove undefined values to satisfy Firestore constraints
+  const sanitized: any = {};
+  Object.keys(data || {}).forEach((key) => {
+    const value = (data as any)[key];
+    if (value !== undefined) {
+      sanitized[key] = value;
+    }
+  });
+
   const docRef = await db.collection(collection).add({
-    ...data,
+    ...sanitized,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   });
@@ -140,4 +231,78 @@ export async function getFromFirestore(collection: string, limit: number = 100) 
     id: doc.id,
     ...doc.data()
   }));
+}
+
+/**
+ * Get a Firestore document by ID
+ */
+export async function getFirestoreDocById(collection: string, id: string) {
+  const db = getFirebaseDB();
+  if (!db) throw new Error('Firestore not initialized');
+
+  const ref = db.collection(collection).doc(id);
+  const snap = await ref.get();
+  if (!snap.exists) return null;
+  return { id: snap.id, ...snap.data() } as any;
+}
+
+/**
+ * Delete a Firestore document by ID
+ */
+export async function deleteFromFirestore(collection: string, id: string) {
+  const db = getFirebaseDB();
+  if (!db) throw new Error('Firestore not initialized');
+
+  await db.collection(collection).doc(id).delete();
+  return true;
+}
+
+/**
+ * Delete a file from Firebase Storage by path
+ */
+export async function deleteFromFirebase(path: string) {
+  const storage = getFirebaseStorage();
+  if (!storage) throw new Error('Firebase Storage not initialized');
+
+  const envBucket = normalizeBucketName(process.env.FIREBASE_STORAGE_BUCKET);
+  const defaultBucket = storage.bucket();
+  const defaultBucketName = defaultBucket.name;
+
+  const candidates: string[] = [];
+  if (envBucket) {
+    candidates.push(envBucket);
+    if (envBucket.endsWith('.firebasestorage.app')) {
+      const project = envBucket.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
+    if (envBucket.endsWith('.appspot.com')) {
+      const project = envBucket.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+  }
+  if (!candidates.includes(defaultBucketName)) {
+    candidates.push(defaultBucketName);
+    if (defaultBucketName.endsWith('.appspot.com')) {
+      const project = defaultBucketName.replace('.appspot.com', '');
+      candidates.push(`${project}.firebasestorage.app`);
+    }
+    if (defaultBucketName.endsWith('.firebasestorage.app')) {
+      const project = defaultBucketName.replace('.firebasestorage.app', '');
+      candidates.push(`${project}.appspot.com`);
+    }
+  }
+
+  let lastErr: any = null;
+  for (const name of candidates) {
+    try {
+      const bucket = storage.bucket(name);
+      const fileRef = bucket.file(path);
+      await fileRef.delete();
+      return true;
+    } catch (err: any) {
+      lastErr = err;
+      // try next candidate
+    }
+  }
+  throw lastErr || new Error(`Failed to delete file at path: ${path}`);
 }

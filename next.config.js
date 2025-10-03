@@ -1,5 +1,5 @@
 /**
- * @type {import('next').NextConfig}
+ * Shared security headers and CSP
  */
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -35,7 +35,10 @@ const csp = [
   "media-src 'self' https://*.blob.vercel-storage.com",
 ].join('; ');
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  poweredByHeader: false,
   i18n: {
     locales: ['en', 'ar'],
     defaultLocale: 'en',
@@ -56,6 +59,13 @@ const nextConfig = {
           // Apply a conservative Content Security Policy. In development you can
           // switch this header to Content-Security-Policy-Report-Only to iterate safely.
           { key: 'Content-Security-Policy', value: csp }
+        ]
+      },
+      {
+        // Long-cache static assets (not HTML)
+        source: '/:all*(svg|jpg|jpeg|png|gif|webp|css|js|woff|woff2|ttf|otf)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
         ]
       }
     ];

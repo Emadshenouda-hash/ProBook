@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { track } from '../utils/analytics';
+import { getActivePromo, msUntil, formatCountdown } from '../utils/campaign';
 import type { DefaultTheme } from 'styled-components';
 
 // ===== HERO SECTION =====
@@ -450,6 +451,8 @@ export default function ConsultationPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;
+  const promo = getActivePromo();
+  const [promoCountdown, setPromoCountdown] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     fullName: '',
@@ -466,6 +469,7 @@ export default function ConsultationPage() {
     goals: '',
     notes: '',
     attachmentUrl: '',
+    selectedPlan: '',
     website: '', // honeypot
     utm_source: '',
     utm_medium: '',
@@ -473,6 +477,9 @@ export default function ConsultationPage() {
     utm_term: '',
     utm_content: ''
   });
+  // Extend form type with promo fields (kept optional and sent to API)
+  (form as any).promoCode = (form as any).promoCode || '';
+  (form as any).promoName = (form as any).promoName || '';
 
   const serviceOptions = [
     'Bookkeeping',
@@ -527,8 +534,22 @@ export default function ConsultationPage() {
         utm_term: pick('utm_term'),
         utm_content: pick('utm_content')
       }));
+      const promoCode = sessionStorage.getItem('promo_code') || '';
+      const promoName = sessionStorage.getItem('promo_name') || '';
+      if (promoCode) {
+        sessionStorage.setItem('promo_applied', '1');
+      }
+      setForm((p) => ({ ...p, promoCode, promoName } as any));
     }
   }, []);
+
+  useEffect(() => {
+    if (!promo) return;
+    const tick = () => setPromoCountdown(formatCountdown(msUntil(promo.endAtIso)));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [promo]);
 
   const toggleMulti = (name: 'services' | 'systems', value: string) => {
     setForm((p) => {
@@ -547,6 +568,10 @@ export default function ConsultationPage() {
     if (!form.fullName || form.fullName.trim().length < 2) return setError('Please enter your full name.');
     if (!/.+@.+\..+/.test(form.email)) return setError('Please enter a valid email address.');
     if (!form.company.trim()) return setError('Please enter your company name.');
+    if (!form.selectedPlan) return setError('Please select a plan.');
+    if (!form.companySize) return setError('Please select your company size.');
+    if (!form.industry) return setError('Please select your industry.');
+    if (!form.services || form.services.length === 0) return setError('Please select at least one service.');
     
     setSubmitting(true);
     try {
@@ -615,6 +640,25 @@ export default function ConsultationPage() {
               <input type="hidden" name="utm_campaign" value={form.utm_campaign} />
               <input type="hidden" name="utm_term" value={form.utm_term} />
               <input type="hidden" name="utm_content" value={form.utm_content} />
+              {/* Promo Hidden Fields */}
+              <input type="hidden" name="promoCode" value={(form as any).promoCode || ''} />
+              <input type="hidden" name="promoName" value={(form as any).promoName || ''} />
+
+              {promo && (
+                <div style={{
+                  padding: '0.75rem 1rem',
+                  background: 'linear-gradient(90deg, rgba(12,94,215,0.08), rgba(124,58,237,0.08))',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 12,
+                  marginBottom: '1rem'
+                }}>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>🎉 {promo.name} ({promo.code})</div>
+                  <div style={{ fontSize: '0.95rem' }}>
+                    Starter ${promo.pricing.starter.promo} (reg. ${promo.pricing.starter.original}) · Growth ${promo.pricing.growth.promo}
+                    {promoCountdown && <span> — Ends in {promoCountdown}</span>}
+                  </div>
+                </div>
+              )}
               
               {/* Honeypot */}
               <input type="text" name="website" value={form.website} onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateField('website', e.target.value)} style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
@@ -669,6 +713,23 @@ export default function ConsultationPage() {
                       placeholder="Acme Inc."
                       required 
                     />
+                  </Field>
+                </Grid>
+              </FormSection>
+
+              {/* Plan Selection */}
+              <FormSection>
+                <SectionTitle>🧩 {t('consultation.plan_selection', { defaultValue: 'Which plan are you looking for?' })}</SectionTitle>
+                <Grid>
+                  <Field>
+                    <Label htmlFor="selectedPlan">{t('consultation.plan_label', { defaultValue: 'Plan' })} <Required>*</Required></Label>
+                    <Select id="selectedPlan" name="selectedPlan" value={(form as any).selectedPlan} onChange={handleSelectChange} required>
+                      <option value="">Select a plan…</option>
+                      <option value="starter">Starter — $750 (Oct promo)</option>
+                      <option value="growth">Growth — $2000</option>
+                      <option value="custom">Custom / Not sure</option>
+                    </Select>
+                    <Hint>{t('consultation.plan_hint', { defaultValue: 'This helps us tailor your consultation.' })}</Hint>
                   </Field>
                 </Grid>
               </FormSection>

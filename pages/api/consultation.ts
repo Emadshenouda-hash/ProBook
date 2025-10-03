@@ -3,6 +3,7 @@ import { createCrmContactAndDeal } from '../../utils/crm';
 import { getSupabaseAdmin } from '../../utils/supabase';
 import { saveToFirestore } from '../../utils/firebase';
 import { sendEmail, sendEmailTo } from '../../utils/email';
+import { recordContact, notifyAdmin } from '../../utils/notifier';
 
 interface ConsultationPayload {
   fullName?: string;
@@ -24,6 +25,9 @@ interface ConsultationPayload {
   utm_campaign?: string;
   utm_term?: string;
   utm_content?: string;
+  promoCode?: string;
+  promoName?: string;
+  selectedPlan?: 'starter' | 'growth' | 'custom' | string;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -43,34 +47,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!fullName || fullName.length < 2) return res.status(400).json({ error: 'Invalid name' });
   if (!/.+@.+\..+/.test(email)) return res.status(400).json({ error: 'Invalid email' });
   if (!company) return res.status(400).json({ error: 'Company required' });
+  if (!body.selectedPlan) return res.status(400).json({ error: 'Plan required' });
 
   try {
-    // Persist to Firebase (primary)
-    try {
-      await saveToFirestore('consultation_requests', {
-        fullName: body.fullName,
-        email: body.email,
-        phone: body.phone,
-        company: body.company,
-        companySize: body.companySize,
-        industry: body.industry,
-        country: body.country,
-        services: body.services || [],
-        systems: body.systems || [],
-        budget: body.budget,
-        urgency: body.urgency,
-        goals: body.goals,
-        notes: body.notes,
-        attachmentUrl: (body as any).attachmentUrl || null,
-        utmSource: body.utm_source,
-        utmMedium: body.utm_medium,
-        utmCampaign: body.utm_campaign,
-        utmTerm: body.utm_term,
-        utmContent: body.utm_content
-      });
-    } catch (fbError) {
-      console.warn('Firebase save failed:', fbError);
-    }
+    // Normalize and persist to `contacts`
+    await recordContact({
+      type: 'consultation',
+      email: body.email!,
+      name: body.fullName,
+      selectedPlan: body.selectedPlan,
+      promoCode: body.promoCode,
+      promoName: body.promoName,
+      utm_source: body.utm_source,
+      utm_medium: body.utm_medium,
+      utm_campaign: body.utm_campaign,
+      utm_term: body.utm_term,
+      utm_content: body.utm_content,
+      message: body.notes,
+      source: 'consultation_form',
+      tags: body.services || []
+    });
     
     // Fallback to Supabase if configured
     const supabase = getSupabaseAdmin();
@@ -94,7 +90,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         utm_medium: body.utm_medium || null,
         utm_campaign: body.utm_campaign || null,
         utm_term: body.utm_term || null,
-        utm_content: body.utm_content || null
+        utm_content: body.utm_content || null,
+        promo_code: body.promoCode || null,
+        promo_name: body.promoName || null,
+        selected_plan: body.selectedPlan || null
       });
     }
     await createCrmContactAndDeal({
@@ -111,7 +110,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       notes: body.notes
     });
     // Notify your inbox
-    await sendEmail('New consultation request', `
+    await notifyAdmin({
+      type: 'consultation',
+      email: body.email!,
+      name: body.fullName,
+      selectedPlan: body.selectedPlan,
+      promoCode: body.promoCode,
+      promoName: body.promoName,
+      utm_source: body.utm_source,
+      utm_medium: body.utm_medium,
+      utm_campaign: body.utm_campaign,
+      utm_term: body.utm_term,
+      utm_content: body.utm_content,
+      message: body.notes,
+      source: 'consultation_form',
+      tags: body.services || []
+    });
+
+    await sendEmail('New consultation request (details)', `
       <p><strong>Name:</strong> ${body.fullName}</p>
       <p><strong>Email:</strong> ${body.email}</p>
       <p><strong>Phone:</strong> ${body.phone || ''}</p>
@@ -130,6 +146,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       <p><strong>UTM Campaign:</strong> ${body.utm_campaign || ''}</p>
       <p><strong>UTM Term:</strong> ${body.utm_term || ''}</p>
       <p><strong>UTM Content:</strong> ${body.utm_content || ''}</p>
+      <p><strong>Promo:</strong> ${body.promoCode || ''} ${body.promoName ? `(${body.promoName})` : ''}</p>
+      <p><strong>Selected Plan:</strong> ${body.selectedPlan || ''}</p>
     `);
     // Send a thank-you email to the submitter
     if (body.email) {

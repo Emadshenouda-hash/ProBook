@@ -9,7 +9,15 @@
     "language": "Language"
   },
   "footer": {
-    "copyright": "© 2025 ProBook Solutions. All rights reserved."
+    "copyright": "© 2025 ProBook Solutions. All rights reserved.",
+    "cookie_policy": "Cookie Policy",
+    "secure": "Secure",
+    "years_experience": "23+ Years",
+    "soc2": "SOC 2 Compliant",
+    "encrypted": "256-bit SSL",
+    "case_studies": "Case Studies",
+    "pricing": "Pricing",
+    "email_label": "Email"
   },
   "seo": {
     "siteName": "ProBook Solutions",
@@ -44,6 +52,11 @@
       "title": "Client Portal",
       "description": "Sign in to access your dashboard, financial reports, and project updates.",
       "path": "/portal"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "description": "Transparent pricing for bookkeeping, financial reporting, and fractional CFO services. Plans starting at $1,000/month.",
+      "path": "/pricing"
     }
   },
   "home": {
@@ -59,7 +72,7 @@
     "services_link": "View Services",
     "about_title": "About Us",
     "about_description": "With over 23 years of experience, ProBook Solutions delivers expert financial management and bookkeeping tailored to your needs.",
-    "about_link": "Learn More",
+    "about_link": "Learn more about ProBook Solutions",
     "process": {
       "title": "How We Work",
       "steps": [
@@ -84,7 +97,16 @@
         { "icon": "🤝", "title": "Personalised Service", "description": "Get tailored accounting support that grows with your business." },
         { "icon": "🧘", "title": "Peace of Mind", "description": "Focus on your business while we handle the numbers." }
       ]
-    }
+    },
+    "case_studies_title": "Case Studies",
+    "case_studies_description": "See how we improved close times, reporting accuracy, and decision‑making.",
+    "case_studies_link": "View Case Studies"
+  },
+  "newsletter": {
+    "title": "Stay Updated with ProBook Solutions",
+    "subtitle": "Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.",
+    "placeholder": "Enter your email address",
+    "cta": "Subscribe Now"
   },
   "cta": {
     "book_consultation": "Book a Consultation"
@@ -109,7 +131,12 @@
       "Remote Team Collaboration",
       "AP/AR Management",
       "Excel, Google Workspace, Slack, Notion, Asana"
-    ]
+    ],
+    "badges": {
+      "years_exp": "✓ 23+ Years Experience",
+      "qb_expert": "✓ QuickBooks Expert",
+      "bilingual": "✓ Bilingual (EN/AR)"
+    }
   },
   "services": {
     "title": "Our Services",
@@ -137,6 +164,7 @@
       }
     ],
     "cta": "Schedule Consultation",
+    "explore_industries": "Explore industries",
     "faq": {
       "title": "Frequently Asked Questions",
       "items": [
@@ -175,6 +203,76 @@
   "portal": {
     "title": "Client Portal",
     "intro": "Sign in to access your personalized dashboard, financial reports, and project updates."
+  },
+  "integrations": {
+    "title": "Technology & Integrations",
+    "subtitle": "We work with the tools you already use. Our expertise spans leading accounting platforms, e-commerce systems, payment processors, and business management software.",
+    "accounting_erp": "Accounting & ERP Software",
+    "ecommerce": "E-commerce Platforms",
+    "payments": "Payment Processors",
+    "inventory": "Inventory & Operations",
+    "ap_expense": "Accounts Payable & Expense Management",
+    "collaboration": "Collaboration & Productivity",
+    "expert": "Expert",
+    "certified": "Certified",
+    "partner": "Partner",
+    "capabilities_title": "What We Can Do With Your Tech Stack",
+    "dont_see_title": "Don't See Your Software?",
+    "dont_see_desc": "We're always expanding our integration capabilities. If you use a platform not listed here, let's discuss how we can work with your existing tools or recommend alternatives.",
+    "book_free_consultation": "Book a Free Consultation",
+    "cards": {
+      "quickbooks_desktop": { "desc": "Enterprise, Pro, Premier. 20+ years of expertise in setup, migration, and optimization." },
+      "quickbooks_online": { "desc": "Cloud-based accounting with real-time collaboration. Advanced ProAdvisor certified." },
+      "xero": { "desc": "Modern cloud accounting for small businesses. Certified Xero partner with proven implementations." },
+      "zoho_books": { "desc": "Affordable cloud accounting with CRM integration. Expert in setup and customization." },
+      "netsuite": { "desc": "Enterprise ERP for complex organizations. Financial management and reporting expertise." },
+      "odoo": { "desc": "Open-source ERP with accounting module. Implementation and configuration support." },
+      "shopify": { "desc": "Sales reconciliation, inventory sync, and multi-channel reporting." },
+      "amazon": { "desc": "FBA accounting, fee breakdowns, inventory tracking, and sales reports." },
+      "target_plus": { "desc": "Vendor portal integration for sales tracking and reconciliation." },
+      "walmart": { "desc": "Seller account reconciliation and multi-channel inventory management." },
+      "woocommerce": { "desc": "WordPress e-commerce integration with accounting systems." },
+      "bigcommerce": { "desc": "Enterprise e-commerce platform with advanced reporting needs." },
+      "stripe": { "desc": "Transaction reconciliation, fee tracking, and revenue recognition." },
+      "square": { "desc": "POS and online payment reconciliation, inventory sync." },
+      "paypal": { "desc": "Transaction import, fee allocation, and multi-currency support." },
+      "authorize_net": { "desc": "Payment gateway integration for transaction tracking." },
+      "dear_inventory": { "desc": "Advanced inventory management with manufacturing and multi-location support." },
+      "cin7": { "desc": "Omnichannel inventory and order management system integration." },
+      "tradegecko": { "desc": "Inventory and order management for wholesale and retail." },
+      "shipstation": { "desc": "Shipping cost tracking and fulfillment reconciliation." },
+      "bill_com": { "desc": "AP automation, bill approvals, and payment processing." },
+      "expensify": { "desc": "Expense report automation and receipt management." },
+      "ramp": { "desc": "Corporate card and expense management platform." },
+      "brex": { "desc": "Startup-focused corporate card with built-in expense tracking." },
+      "google_workspace": { "desc": "Gmail, Drive, Sheets for document sharing and collaboration." },
+      "slack": { "desc": "Real-time communication for quick questions and updates." },
+      "asana": { "desc": "Project management for tracking deliverables and deadlines." },
+      "notion": { "desc": "Documentation, wiki, and knowledge base management." },
+      "microsoft_excel": { "desc": "Advanced spreadsheet analysis, pivot tables, and financial modeling." },
+      "google_sheets": { "desc": "Cloud-based spreadsheets for collaborative financial analysis." }
+    }
+  },
+  "404": {
+    "title": "Page Not Found",
+    "description": "This page does not exist.",
+    "body": "Sorry, we can’t find that page.",
+    "cta": "Go home"
+  },
+  "thank_you": {
+    "contact_success": "Thanks! We will get back to you soon."
+  },
+  "consultation": {
+    "errors": {
+      "spam": "Spam detected.",
+      "name_required": "Please enter your full name.",
+      "email_invalid": "Please enter a valid email address.",
+      "message_required": "Please write a brief message (10+ chars).",
+      "generic": "Something went wrong. Please try again later."
+    }
+  },
+  "disclaimers": {
+    "not_legal_tax": "Information provided here is for general guidance and is not legal or tax advice."
   },
   "common": {
     "or": "or",

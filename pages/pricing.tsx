@@ -37,7 +37,7 @@ const Grid = styled.div`
 
 const Tier = styled.div<{ featured?: boolean }>`
   background: var(--color-surface);
-  border: ${({ featured }: { featured?: boolean }) => featured ? `3px solid ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary}` : '1px solid var(--color-border)'};
+  border: ${({ featured, theme }: { featured?: boolean; theme: DefaultTheme }) => featured ? `3px solid ${theme.colors.primary}` : '1px solid var(--color-border)'};
   border-radius: 12px;
   padding: 2rem;
   padding-top: ${({ featured }: { featured?: boolean }) => featured ? '3rem' : '2rem'};
@@ -47,6 +47,7 @@ const Tier = styled.div<{ featured?: boolean }>`
   flex-direction: column;
   height: 100%;
   min-height: 600px;
+  overflow: visible;
   
   &:hover {
     transform: translateY(-4px);
@@ -56,9 +57,9 @@ const Tier = styled.div<{ featured?: boolean }>`
 
 const FeaturedBadge = styled.div`
   position: absolute;
-  top: -14px;
+  top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: ${({ theme }: { theme: DefaultTheme }) => theme.colors.primary};
   color: #fff;
   padding: 0.4rem 1.25rem;
@@ -69,6 +70,7 @@ const FeaturedBadge = styled.div`
   white-space: nowrap;
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
   z-index: 10;
+  pointer-events: none;
 `;
 
 const TierName = styled.h3`
@@ -276,9 +278,9 @@ export default function PricingPage() {
   return (
     <Section>
       <SEO 
-        title="Pricing - ProBook Solutions" 
-        description="Transparent pricing for bookkeeping, financial reporting, and fractional CFO services. Plans starting at $1,000/month for startups and SMEs."
-        canonicalPath="/pricing" 
+        title={t('seo.pricing.title', { defaultValue: 'Pricing - ProBook Solutions' })}
+        description={t('seo.pricing.description', { defaultValue: 'Transparent pricing for bookkeeping, financial reporting, and fractional CFO services. Plans starting at $1,000/month for startups and SMEs.' })}
+        canonicalPath={t('seo.pricing.path', { defaultValue: '/pricing' })}
         jsonLd={jsonLd}
       />
       <Title>{t('pricing.title', { defaultValue: 'Transparent Pricing' })}</Title>
@@ -358,100 +360,100 @@ export default function PricingPage() {
       </InfoBox>
 
       <ComparisonTable>
-        <TableTitle>Detailed Feature Comparison</TableTitle>
+      <TableTitle>{t('pricing.comparison_title', { defaultValue: 'Detailed Feature Comparison' })}</TableTitle>
         <Table>
           <thead>
             <tr>
-              <Th>Feature</Th>
-              <Th>Starter</Th>
-              <Th>Growth</Th>
-              <Th>Fractional CFO</Th>
+              <Th>{t('pricing.feature', { defaultValue: 'Feature' })}</Th>
+              <Th>{t('pricing.starter_plan', { defaultValue: 'Starter' })}</Th>
+              <Th>{t('pricing.growth_plan', { defaultValue: 'Growth' })}</Th>
+              <Th>{t('pricing.cfo_plan', { defaultValue: 'Fractional CFO' })}</Th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <Td><strong>Monthly Transactions</strong></Td>
-              <Td>Up to 200</Td>
-              <Td>Up to 500</Td>
-              <Td>Unlimited</Td>
+              <Td><strong>{t('pricing.monthly_transactions', { defaultValue: 'Monthly Transactions' })}</strong></Td>
+              <Td>{t('pricing.up_to', { defaultValue: 'Up to' })} 200</Td>
+              <Td>{t('pricing.up_to', { defaultValue: 'Up to' })} 500</Td>
+              <Td>{t('pricing.unlimited', { defaultValue: 'Unlimited' })}</Td>
             </tr>
             <tr>
-              <Td><strong>Bank Reconciliation</strong></Td>
-              <Td>✓</Td>
-              <Td>✓</Td>
-              <Td>✓</Td>
-            </tr>
-            <tr>
-              <Td><strong>P&L & Balance Sheet</strong></Td>
+              <Td><strong>{t('pricing.bank_reconciliation', { defaultValue: 'Bank Reconciliation' })}</strong></Td>
               <Td>✓</Td>
               <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Cash Flow Statement</strong></Td>
-              <Td>On request</Td>
+              <Td><strong>{t('pricing.pl_balance_sheet', { defaultValue: 'P&L & Balance Sheet' })}</strong></Td>
               <Td>✓</Td>
-              <Td>✓</Td>
-            </tr>
-            <tr>
-              <Td><strong>Multi-Entity Support</strong></Td>
-              <Td>Add-on</Td>
               <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Multi-Currency</strong></Td>
-              <Td>—</Td>
+              <Td><strong>{t('pricing.cash_flow_statement', { defaultValue: 'Cash Flow Statement' })}</strong></Td>
+              <Td>{t('pricing.on_request', { defaultValue: 'On request' })}</Td>
               <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>E-commerce Integration</strong></Td>
-              <Td>Add-on</Td>
+              <Td><strong>{t('pricing.multi_entity_support', { defaultValue: 'Multi-Entity Support' })}</strong></Td>
+              <Td>{t('pricing.add_on', { defaultValue: 'Add-on' })}</Td>
               <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Inventory Management</strong></Td>
-              <Td>—</Td>
+              <Td><strong>{t('pricing.multi_currency', { defaultValue: 'Multi-Currency' })}</strong></Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
               <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Custom KPI Dashboards</strong></Td>
-              <Td>—</Td>
+              <Td><strong>{t('pricing.ecommerce_integration', { defaultValue: 'E-commerce Integration' })}</strong></Td>
+              <Td>{t('pricing.add_on', { defaultValue: 'Add-on' })}</Td>
               <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Budgeting & Forecasting</strong></Td>
-              <Td>—</Td>
-              <Td>Basic</Td>
-              <Td>Advanced</Td>
-            </tr>
-            <tr>
-              <Td><strong>Board/Investor Reporting</strong></Td>
-              <Td>—</Td>
-              <Td>—</Td>
+              <Td><strong>{t('pricing.inventory_management', { defaultValue: 'Inventory Management' })}</strong></Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Fundraising Support</strong></Td>
-              <Td>—</Td>
-              <Td>—</Td>
+              <Td><strong>{t('pricing.custom_kpi_dashboards', { defaultValue: 'Custom KPI Dashboards' })}</strong></Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>✓</Td>
               <Td>✓</Td>
             </tr>
             <tr>
-              <Td><strong>Response Time</strong></Td>
-              <Td>24-48 hours</Td>
-              <Td>12-24 hours</Td>
-              <Td>Same day</Td>
+              <Td><strong>{t('pricing.budgeting_forecasting', { defaultValue: 'Budgeting & Forecasting' })}</strong></Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>{t('pricing.basic', { defaultValue: 'Basic' })}</Td>
+              <Td>{t('pricing.advanced', { defaultValue: 'Advanced' })}</Td>
             </tr>
             <tr>
-              <Td><strong>Check-ins</strong></Td>
-              <Td>Monthly</Td>
-              <Td>Quarterly</Td>
-              <Td>Weekly/Bi-weekly</Td>
+              <Td><strong>{t('pricing.board_investor_reporting', { defaultValue: 'Board/Investor Reporting' })}</strong></Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>✓</Td>
+            </tr>
+            <tr>
+              <Td><strong>{t('pricing.fundraising_support', { defaultValue: 'Fundraising Support' })}</strong></Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>{t('pricing.not_included', { defaultValue: '—' })}</Td>
+              <Td>✓</Td>
+            </tr>
+            <tr>
+              <Td><strong>{t('pricing.response_time', { defaultValue: 'Response Time' })}</strong></Td>
+              <Td>24-48 {t('pricing.hours', { defaultValue: 'hours' })}</Td>
+              <Td>12-24 {t('pricing.hours', { defaultValue: 'hours' })}</Td>
+              <Td>{t('pricing.same_day', { defaultValue: 'Same day' })}</Td>
+            </tr>
+            <tr>
+              <Td><strong>{t('pricing.checkins', { defaultValue: 'Check-ins' })}</strong></Td>
+              <Td>{t('pricing.monthly', { defaultValue: 'Monthly' })}</Td>
+              <Td>{t('pricing.quarterly', { defaultValue: 'Quarterly' })}</Td>
+              <Td>{t('pricing.weekly_biweekly', { defaultValue: 'Weekly/Bi-weekly' })}</Td>
             </tr>
           </tbody>
         </Table>
@@ -515,6 +517,9 @@ export default function PricingPage() {
             Month-to-month contracts with 30 days' written notice. No long-term lock-in. Upon termination, we'll provide a clean handoff with all files and documentation.
           </Answer>
         </FAQItem>
+        <p style={{ marginTop: '1rem', color: '#6b7280', fontSize: '0.9rem' }}>
+          {t('disclaimers.not_legal_tax', { defaultValue: 'Information provided here is for general guidance and is not legal or tax advice.' })}
+        </p>
       </FAQSection>
 
       <InfoBox style={{ textAlign: 'center', marginTop: '3rem' }}>

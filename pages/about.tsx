@@ -248,10 +248,9 @@ export default function AboutPage() {
             {t('about.intro', { defaultValue: 'With over 23 years of hands-on accounting expertise spanning U.S.-based and Middle Eastern organizations, I founded ProBook Solutions to deliver world-class financial management and bookkeeping services to startups and SMEs worldwide.' })}
           </Intro>
           <CredentialsBadges>
-            <Badge>✓ 23+ Years Experience</Badge>
-            <Badge>✓ CPA Exam (Audit) Completed</Badge>
-            <Badge>✓ QuickBooks Expert</Badge>
-            <Badge>✓ Bilingual (EN/AR)</Badge>
+            <Badge>{t('about.badges.years_exp', { defaultValue: '✓ 23+ Years Experience' })}</Badge>
+            <Badge>{t('about.badges.qb_expert', { defaultValue: '✓ QuickBooks Expert' })}</Badge>
+            <Badge>{t('about.badges.bilingual', { defaultValue: '✓ Bilingual (EN/AR)' })}</Badge>
           </CredentialsBadges>
         </HeroContent>
       </HeroSection>
@@ -371,15 +370,7 @@ export default function AboutPage() {
 
       <ContentBlock>
         <SectionTitle>{t('about.education_title', { defaultValue: 'Education & Certifications' })}</SectionTitle>
-        <ExperienceCard>
-          <CompanyName>CPA Exam (California)</CompanyName>
-          <DateRange>2003</DateRange>
-          <AchievementsList>
-            <li><strong>Passed Audit Section</strong> – Demonstrates proficiency in auditing standards and procedures</li>
-            <li><strong>Scored 67% in Business Law</strong> – Solid understanding of legal frameworks for financial management</li>
-            <li>Foundation in U.S. GAAP and financial regulations</li>
-          </AchievementsList>
-        </ExperienceCard>
+        {/* Removed CPA exam details per request to avoid implying licensure */}
 
         <ExperienceCard>
           <CompanyName>Bachelor of Science in Accounting and Business Management</CompanyName>
@@ -448,7 +439,7 @@ export default function AboutPage() {
           <div>
             <h3>U.S. Standards</h3>
             <Paragraph>
-              CPA exam experience and years serving U.S. clients means your books will follow GAAP and meet investor/lender expectations.
+              Years serving U.S. clients means your books will follow GAAP and meet investor/lender expectations.
             </Paragraph>
           </div>
           <div>

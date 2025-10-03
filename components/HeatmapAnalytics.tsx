@@ -1,26 +1,14 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useConsent } from '../context/ConsentContext';
 
 export default function HeatmapAnalytics() {
   const router = useRouter();
+  const { consent } = useConsent?.() || { consent: { analytics: false } } as any;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
-    // Hotjar integration
-    const initHotjar = () => {
-      // Use the specific Hotjar ID for probooksolutions.org
-      const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID || '6535512';
-      
-      (function(h: any, o: any, t: any, j: any, a?: any, r?: any) {
-        h.hj = h.hj || function() { (h.hj.q = h.hj.q || []).push(arguments) };
-        h._hjSettings = { hjid: hotjarId, hjsv: 6 };
-        a = o.getElementsByTagName('head')[0];
-        r = o.createElement('script'); r.async = 1;
-        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-    };
+    if (!consent?.analytics) return;
 
     // Crazy Egg integration
     const initCrazyEgg = () => {
@@ -36,7 +24,8 @@ export default function HeatmapAnalytics() {
     // Microsoft Clarity integration
     const initClarity = () => {
       // Use the specific Clarity ID for probooksolutions.org
-      const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID || 'tjj89qw6wn';
+      const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
+      if (!clarityId) return;
       
       (function(c: any, l: any, a: any, r: any, i: any, t?: any, y?: any) {
         c[a] = c[a] || function() { (c[a].q = c[a].q || []).push(arguments) };
@@ -46,17 +35,11 @@ export default function HeatmapAnalytics() {
     };
 
     // Initialize all heatmap services
-    initHotjar();
     initCrazyEgg();
     initClarity();
 
     // Track page views for heatmap services
     const trackPageView = () => {
-      // Hotjar page view tracking
-      if ((window as any).hj) {
-        (window as any).hj('stateChange', router.asPath);
-      }
-
       // Clarity page view tracking
       if ((window as any).clarity) {
         (window as any).clarity('set', 'page', router.asPath);
@@ -76,12 +59,11 @@ export default function HeatmapAnalytics() {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, [router]);
+  }, [router, consent?.analytics]);
 
   return null;
 }
 
-// Environment variables needed (add to .env.local):
-// NEXT_PUBLIC_HOTJAR_ID=your_hotjar_id
+// Environment variables (optional):
 // NEXT_PUBLIC_CRAZYEGG_ID=your_crazyegg_id  
 // NEXT_PUBLIC_CLARITY_ID=your_clarity_id

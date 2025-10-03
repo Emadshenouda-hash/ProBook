@@ -150,11 +150,11 @@ export default function ContactPage() {
   };
 
   const validate = () => {
-    if (formState.website) return 'Spam detected.'; // honeypot
-    if (!formState.name || formState.name.trim().length < 2) return 'Please enter your full name.';
+    if (formState.website) return t('consultation.errors.spam', { defaultValue: 'Spam detected.' }) as string; // honeypot
+    if (!formState.name || formState.name.trim().length < 2) return t('consultation.errors.name_required', { defaultValue: 'Please enter your full name.' }) as string;
     const emailOk = /.+@.+\..+/.test(formState.email);
-    if (!emailOk) return 'Please enter a valid email address.';
-    if (!formState.message || formState.message.trim().length < 10) return 'Please write a brief message (10+ chars).';
+    if (!emailOk) return t('consultation.errors.email_invalid', { defaultValue: 'Please enter a valid email address.' }) as string;
+    if (!formState.message || formState.message.trim().length < 10) return t('consultation.errors.message_required', { defaultValue: 'Please write a brief message (10+ chars).' }) as string;
     return null;
   };
 
@@ -180,10 +180,10 @@ export default function ContactPage() {
         window.location.href = '/thank-you';
         return;
       }
-      setSuccess('Thanks! We will get back to you soon.');
+      setSuccess(t('thank_you.contact_success', { defaultValue: 'Thanks! We will get back to you soon.' }));
       setFormState({ name: '', email: '', message: '', website: '', utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '' });
     } catch (err) {
-      setError('Something went wrong. Please try again later.');
+      setError(t('consultation.errors.generic', { defaultValue: 'Something went wrong. Please try again later.' }));
     } finally {
       setSubmitting(false);
     }

@@ -190,11 +190,27 @@ export default function AdminDashboard() {
             </CardDescription>
           </Card>
 
+          <Card href="/admin/contacts">
+            <CardIcon>👥</CardIcon>
+            <CardTitle>Contacts</CardTitle>
+            <CardDescription>
+              View subscribers and leads, filter, export CSV, and manage unsubscribes.
+            </CardDescription>
+          </Card>
+
+          <Card href="/admin/gallery">
+            <CardIcon>📚</CardIcon>
+            <CardTitle>Gallery</CardTitle>
+            <CardDescription>
+              View uploaded photos, copy URLs, and delete items from Storage/Firestore.
+            </CardDescription>
+          </Card>
+
           <Card href="/admin/translations">
             <CardIcon>🌍</CardIcon>
             <CardTitle>Translations <Badge>EN/AR</Badge></CardTitle>
             <CardDescription>
-              Edit English and Arabic translations for all pages. Manage bilingual content.
+              View and search translation keys across EN/AR to manage bilingual content.
             </CardDescription>
           </Card>
 

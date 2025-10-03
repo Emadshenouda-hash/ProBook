@@ -491,6 +491,55 @@ const BenefitIconWrapper = styled.div`
 `;
 
 
+// Decorative, consistent SVG icons to avoid emoji rendering artifacts across platforms
+function BenefitIcon({ symbol }: { symbol: string }) {
+  const color = 'currentColor';
+  // Map common emoji used in locales to stable SVGs
+  const isSpeed = symbol.includes('⚡');
+  const isAccuracy = symbol.includes('✅') || symbol.includes('✔');
+  const isService = symbol.includes('🤝');
+  const isCalm = symbol.includes('🧘') || symbol.includes('🧘🏻') || symbol.includes('🧘🏽');
+
+  if (isSpeed) {
+    // Lightning bolt
+    return (
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill={color} focusable="false">
+        <path d="M11 2L3 14h6l-1 8 8-12h-6l1-8z" />
+      </svg>
+    );
+  }
+  if (isAccuracy) {
+    // Check in circle
+    return (
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false">
+        <circle cx="12" cy="12" r="10" stroke={color} strokeWidth="2" />
+        <path d="M7 12l3 3 7-7" stroke={color} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (isService) {
+    // Handshake (simplified)
+    return (
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false">
+        <path d="M8 13l3 3c1 1 2.5 1 3.5 0l2.5-2.5M6 11l2 2m8-2l-2 2" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3 12l4-4 3 3 3-3 8 8" stroke={color} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (isCalm) {
+    // Lotus/calm (simplified)
+    return (
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" focusable="false">
+        <path d="M12 18c3 0 6-2 7-4-2 0-4-1-7-4-3 3-5 4-7 4 1 2 4 4 7 4z" fill={color} />
+        <path d="M12 6c1.5 1.5 2.5 3 3 4-1.2-.5-2.3-1.2-3-2-0.7 0.8-1.8 1.5-3 2 .5-1 1.5-2.5 3-4z" fill={color} />
+      </svg>
+    );
+  }
+  // Fallback to text icon if unknown
+  return <span aria-hidden="true">{symbol}</span>;
+}
+
+
 export default function HomePage() {
   const { t } = useTranslation();
   const services = t('services.list', { returnObjects: true }) as Array<{ title: string; description: string }>;
@@ -547,10 +596,6 @@ export default function HomePage() {
                 <span aria-hidden="true">🏆</span>
                 <span>23+ Years Experience</span>
               </HeroSocialItem>
-              <HeroSocialItem>
-                <span aria-hidden="true">🎓</span>
-                <span>CPA Licensed</span>
-              </HeroSocialItem>
             </HeroSocialProof>
           </FadeIn>
           <FadeIn>
@@ -591,7 +636,9 @@ export default function HomePage() {
         <BenefitsGrid>
           {benefits.map((benefit, index) => (
             <BenefitCard key={index}>
-              <BenefitIconWrapper aria-hidden="true">{benefit.icon}</BenefitIconWrapper>
+              <BenefitIconWrapper>
+                <BenefitIcon symbol={benefit.icon} />
+              </BenefitIconWrapper>
               <h3 style={{ marginBottom: '0.5rem', marginTop: 0 }}>{benefit.title}</h3>
               <p style={{ margin: 0 }}>{benefit.description}</p>
             </BenefitCard>
@@ -638,15 +685,15 @@ export default function HomePage() {
           </Link>
         </div>
       </Section>
-      <Section>
-        <SectionTitle>Case Studies</SectionTitle>
-        <SectionText>See how we improved close times, reporting accuracy, and decision‑making.</SectionText>
-        <div style={{ textAlign: 'center' }}>
-          <Link href="/case-studies" passHref legacyBehavior>
-            <ServiceLink>View Case Studies</ServiceLink>
-          </Link>
-        </div>
-      </Section>
+          <Section>
+            <SectionTitle>{t('home.case_studies_title', { defaultValue: 'Case Studies' })}</SectionTitle>
+            <SectionText>{t('home.case_studies_description', { defaultValue: 'See how we improved close times, reporting accuracy, and decision‑making.' })}</SectionText>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/case-studies" passHref legacyBehavior>
+                <ServiceLink>{t('home.case_studies_link', { defaultValue: 'View Case Studies' })}</ServiceLink>
+              </Link>
+            </div>
+          </Section>
           <Section>
             <SectionTitle>{t('home.about_title')}</SectionTitle>
             <SectionText>{t('home.about_description')}</SectionText>
@@ -660,13 +707,13 @@ export default function HomePage() {
           {/* Email Newsletter Section */}
           <NewsletterSection>
             <NewsletterContainer>
-              <NewsletterTitle>Stay Updated with ProBook Solutions</NewsletterTitle>
+              <NewsletterTitle>{t('newsletter.title', { defaultValue: 'Stay Updated with ProBook Solutions' })}</NewsletterTitle>
               <NewsletterText>
-                Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.
+                {t('newsletter.subtitle', { defaultValue: 'Get expert accounting tips, industry insights, and exclusive offers delivered to your inbox.' })}
               </NewsletterText>
               <EmailCapture
-                placeholder="Enter your email address"
-                buttonText="Subscribe Now"
+                placeholder={t('newsletter.placeholder', { defaultValue: 'Enter your email address' }) as string}
+                buttonText={t('newsletter.cta', { defaultValue: 'Subscribe Now' }) as string}
                 source="homepage_newsletter"
                 tags={['newsletter', 'homepage']}
                 onSuccess={() => ConversionEvents.emailSignup('homepage_newsletter')}

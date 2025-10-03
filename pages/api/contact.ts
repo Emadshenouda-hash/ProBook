@@ -3,6 +3,7 @@ import { createCrmContactAndDeal } from '../../utils/crm';
 import { getSupabaseAdmin } from '../../utils/supabase';
 import { saveToFirestore } from '../../utils/firebase';
 import { sendEmail, sendEmailTo } from '../../utils/email';
+import { recordContact, notifyAdmin } from '../../utils/notifier';
 
 /**
  * Contact form submission handler
@@ -38,14 +39,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ ok: false, error: 'Message must be between 10-5000 characters' });
   }
   try {
-    // Persist to Firebase (primary)
-    try {
-      await saveToFirestore('contact_submissions', { 
-        name, email, message, utm_source, utm_medium, utm_campaign, utm_term, utm_content 
-      });
-    } catch (fbError) {
-      console.warn('Firebase save failed:', fbError);
-    }
+    // Normalize and persist to `contacts`
+    await recordContact({
+      type: 'contact',
+      email,
+      name,
+      message,
+      utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+      source: 'contact_form'
+    });
     
     // Fallback to Supabase if configured
     const supabase = getSupabaseAdmin();
@@ -61,12 +63,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       budget: undefined,
       urgency: undefined
     });
-    await sendEmail('New contact submission', `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p>${message}</p>
-      <p><strong>UTM Source:</strong> ${utm_source || ''}</p>
-      <p><strong>UTM Medium:</strong> ${utm_medium || ''}</p>
-      <p><strong>UTM Campaign:</strong> ${utm_campaign || ''}</p>
-      <p><strong>UTM Term:</strong> ${utm_term || ''}</p>
-      <p><strong>UTM Content:</strong> ${utm_content || ''}</p>`);
+    await notifyAdmin({
+      type: 'contact',
+      email,
+      name,
+      message,
+      utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+      source: 'contact_form'
+    });
     if (email) {
       await sendEmailTo(
         email,

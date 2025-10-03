@@ -284,8 +284,17 @@ const InfoBox = styled.div`
 export default function ContentEditor() {
   const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState('homepage');
+  const [activeTab, setActiveTab] = useState<'editor' | 'blocks' | 'homepage' | 'about' | 'consultation' | 'pricing' | 'services'>('editor');
   const [saved, setSaved] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<string | null>(null);
+  const [kvKeys, setKvKeys] = useState<Array<{ key: string; defaultValue: string; overrideValue: string | null }>>([]);
+  const [kvLocale, setKvLocale] = useState<'en' | 'ar'>('en');
+  const [kvQuery, setKvQuery] = useState('');
+  const [kvOnlyOverridden, setKvOnlyOverridden] = useState(false);
+  const [blockRows, setBlockRows] = useState<Array<{ key: string; en: { defaultValue: string; overrideValue: string | null }; ar: { defaultValue: string; overrideValue: string | null } }>>([]);
+  const [blockPrefix, setBlockPrefix] = useState('home.');
+  const prefixMap: Record<string, string> = { homepage: 'home.', about: 'about.', consultation: 'consultation.', pricing: 'pricing.', services: 'services.' };
   
   const [content, setContent] = useState({
     homepage: {
@@ -328,6 +337,7 @@ export default function ContentEditor() {
       router.push('/admin');
     } else {
       setAuthenticated(true);
+      loadKeys();
       const savedContent = localStorage.getItem('cms_content');
       if (savedContent) {
         try {
@@ -338,6 +348,78 @@ export default function ContentEditor() {
       }
     }
   }, [router]);
+
+  const loadKeys = async () => {
+    const token = localStorage.getItem('admin_token') || '';
+    const params = new URLSearchParams({ locale: kvLocale, q: kvQuery });
+    if (kvOnlyOverridden) params.set('overridden', 'true');
+    const res = await fetch(`/api/admin/content-keys?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    if (res.ok) setKvKeys(data.items || []);
+  };
+
+  const loadBlock = async (prefix: string) => {
+    const token = localStorage.getItem('admin_token') || '';
+    const fetchLocale = async (loc: 'en' | 'ar') => {
+      const params = new URLSearchParams({ locale: loc, q: prefix });
+      const res = await fetch(`/api/admin/content-keys?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      return (data.items || []) as Array<{ key: string; defaultValue: string; overrideValue: string | null }>;
+    };
+    const [enItems, arItems] = await Promise.all([fetchLocale('en'), fetchLocale('ar')]);
+    const map: Record<string, any> = {};
+    enItems.forEach((it) => {
+      map[it.key] = { key: it.key, en: { defaultValue: it.defaultValue, overrideValue: it.overrideValue }, ar: { defaultValue: '', overrideValue: null } };
+    });
+    arItems.forEach((it) => {
+      if (!map[it.key]) map[it.key] = { key: it.key, en: { defaultValue: '', overrideValue: null }, ar: { defaultValue: it.defaultValue, overrideValue: it.overrideValue } };
+      else map[it.key].ar = { defaultValue: it.defaultValue, overrideValue: it.overrideValue };
+    });
+    const rows = Object.values(map).sort((a: any, b: any) => String(a.key).localeCompare(String(b.key)));
+    setBlockRows(rows as any);
+  };
+
+  useEffect(() => {
+    if (activeTab in prefixMap) {
+      const p = prefixMap[activeTab];
+      setBlockPrefix(p);
+      loadBlock(p);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+
+  const renderBilingualRows = () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem', marginBottom: '1rem' }}>
+      {blockRows.map((row) => (
+        <div key={row.key} style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '0.75rem' }}>
+          <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>{row.key}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>EN Default</div>
+              <div style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.en.defaultValue}</div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>EN Override</div>
+              <input defaultValue={row.en.overrideValue ?? ''} onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                const token = localStorage.getItem('admin_token') || '';
+                await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'en', key: row.key, value: e.target.value }) });
+              }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+            </div>
+            <div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>AR Default</div>
+              <div dir="rtl" style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.ar.defaultValue}</div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>AR Override</div>
+              <input defaultValue={row.ar.overrideValue ?? ''} dir="rtl" onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                const token = localStorage.getItem('admin_token') || '';
+                await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'ar', key: row.key, value: e.target.value }) });
+              }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+            </div>
+          </div>
+        </div>
+      ))}
+      {blockRows.length === 0 && (
+        <div style={{ color: '#6b7280' }}>No keys detected for this section.</div>
+      )}
+    </div>
+  );
 
   const handleSave = async () => {
     localStorage.setItem('cms_content', JSON.stringify(content));
@@ -401,6 +483,30 @@ export default function ContentEditor() {
             </Breadcrumb>
           </div>
           <HeaderActions>
+            <Button onClick={async () => {
+              try {
+                setImporting(true);
+                setImportMsg(null);
+                const token = localStorage.getItem('admin_token') || '';
+                const res = await fetch('/api/admin/import-about', { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok) {
+                  setImportMsg(`Imported ${data.written || 0} keys for About.`);
+                  // If currently on About or Blocks with about. prefix, reload
+                  if (activeTab === 'about' || (activeTab === 'blocks' && blockPrefix.startsWith('about.'))) {
+                    loadBlock('about.');
+                  }
+                } else {
+                  setImportMsg(data?.error || 'Import failed');
+                }
+              } catch (e) {
+                setImportMsg('Import failed');
+              } finally {
+                setImporting(false);
+              }
+            }} disabled={importing}>
+              {importing ? 'Importing…' : 'Load About Defaults'}
+            </Button>
             <SaveButton onClick={handleSave}>
               💾 Save Changes
             </SaveButton>
@@ -413,14 +519,25 @@ export default function ContentEditor() {
 
       <Main>
         {saved && <SuccessMessage>✅ Changes saved successfully! Refresh the website to see updates.</SuccessMessage>}
+        {importMsg && (
+          <div style={{ padding: '0.75rem 1rem', background: 'rgba(14,165,233,0.08)', border: '1px solid #0ea5e9', color: '#0ea5e9', borderRadius: 8, marginBottom: '1rem', textAlign: 'center' }}>
+            {importMsg}
+          </div>
+        )}
 
         <InfoBox>
           <p><strong>💡 Bilingual Editor:</strong> Edit English and Arabic content side-by-side. Both languages are shown in the same view for easy translation and comparison.</p>
         </InfoBox>
 
         <Tabs>
+          <Tab active={activeTab === 'editor'} onClick={() => setActiveTab('editor')}>
+            ✏️ Key-Value Editor
+          </Tab>
           <Tab active={activeTab === 'homepage'} onClick={() => setActiveTab('homepage')}>
             🏠 Homepage
+          </Tab>
+          <Tab active={activeTab === 'blocks'} onClick={() => { setActiveTab('blocks'); loadBlock(blockPrefix); }}>
+            🧱 Block Editor
           </Tab>
           <Tab active={activeTab === 'about'} onClick={() => setActiveTab('about')}>
             👤 About Page
@@ -436,276 +553,133 @@ export default function ContentEditor() {
           </Tab>
         </Tabs>
 
+        {/* KEY-VALUE EDITOR */}
+        {activeTab === 'editor' && (
+          <Section>
+            <SectionTitle>✏️ Edit Any Text Key</SectionTitle>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+              <select value={kvLocale} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => { setKvLocale(e.target.value as 'en' | 'ar'); setTimeout(loadKeys, 0); }}>
+                <option value="en">English (en)</option>
+                <option value="ar">العربية (ar)</option>
+              </select>
+              <input placeholder="Search key or text" value={kvQuery} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKvQuery(e.target.value)} />
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <input type="checkbox" checked={kvOnlyOverridden} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setKvOnlyOverridden(e.target.checked)} />
+                Only overridden
+              </label>
+              <Button onClick={loadKeys}>Search</Button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem' }}>
+              {kvKeys.map((item) => (
+                <div key={item.key} style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '0.75rem' }}>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>{item.key}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Default</div>
+                      <div style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{item.defaultValue}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Override ({kvLocale})</div>
+                      <input defaultValue={item.overrideValue ?? ''} onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const token = localStorage.getItem('admin_token') || '';
+                        const value = e.target.value;
+                        await fetch('/api/admin/content-keys', {
+                          method: 'PATCH',
+                          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                          body: JSON.stringify({ locale: kvLocale, key: item.key, value })
+                        });
+                      }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {kvKeys.length === 0 && (
+                <div style={{ color: '#6b7280' }}>No keys found. Try a different search.</div>
+              )}
+            </div>
+          </Section>
+        )}
+
+        {/* BLOCK EDITOR */}
+        {activeTab === 'blocks' && (
+          <Section>
+            <SectionTitle>🧱 Structured Blocks (EN/AR)</SectionTitle>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '1rem' }}>
+              <input placeholder="Block prefix e.g., home., services., pricing." value={blockPrefix} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBlockPrefix(e.target.value)} style={{ flex: 1, padding: '0.5rem' }} />
+              <Button onClick={() => loadBlock(blockPrefix)}>Load</Button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem' }}>
+              {blockRows.map((row) => (
+                <div key={row.key} style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '0.75rem' }}>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>{row.key}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>EN Default</div>
+                      <div style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.en.defaultValue}</div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>EN Override</div>
+                      <input defaultValue={row.en.overrideValue ?? ''} onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const token = localStorage.getItem('admin_token') || '';
+                        await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'en', key: row.key, value: e.target.value }) });
+                      }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>AR Default</div>
+                      <div dir="rtl" style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.ar.defaultValue}</div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>AR Override</div>
+                      <input defaultValue={row.ar.overrideValue ?? ''} dir="rtl" onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const token = localStorage.getItem('admin_token') || '';
+                        await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'ar', key: row.key, value: e.target.value }) });
+                      }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {blockRows.length === 0 && (
+                <div style={{ color: '#6b7280' }}>No keys for this prefix. Try home., services., pricing., about., resources., industries., integrations., etc.</div>
+              )}
+            </div>
+          </Section>
+        )}
+
         {/* HOMEPAGE TAB */}
         {activeTab === 'homepage' && (
           <>
             <Section>
-              <SectionTitle>🎯 Hero Section</SectionTitle>
-              
-              <BilingualField>
-                <FieldTitle>📌 Main Headline</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>The primary headline visitors see first on your homepage</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-title-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <Input
-                      id="home-title-en"
-                      value={content.homepage.en.title}
-                      onChange={handleInputChange('homepage', 'title', 'en')}
-                      placeholder="Expert Accounting Services..."
-                      dir="ltr"
-                    />
-                    <CharCount>{content.homepage.en.title.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-title-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <Input
-                      id="home-title-ar"
-                      value={content.homepage.ar.title}
-                      onChange={handleInputChange('homepage', 'title', 'ar')}
-                      placeholder="خدمات محاسبة خبراء..."
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.homepage.ar.title.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>📄 Subtitle / Value Proposition</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Supporting text that explains what you offer</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-subtitle-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="home-subtitle-en"
-                      value={content.homepage.en.subtitle}
-                      onChange={handleTextAreaChange('homepage', 'subtitle', 'en')}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.homepage.en.subtitle.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-subtitle-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="home-subtitle-ar"
-                      value={content.homepage.ar.subtitle}
-                      onChange={handleTextAreaChange('homepage', 'subtitle', 'ar')}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.homepage.ar.subtitle.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>⭐ Social Proof Tagline</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Trust indicators shown below the subtitle</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-social-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <Input
-                      id="home-social-en"
-                      value={content.homepage.en.socialProof}
-                      onChange={handleInputChange('homepage', 'socialProof', 'en')}
-                      dir="ltr"
-                    />
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-social-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <Input
-                      id="home-social-ar"
-                      value={content.homepage.ar.socialProof}
-                      onChange={handleInputChange('homepage', 'socialProof', 'ar')}
-                      dir="rtl"
-                    />
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
+              <SectionTitle>🏠 Homepage (All keys)</SectionTitle>
+              {renderBilingualRows()}
             </Section>
           </>
         )}
 
         {/* ABOUT TAB */}
         {activeTab === 'about' && (
-          <>
-            <Section>
-              <SectionTitle>👤 About Page Content</SectionTitle>
-
-              <BilingualField>
-                <FieldTitle>📖 Introduction Paragraph</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Opening paragraph about your background and expertise</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-intro-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-intro-en"
-                      value={content.about.en.intro}
-                      onChange={handleTextAreaChange('about', 'intro', 'en')}
-                      style={{ minHeight: '150px' }}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.about.en.intro.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-intro-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-intro-ar"
-                      value={content.about.ar.intro}
-                      onChange={handleTextAreaChange('about', 'intro', 'ar')}
-                      style={{ minHeight: '150px' }}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.about.ar.intro.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>🎯 Mission Statement</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Your mission and what drives ProBook Solutions</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-mission-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-mission-en"
-                      value={content.about.en.mission}
-                      onChange={handleTextAreaChange('about', 'mission', 'en')}
-                      style={{ minHeight: '120px' }}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.about.en.mission.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-mission-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-mission-ar"
-                      value={content.about.ar.mission}
-                      onChange={handleTextAreaChange('about', 'mission', 'ar')}
-                      style={{ minHeight: '120px' }}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.about.ar.mission.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-            </Section>
-          </>
+          <Section>
+            <SectionTitle>👤 About (All keys)</SectionTitle>
+            {renderBilingualRows()}
+          </Section>
         )}
 
         {/* CONSULTATION TAB */}
         {activeTab === 'consultation' && (
-          <>
-            <Section>
-              <SectionTitle>📅 Consultation Page</SectionTitle>
-
-              <BilingualField>
-                <FieldTitle>🎯 Hero Title</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Main headline on the consultation booking page</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-title-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <Input
-                      id="consultation-title-en"
-                      value={content.consultation.en.heroTitle}
-                      onChange={handleInputChange('consultation', 'heroTitle', 'en')}
-                      dir="ltr"
-                    />
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-title-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <Input
-                      id="consultation-title-ar"
-                      value={content.consultation.ar.heroTitle}
-                      onChange={handleInputChange('consultation', 'heroTitle', 'ar')}
-                      dir="rtl"
-                    />
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>📄 Hero Subtitle</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Value proposition for booking a consultation</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-subtitle-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="consultation-subtitle-en"
-                      value={content.consultation.en.heroSubtitle}
-                      onChange={handleTextAreaChange('consultation', 'heroSubtitle', 'en')}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.consultation.en.heroSubtitle.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-subtitle-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="consultation-subtitle-ar"
-                      value={content.consultation.ar.heroSubtitle}
-                      onChange={handleTextAreaChange('consultation', 'heroSubtitle', 'ar')}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.consultation.ar.heroSubtitle.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-            </Section>
-          </>
+          <Section>
+            <SectionTitle>📅 Consultation (All keys)</SectionTitle>
+            {renderBilingualRows()}
+          </Section>
         )}
 
         {/* PRICING TAB */}
         {activeTab === 'pricing' && (
           <Section>
-            <SectionTitle>💰 Pricing Content</SectionTitle>
-            <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
-              Edit pricing tiers, features, and descriptions. Coming soon...
-            </p>
+            <SectionTitle>💰 Pricing (All keys)</SectionTitle>
+            {renderBilingualRows()}
           </Section>
         )}
 
         {/* SERVICES TAB */}
         {activeTab === 'services' && (
           <Section>
-            <SectionTitle>⚙️ Services Content</SectionTitle>
-            <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
-              Edit service descriptions and details. Coming soon...
-            </p>
+            <SectionTitle>⚙️ Services (All keys)</SectionTitle>
+            {renderBilingualRows()}
           </Section>
         )}
 

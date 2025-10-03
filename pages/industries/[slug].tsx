@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import styled from '../../utils/styled';
 import SEO from '../../components/SEO';
+import { useTranslation } from 'react-i18next';
 
 const Section = styled.section`
   margin: 2rem 0;
@@ -30,6 +31,7 @@ const DATA: Record<string, Props> = {
 };
 
 export default function IndustryPage({ slug, name, painPoints, solutions }: Props) {
+  const { t } = useTranslation();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.probooksolutions.org';
   const jsonLd = [
     {
@@ -51,11 +53,11 @@ export default function IndustryPage({ slug, name, painPoints, solutions }: Prop
   ];
   return (
     <Section>
-      <SEO title={`${name} – Industry Solutions`} description={`Tailored finance and accounting for ${name}.`} canonicalPath={`/industries/${slug}`} jsonLd={jsonLd} />
+      <SEO title={`${name} – ${t('industries.specialized_solutions', { defaultValue: 'Specialized Solutions' })}`} description={t('industries.description', { defaultValue: `Tailored finance and accounting for ${name}.` }) as string} canonicalPath={`/industries/${slug}`} jsonLd={jsonLd} />
       <h1>{name}</h1>
-      <h2>Pain Points</h2>
+      <h2>{t('industries.common_challenges', { defaultValue: 'Common Challenges' })}</h2>
       <ul>{painPoints.map((p) => (<li key={p}>{p}</li>))}</ul>
-      <h2>What we deliver</h2>
+      <h2>{t('industries.our_approach', { defaultValue: 'What we deliver' })}</h2>
       <ul>{solutions.map((s) => (<li key={s}>{s}</li>))}</ul>
     </Section>
   );

@@ -32,7 +32,7 @@ export default function PortalPage() {
       <Text>
         {/* Placeholder for authentication logic */}
         {/* In a full implementation, you would integrate Firebase or another auth provider. */}
-        Coming soon: secure login functionality.
+        {t('portal.coming_soon', { defaultValue: 'Coming soon: secure login functionality.' })}
       </Text>
     </Section>
   );
