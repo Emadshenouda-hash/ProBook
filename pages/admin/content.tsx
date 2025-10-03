@@ -290,6 +290,8 @@ export default function ContentEditor() {
   const [kvLocale, setKvLocale] = useState<'en' | 'ar'>('en');
   const [kvQuery, setKvQuery] = useState('');
   const [kvOnlyOverridden, setKvOnlyOverridden] = useState(false);
+  const [blockRows, setBlockRows] = useState<Array<{ key: string; en: { defaultValue: string; overrideValue: string | null }; ar: { defaultValue: string; overrideValue: string | null } }>>([]);
+  const [blockPrefix, setBlockPrefix] = useState('home.');
   
   const [content, setContent] = useState({
     homepage: {
@@ -351,6 +353,27 @@ export default function ContentEditor() {
     const res = await fetch(`/api/admin/content-keys?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
     const data = await res.json();
     if (res.ok) setKvKeys(data.items || []);
+  };
+
+  const loadBlock = async (prefix: string) => {
+    const token = localStorage.getItem('admin_token') || '';
+    const fetchLocale = async (loc: 'en' | 'ar') => {
+      const params = new URLSearchParams({ locale: loc, q: prefix });
+      const res = await fetch(`/api/admin/content-keys?${params.toString()}`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      return (data.items || []) as Array<{ key: string; defaultValue: string; overrideValue: string | null }>;
+    };
+    const [enItems, arItems] = await Promise.all([fetchLocale('en'), fetchLocale('ar')]);
+    const map: Record<string, any> = {};
+    enItems.forEach((it) => {
+      map[it.key] = { key: it.key, en: { defaultValue: it.defaultValue, overrideValue: it.overrideValue }, ar: { defaultValue: '', overrideValue: null } };
+    });
+    arItems.forEach((it) => {
+      if (!map[it.key]) map[it.key] = { key: it.key, en: { defaultValue: '', overrideValue: null }, ar: { defaultValue: it.defaultValue, overrideValue: it.overrideValue } };
+      else map[it.key].ar = { defaultValue: it.defaultValue, overrideValue: it.overrideValue };
+    });
+    const rows = Object.values(map).sort((a: any, b: any) => String(a.key).localeCompare(String(b.key)));
+    setBlockRows(rows as any);
   };
 
   const handleSave = async () => {
@@ -439,6 +462,9 @@ export default function ContentEditor() {
           <Tab active={activeTab === 'homepage'} onClick={() => setActiveTab('homepage')}>
             🏠 Homepage
           </Tab>
+          <Tab active={activeTab === 'blocks'} onClick={() => { setActiveTab('blocks'); loadBlock(blockPrefix); }}>
+            🧱 Block Editor
+          </Tab>
           <Tab active={activeTab === 'about'} onClick={() => setActiveTab('about')}>
             👤 About Page
           </Tab>
@@ -495,6 +521,47 @@ export default function ContentEditor() {
               ))}
               {kvKeys.length === 0 && (
                 <div style={{ color: '#6b7280' }}>No keys found. Try a different search.</div>
+              )}
+            </div>
+          </Section>
+        )}
+
+        {/* BLOCK EDITOR */}
+        {activeTab === 'blocks' && (
+          <Section>
+            <SectionTitle>🧱 Structured Blocks (EN/AR)</SectionTitle>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '1rem' }}>
+              <input placeholder="Block prefix e.g., home., services., pricing." value={blockPrefix} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBlockPrefix(e.target.value)} style={{ flex: 1, padding: '0.5rem' }} />
+              <Button onClick={() => loadBlock(blockPrefix)}>Load</Button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem' }}>
+              {blockRows.map((row) => (
+                <div key={row.key} style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '0.75rem' }}>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>{row.key}</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>EN Default</div>
+                      <div style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.en.defaultValue}</div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>EN Override</div>
+                      <input defaultValue={row.en.overrideValue ?? ''} onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const token = localStorage.getItem('admin_token') || '';
+                        await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'en', key: row.key, value: e.target.value }) });
+                      }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>AR Default</div>
+                      <div dir="rtl" style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.ar.defaultValue}</div>
+                      <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>AR Override</div>
+                      <input defaultValue={row.ar.overrideValue ?? ''} dir="rtl" onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const token = localStorage.getItem('admin_token') || '';
+                        await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'ar', key: row.key, value: e.target.value }) });
+                      }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {blockRows.length === 0 && (
+                <div style={{ color: '#6b7280' }}>No keys for this prefix. Try home., services., pricing., about., resources., industries., integrations., etc.</div>
               )}
             </div>
           </Section>
