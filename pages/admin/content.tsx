@@ -284,7 +284,7 @@ const InfoBox = styled.div`
 export default function ContentEditor() {
   const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'editor' | 'homepage' | 'about' | 'consultation' | 'pricing' | 'services'>('editor');
+  const [activeTab, setActiveTab] = useState<'editor' | 'blocks' | 'homepage' | 'about' | 'consultation' | 'pricing' | 'services'>('editor');
   const [saved, setSaved] = useState(false);
   const [kvKeys, setKvKeys] = useState<Array<{ key: string; defaultValue: string; overrideValue: string | null }>>([]);
   const [kvLocale, setKvLocale] = useState<'en' | 'ar'>('en');
