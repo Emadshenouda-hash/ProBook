@@ -3,6 +3,7 @@ import { createCrmContactAndDeal } from '../../utils/crm';
 import { getSupabaseAdmin } from '../../utils/supabase';
 import { saveToFirestore } from '../../utils/firebase';
 import { sendEmail, sendEmailTo } from '../../utils/email';
+import { recordContact, notifyAdmin } from '../../utils/notifier';
 
 interface ConsultationPayload {
   fullName?: string;
@@ -49,35 +50,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!body.selectedPlan) return res.status(400).json({ error: 'Plan required' });
 
   try {
-    // Persist to Firebase (primary)
-    try {
-      await saveToFirestore('consultation_requests', {
-        fullName: body.fullName,
-        email: body.email,
-        phone: body.phone,
-        company: body.company,
-        companySize: body.companySize,
-        industry: body.industry,
-        country: body.country,
-        services: body.services || [],
-        systems: body.systems || [],
-        budget: body.budget,
-        urgency: body.urgency,
-        goals: body.goals,
-        notes: body.notes,
-        attachmentUrl: (body as any).attachmentUrl || null,
-        utmSource: body.utm_source,
-        utmMedium: body.utm_medium,
-        utmCampaign: body.utm_campaign,
-        utmTerm: body.utm_term,
-        utmContent: body.utm_content,
-        promoCode: body.promoCode || null,
-        promoName: body.promoName || null,
-        selectedPlan: body.selectedPlan || null
-      });
-    } catch (fbError) {
-      console.warn('Firebase save failed:', fbError);
-    }
+    // Normalize and persist to `contacts`
+    await recordContact({
+      type: 'consultation',
+      email: body.email!,
+      name: body.fullName,
+      selectedPlan: body.selectedPlan,
+      promoCode: body.promoCode,
+      promoName: body.promoName,
+      utm_source: body.utm_source,
+      utm_medium: body.utm_medium,
+      utm_campaign: body.utm_campaign,
+      utm_term: body.utm_term,
+      utm_content: body.utm_content,
+      message: body.notes,
+      source: 'consultation_form',
+      tags: body.services || []
+    });
     
     // Fallback to Supabase if configured
     const supabase = getSupabaseAdmin();
@@ -121,7 +110,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       notes: body.notes
     });
     // Notify your inbox
-    await sendEmail('New consultation request', `
+    await notifyAdmin({
+      type: 'consultation',
+      email: body.email!,
+      name: body.fullName,
+      selectedPlan: body.selectedPlan,
+      promoCode: body.promoCode,
+      promoName: body.promoName,
+      utm_source: body.utm_source,
+      utm_medium: body.utm_medium,
+      utm_campaign: body.utm_campaign,
+      utm_term: body.utm_term,
+      utm_content: body.utm_content,
+      message: body.notes,
+      source: 'consultation_form',
+      tags: body.services || []
+    });
+
+    await sendEmail('New consultation request (details)', `
       <p><strong>Name:</strong> ${body.fullName}</p>
       <p><strong>Email:</strong> ${body.email}</p>
       <p><strong>Phone:</strong> ${body.phone || ''}</p>

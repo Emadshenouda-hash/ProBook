@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
 import { sendEmail } from '../../../utils/email';
+import { recordContact, notifyAdmin, sendConfirmEmail } from '../../../utils/notifier';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -64,36 +65,33 @@ async function handleResendSubscription(req: NextApiRequest, res: NextApiRespons
       }
     }
 
-    // Send welcome email
-    await resend.emails.send({
-      from: 'ProBook Solutions <info@probooksolutions.org>',
-      to: [subscriber.email],
-      subject: 'Welcome to ProBook Solutions!',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Welcome to ProBook Solutions!</h2>
-          <p>Hi ${subscriber.firstName || 'there'},</p>
-          <p>Thank you for subscribing to our updates. We're excited to help you with your accounting and financial needs.</p>
-          <p>Here's what you can expect:</p>
-          <ul>
-            <li>Expert accounting tips and insights</li>
-            <li>Industry updates and best practices</li>
-            <li>Exclusive offers and resources</li>
-            <li>Early access to new services</li>
-          </ul>
-          <p>If you have any questions, feel free to reply to this email or visit our website.</p>
-          <p>Best regards,<br>Emad Shenouda<br>ProBook Solutions</p>
-        </div>
-      `
+    // Normalize record (consent=false until confirmed)
+    await recordContact({
+      type: 'subscriber',
+      email: subscriber.email,
+      name: [subscriber.firstName, subscriber.lastName].filter(Boolean).join(' ').trim(),
+      source: subscriber.source || 'newsletter_form',
+      utm_source: subscriber.customFields?.utm_source,
+      utm_medium: subscriber.customFields?.utm_medium,
+      utm_campaign: subscriber.customFields?.utm_campaign,
+      utm_term: subscriber.customFields?.utm_term,
+      utm_content: subscriber.customFields?.utm_content,
+      consent: false,
+      unsubscribed: false,
+      tags: subscriber.tags || []
     });
 
+    // Double opt-in email
+    await sendConfirmEmail(subscriber.email);
+
     // Admin notification
-    await sendEmail('New newsletter subscriber', `
-      <p><strong>Email:</strong> ${subscriber.email}</p>
-      <p><strong>Name:</strong> ${(subscriber.firstName || '')} ${(subscriber.lastName || '')}</p>
-      <p><strong>Source:</strong> ${subscriber.source || ''}</p>
-      <p><strong>Tags:</strong> ${(subscriber.tags || []).join(', ')}</p>
-    `);
+    await notifyAdmin({
+      type: 'subscriber',
+      email: subscriber.email,
+      name: [subscriber.firstName, subscriber.lastName].filter(Boolean).join(' ').trim(),
+      source: subscriber.source || 'newsletter_form',
+      tags: subscriber.tags || []
+    });
 
     return res.status(200).json({ 
       success: true, 
