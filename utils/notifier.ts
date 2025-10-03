@@ -1,4 +1,4 @@
-import { saveToFirestore } from './firebase';
+import { saveToFirestore, getFirebaseDB } from './firebase';
 import { sendEmail, sendEmailTo } from './email';
 import { createEmailToken } from './tokens';
 
@@ -31,13 +31,54 @@ function siteUrl(override?: string): string {
 export async function recordContact(data: NormalizedContact) {
   const email = (data.email || '').toLowerCase().trim();
   if (!email) return;
-  const doc = {
-    ...data,
+  const db = getFirebaseDB();
+  if (!db) {
+    // Fallback: add new doc
+    await saveToFirestore('contacts', { ...data, email });
+    return;
+  }
+  const docId = Buffer.from(email).toString('base64').replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');
+  const ref = db.collection('contacts').doc(docId);
+  const nowIso = new Date().toISOString();
+  const snapshot = await ref.get();
+  const base = {
+    type: data.type,
     email,
-    unsubscribed: !!data.unsubscribed,
-    consent: !!data.consent,
-  };
-  await saveToFirestore('contacts', doc);
+    name: data.name || snapshot.get('name') || null,
+    selectedPlan: data.selectedPlan || snapshot.get('selectedPlan') || null,
+    promoCode: data.promoCode || snapshot.get('promoCode') || null,
+    promoName: data.promoName || snapshot.get('promoName') || null,
+    utm_source: data.utm_source || snapshot.get('utm_source') || null,
+    utm_medium: data.utm_medium || snapshot.get('utm_medium') || null,
+    utm_campaign: data.utm_campaign || snapshot.get('utm_campaign') || null,
+    utm_term: data.utm_term || snapshot.get('utm_term') || null,
+    utm_content: data.utm_content || snapshot.get('utm_content') || null,
+    consent: data.consent ?? (snapshot.get('consent') ?? false),
+    unsubscribed: data.unsubscribed ?? (snapshot.get('unsubscribed') ?? false),
+    source: data.source || snapshot.get('source') || null,
+    tags: Array.from(new Set([...(snapshot.get('tags') || []), ...((data.tags || []) as any)])),
+    updatedAt: nowIso
+  } as any;
+  if (!snapshot.exists) {
+    base.createdAt = nowIso;
+  }
+  // Clean undefined/null for Firestore
+  Object.keys(base).forEach((k) => { if (base[k] === undefined) delete base[k]; });
+  await ref.set(base, { merge: true });
+
+  // Append event in subcollection
+  const event = {
+    at: nowIso,
+    type: data.type,
+    selectedPlan: data.selectedPlan || null,
+    promoCode: data.promoCode || null,
+    promoName: data.promoName || null,
+    message: data.message || null,
+    source: data.source || null,
+    tags: data.tags || []
+  } as any;
+  Object.keys(event).forEach((k) => { if (event[k] === undefined) delete event[k]; });
+  await ref.collection('events').add(event);
 }
 
 export async function notifyAdmin(data: NormalizedContact) {
