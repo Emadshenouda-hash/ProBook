@@ -292,6 +292,7 @@ export default function ContentEditor() {
   const [kvOnlyOverridden, setKvOnlyOverridden] = useState(false);
   const [blockRows, setBlockRows] = useState<Array<{ key: string; en: { defaultValue: string; overrideValue: string | null }; ar: { defaultValue: string; overrideValue: string | null } }>>([]);
   const [blockPrefix, setBlockPrefix] = useState('home.');
+  const prefixMap: Record<string, string> = { homepage: 'home.', about: 'about.', consultation: 'consultation.', pricing: 'pricing.', services: 'services.' };
   
   const [content, setContent] = useState({
     homepage: {
@@ -375,6 +376,48 @@ export default function ContentEditor() {
     const rows = Object.values(map).sort((a: any, b: any) => String(a.key).localeCompare(String(b.key)));
     setBlockRows(rows as any);
   };
+
+  useEffect(() => {
+    if (activeTab in prefixMap) {
+      const p = prefixMap[activeTab];
+      setBlockPrefix(p);
+      loadBlock(p);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+
+  const renderBilingualRows = () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem', marginBottom: '1rem' }}>
+      {blockRows.map((row) => (
+        <div key={row.key} style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '0.75rem' }}>
+          <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>{row.key}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>EN Default</div>
+              <div style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.en.defaultValue}</div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>EN Override</div>
+              <input defaultValue={row.en.overrideValue ?? ''} onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                const token = localStorage.getItem('admin_token') || '';
+                await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'en', key: row.key, value: e.target.value }) });
+              }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+            </div>
+            <div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>AR Default</div>
+              <div dir="rtl" style={{ background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 6, padding: '0.5rem' }}>{row.ar.defaultValue}</div>
+              <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>AR Override</div>
+              <input defaultValue={row.ar.overrideValue ?? ''} dir="rtl" onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                const token = localStorage.getItem('admin_token') || '';
+                await fetch('/api/admin/content-keys', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ locale: 'ar', key: row.key, value: e.target.value }) });
+              }} style={{ width: '100%', padding: '0.5rem', border: '1px solid var(--color-border)', borderRadius: 6 }} />
+            </div>
+          </div>
+        </div>
+      ))}
+      {blockRows.length === 0 && (
+        <div style={{ color: '#6b7280' }}>No keys detected for this section.</div>
+      )}
+    </div>
+  );
 
   const handleSave = async () => {
     localStorage.setItem('cms_content', JSON.stringify(content));
@@ -571,272 +614,41 @@ export default function ContentEditor() {
         {activeTab === 'homepage' && (
           <>
             <Section>
-              <SectionTitle>🎯 Hero Section</SectionTitle>
-              
-              <BilingualField>
-                <FieldTitle>📌 Main Headline</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>The primary headline visitors see first on your homepage</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-title-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <Input
-                      id="home-title-en"
-                      value={content.homepage.en.title}
-                      onChange={handleInputChange('homepage', 'title', 'en')}
-                      placeholder="Expert Accounting Services..."
-                      dir="ltr"
-                    />
-                    <CharCount>{content.homepage.en.title.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-title-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <Input
-                      id="home-title-ar"
-                      value={content.homepage.ar.title}
-                      onChange={handleInputChange('homepage', 'title', 'ar')}
-                      placeholder="خدمات محاسبة خبراء..."
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.homepage.ar.title.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>📄 Subtitle / Value Proposition</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Supporting text that explains what you offer</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-subtitle-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="home-subtitle-en"
-                      value={content.homepage.en.subtitle}
-                      onChange={handleTextAreaChange('homepage', 'subtitle', 'en')}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.homepage.en.subtitle.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-subtitle-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="home-subtitle-ar"
-                      value={content.homepage.ar.subtitle}
-                      onChange={handleTextAreaChange('homepage', 'subtitle', 'ar')}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.homepage.ar.subtitle.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>⭐ Social Proof Tagline</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Trust indicators shown below the subtitle</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-social-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <Input
-                      id="home-social-en"
-                      value={content.homepage.en.socialProof}
-                      onChange={handleInputChange('homepage', 'socialProof', 'en')}
-                      dir="ltr"
-                    />
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="home-social-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <Input
-                      id="home-social-ar"
-                      value={content.homepage.ar.socialProof}
-                      onChange={handleInputChange('homepage', 'socialProof', 'ar')}
-                      dir="rtl"
-                    />
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
+              <SectionTitle>🏠 Homepage (All keys)</SectionTitle>
+              {renderBilingualRows()}
             </Section>
           </>
         )}
 
         {/* ABOUT TAB */}
         {activeTab === 'about' && (
-          <>
-            <Section>
-              <SectionTitle>👤 About Page Content</SectionTitle>
-
-              <BilingualField>
-                <FieldTitle>📖 Introduction Paragraph</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Opening paragraph about your background and expertise</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-intro-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-intro-en"
-                      value={content.about.en.intro}
-                      onChange={handleTextAreaChange('about', 'intro', 'en')}
-                      style={{ minHeight: '150px' }}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.about.en.intro.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-intro-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-intro-ar"
-                      value={content.about.ar.intro}
-                      onChange={handleTextAreaChange('about', 'intro', 'ar')}
-                      style={{ minHeight: '150px' }}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.about.ar.intro.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>🎯 Mission Statement</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Your mission and what drives ProBook Solutions</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-mission-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-mission-en"
-                      value={content.about.en.mission}
-                      onChange={handleTextAreaChange('about', 'mission', 'en')}
-                      style={{ minHeight: '120px' }}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.about.en.mission.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="about-mission-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="about-mission-ar"
-                      value={content.about.ar.mission}
-                      onChange={handleTextAreaChange('about', 'mission', 'ar')}
-                      style={{ minHeight: '120px' }}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.about.ar.mission.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-            </Section>
-          </>
+          <Section>
+            <SectionTitle>👤 About (All keys)</SectionTitle>
+            {renderBilingualRows()}
+          </Section>
         )}
 
         {/* CONSULTATION TAB */}
         {activeTab === 'consultation' && (
-          <>
-            <Section>
-              <SectionTitle>📅 Consultation Page</SectionTitle>
-
-              <BilingualField>
-                <FieldTitle>🎯 Hero Title</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Main headline on the consultation booking page</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-title-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <Input
-                      id="consultation-title-en"
-                      value={content.consultation.en.heroTitle}
-                      onChange={handleInputChange('consultation', 'heroTitle', 'en')}
-                      dir="ltr"
-                    />
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-title-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <Input
-                      id="consultation-title-ar"
-                      value={content.consultation.ar.heroTitle}
-                      onChange={handleInputChange('consultation', 'heroTitle', 'ar')}
-                      dir="rtl"
-                    />
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-
-              <BilingualField>
-                <FieldTitle>📄 Hero Subtitle</FieldTitle>
-                <Hint style={{ marginBottom: '1rem' }}>Value proposition for booking a consultation</Hint>
-                <LanguageGrid>
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-subtitle-en">
-                      <LanguageFlag>🇬🇧</LanguageFlag> English
-                    </LanguageLabel>
-                    <TextArea
-                      id="consultation-subtitle-en"
-                      value={content.consultation.en.heroSubtitle}
-                      onChange={handleTextAreaChange('consultation', 'heroSubtitle', 'en')}
-                      dir="ltr"
-                    />
-                    <CharCount>{content.consultation.en.heroSubtitle.length} characters</CharCount>
-                  </LanguageColumn>
-
-                  <LanguageColumn>
-                    <LanguageLabel htmlFor="consultation-subtitle-ar">
-                      <LanguageFlag>🇸🇦</LanguageFlag> العربية (Arabic)
-                    </LanguageLabel>
-                    <TextArea
-                      id="consultation-subtitle-ar"
-                      value={content.consultation.ar.heroSubtitle}
-                      onChange={handleTextAreaChange('consultation', 'heroSubtitle', 'ar')}
-                      dir="rtl"
-                    />
-                    <CharCount dir="rtl">{content.consultation.ar.heroSubtitle.length} حرف</CharCount>
-                  </LanguageColumn>
-                </LanguageGrid>
-              </BilingualField>
-            </Section>
-          </>
+          <Section>
+            <SectionTitle>📅 Consultation (All keys)</SectionTitle>
+            {renderBilingualRows()}
+          </Section>
         )}
 
         {/* PRICING TAB */}
         {activeTab === 'pricing' && (
           <Section>
-            <SectionTitle>💰 Pricing Content</SectionTitle>
-            <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
-              Edit pricing tiers, features, and descriptions. Coming soon...
-            </p>
+            <SectionTitle>💰 Pricing (All keys)</SectionTitle>
+            {renderBilingualRows()}
           </Section>
         )}
 
         {/* SERVICES TAB */}
         {activeTab === 'services' && (
           <Section>
-            <SectionTitle>⚙️ Services Content</SectionTitle>
-            <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
-              Edit service descriptions and details. Coming soon...
-            </p>
+            <SectionTitle>⚙️ Services (All keys)</SectionTitle>
+            {renderBilingualRows()}
           </Section>
         )}
 
