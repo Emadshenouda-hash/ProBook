@@ -12,10 +12,17 @@ import styled from '../utils/styled';
  * page there is nothing to render beyond "Home".
  */
 
+interface BreadcrumbTheme {
+  colors: {
+    mutedText: string;
+    border: string;
+  };
+}
+
 const Nav = styled('nav')`
   font-size: 0.875rem;
   margin: 0.75rem 0;
-  color: ${({ theme }) => theme.colors.mutedText};
+  color: ${({ theme }: { theme: BreadcrumbTheme }) => theme.colors.mutedText};
 `;
 
 const List = styled('ol')`
@@ -34,7 +41,7 @@ const Item = styled('li')`
   &::after {
     content: '/';
     margin: 0 0.25rem;
-    color: ${({ theme }) => theme.colors.border};
+    color: ${({ theme }: { theme: BreadcrumbTheme }) => theme.colors.border};
   }
   &:last-child::after {
     content: '';
